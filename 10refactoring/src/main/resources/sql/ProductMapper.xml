@@ -74,13 +74,13 @@
 	 	
 	 					<if test="searchCondition != null">																		
 							<if test="searchCondition == 0 and searchKeyword !='' ">
-								and p.PROD_NO = #{searchKeyword} order by p.REG_DATE DESC
+								and p.PROD_NO like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC
 							</if>
 							<if test="searchCondition == 1 and searchKeyword !='' ">
-								and p.PROD_NAME = #{searchKeyword} ORDER BY reg_date DESC
+								and p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 							</if>
 							<if test="searchCondition == 2 and searchKeyword !='' ">
-								and p.PRICE = #{searchKeyword} ORDER BY reg_date DESC
+								and p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 							</if>
 						</if>
 						<if test="searchCondition == null">	
@@ -124,13 +124,13 @@
 																	<if test="searchCondition != null">
 																			
 																					<if test="searchCondition == 0 and searchKeyword !='' ">
-																		 				and p.PROD_NO = #{searchKeyword} ORDER BY reg_date DESC
+																		 				and p.PROD_NO like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																					<if test="searchCondition == 1 and searchKeyword !='' ">
-																		 				 and p.PROD_NAME = #{searchKeyword} ORDER BY reg_date DESC
+																		 				 and p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																					<if test="searchCondition == 2 and searchKeyword !='' ">
-																		 				 and p.PRICE = #{searchKeyword} ORDER BY reg_date DESC
+																		 				 and p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																			
 																	</if>	
@@ -167,13 +167,13 @@
 							 							<if test="searchCondition != null">
 																		
 																			<if test="searchCondition == 0 and searchKeyword !='' ">
-																 				and p.PROD_NO = #{searchKeyword} ORDER BY p.REG_DATE DESC
+																 				and p.PROD_NO like '%'||#{searchKeyword}||'%' ORDER BY p.REG_DATE DESC
 																			</if>
 																			<if test="searchCondition == 1 and searchKeyword !='' ">
-																 				 and p.PROD_NAME = #{searchKeyword} order by p.REG_DATE DESC
+																 				 and p.PROD_NAME like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC
 																			</if>
 																			<if test="searchCondition == 2 and searchKeyword !='' ">
-																 				 and p.PRICE = #{searchKeyword} order by p.REG_DATE DESC
+																 				 and p.PRICE like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC
 																			</if>
 																		
 														</if>	
@@ -218,13 +218,13 @@
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			prod_no = #{searchKeyword}
+						 			prod_no like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			prod_name = #{searchKeyword}
+						 			prod_name like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			price = #{searchKeyword}
+						 			price like '%'||#{searchKeyword}||'%'
 								</if>
 							</where>
 						</if> ) countTable						
@@ -237,13 +237,13 @@
 	 			WHERE p.PROD_NO=t.PROD_NO(+) and t.TRAN_STATUS_CODE is null
 						<if test="searchCondition != null">
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			AND p.prod_no = #{searchKeyword}
+						 			AND p.prod_no like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			AND p.prod_name = #{searchKeyword}
+						 			AND p.prod_name like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			AND p.price = #{searchKeyword}
+						 			AND p.price like '%'||#{searchKeyword}||'%'
 								</if>
 						</if> ) countTable						
 	 </select>

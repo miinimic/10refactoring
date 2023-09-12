@@ -247,10 +247,12 @@ public class PurchaseController {
 	public String listPurchase( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listPurchase");
-		
+			
 		HttpSession session=request.getSession();
 		User user = (User)session.getAttribute("user");
 		String buyerId = user.getUserId();	
+		
+		System.out.println("buyerId : "+buyerId);
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);

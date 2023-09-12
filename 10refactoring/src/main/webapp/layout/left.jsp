@@ -37,7 +37,7 @@ $(function() {
 	$( ".Depth03:contains('후기 목록 조회')" ).on("click" , function() {
 		//Debug..
 		//alert(  $( ".Depth03:contains('개인정보조회')" ).html() );
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/listReview");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listReview");
 	});
 	
 	//==> 회원정보조회 Event 연결처리부분
@@ -59,6 +59,10 @@ $(function() {
 	$( ".Depth03:contains('상 품 검 색')" ).on("click" , function() { 
 
 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=search"); 
+	}); 
+	$( ".Depth03:contains('상 품 조 회')" ).on("click" , function() { 
+
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=logout");
 	}); 
 	
 	$( ".Depth03:contains('주문 내역 조회')" ).on("click" , function() {
@@ -148,10 +152,17 @@ $(function() {
 <tr>
 	<td valign="top"> 
 		<table  border="0" cellspacing="0" cellpadding="0" width="159">
-			<c:if test="${ empty user || ! empty user && user.role == 'user'}">
+			<c:if test="${ ! empty user && user.role == 'user'}">
 			<tr>
 				<td class="Depth03">
 					상 품 검 색
+				</td>
+			</tr>
+			</c:if>
+			<c:if test="${ empty user}">
+			<tr>
+				<td class="Depth03">
+					상 품 조 회
 				</td>
 			</tr>
 			</c:if>

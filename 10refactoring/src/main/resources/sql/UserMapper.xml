@@ -49,7 +49,30 @@
 		 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
-	  	SELECT *
+
+			SELECT *
+			FROM (
+			    SELECT inner_table.*, ROWNUM AS row_seq
+			    FROM (
+			        SELECT user_id, user_name, email
+			        FROM users
+			        <if test="searchCondition != null">
+						<where>
+						<if test="searchCondition == 0 and searchKeyword !='' ">
+							user_id like '%'||#{searchKeyword}||'%'
+						</if>
+						<if test="searchCondition == 1 and searchKeyword !='' ">
+							user_name like '%'||#{searchKeyword}||'%'
+						</if>
+						</where>
+					</if>
+			        ORDER BY user_id
+			    ) inner_table WHERE ROWNUM &lt;= #{endRowNum:NUMERIC}
+			)  
+			WHERE row_seq BETWEEN #{startRowNum:NUMERIC} AND #{endRowNum:NUMERIC} 
+
+
+	  <!-- 	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT user_id , user_name , email
 											FROM users
@@ -65,7 +88,7 @@
 											</if>
 											ORDER BY user_id ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}  -->
 	 </select>
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
@@ -78,7 +101,7 @@
 				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
 		-->
 	
-	<!-- SQL : SELECT ROW Count -->	 
+	<!-- SQL : SELECT ROW Count	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT user_id , user_name , email
@@ -93,6 +116,21 @@
 								</if>
 							</where>
 						</if> ) countTable						
+	 </select>-->	
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT user_id , user_name , email
+						FROM users
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id like '%'||#{searchKeyword}||'%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		user_name like '%'||#{searchKeyword}||'%'
+								</if>
+							</where>
+						</if> ) countTable	
 	 </select>
 	 
 </mapper>

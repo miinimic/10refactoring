@@ -78,7 +78,7 @@ public class ProductController {
 
 		  for (MultipartFile files : file) {
 		        if (!files.isEmpty()) {
-		            String temDir = "C:\\workspace\\10refactoring\\src\\main\\webapp\\images";
+		            String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
 		            File uploadDir = new File(temDir);
 		      		            
 		            if (!uploadDir.exists()) {
@@ -230,58 +230,71 @@ public class ProductController {
 	}
 	
 	//@RequestMapping("/updateProduct")
-	@RequestMapping( value="updateProduct", method=RequestMethod.POST )
-	public String updateProduct( @ModelAttribute("product") Product product, Model model , HttpServletRequest request, HttpSession session) throws Exception{
+	//@RequestMapping( value="updateProduct", method=RequestMethod.POST )
+	//public String updateProduct( @ModelAttribute("product") Product product, Model model , HttpServletRequest request, HttpSession session) throws Exception{
 
-		System.out.println("/updateProduct");
+		@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
+		public String updateProduct(@ModelAttribute("product") Product product, Model model, MultipartHttpServletRequest request, HttpSession session) throws Exception {
+		    System.out.println("/updateProduct");
+
+		    Product product02 = new Product();
+		    Product result = new Product();
+
+		    List<MultipartFile> files = request.getFiles("file"); // 여러 파일을 받기 위해 List<MultipartFile>을 사용합니다.
+		    List<String> uploadedFileNames = new ArrayList<>();
+		    String fileNames = "";
+
+		    // 파일을 하나씩 처리합니다.
+		    for (MultipartFile file02 : files) {
+		        if (file02 != null && !file02.isEmpty()) {
+		            String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
+		            File uploadDir = new File(temDir);
+		            if (!uploadDir.exists()) {
+		                uploadDir.mkdirs();
+		            }
+
+		            String fileName = file02.getOriginalFilename();
+		            uploadedFileNames.add(fileName); // 업로드된 파일 이름을 리스트에 추가합니다.
+
+		            if (file02.getSize() <= 1024 * 1024 * 10) {
+		                File uploadedFile = new File(uploadDir, fileName);
+		                file02.transferTo(uploadedFile);
+		            } else {
+		                int overSize = (int) (file02.getSize() / 1000000);
+		                System.out.println("<script>alert('파일의 크기는 1MB까지 입니다. 올리신 파일 용량은" + overSize + "MB입니다');</script>");
+		                return "forward:/product/someErrorPage.jsp";
+		            }
+		        } else {
+		            product02.setFileName(null);
+		        }
+		    }
+
+		    // 업로드된 파일 이름들을 쉼표로 구분하여 하나의 문자열로 만듭니다.
+		    if (!uploadedFileNames.isEmpty()) {
+		        fileNames = String.join(",", uploadedFileNames);
+		    }
+
+		    System.out.println("fileNames : " + fileNames);
+
+		    product02.setFileName(fileNames);
+
+		    // 다른 제품 속성 설정
+		    product02.setManuDate(product.getManuDate());
+		    product02.setProdName(product.getProdName());
+		    product02.setProdDetail(product.getProdDetail());
+		    product02.setPrice(product.getPrice());
+		    product02.setProdNo(product.getProdNo());
+		    product02.setCategory(product.getCategory());
+		    product02.setItem(product.getItem());
+
+		    productService.updateProduct(product02);
+		    result = productService.findProduct(product02.getProdNo());
+
+		    model.addAttribute("product", result);
+
+		    return "redirect:/product/getProduct?prodNo=" + product02.getProdNo() + "&menu=manage";
 		
-	       Product product02 = new Product();
-	        Product result = new Product();
 
-	        if (request instanceof MultipartHttpServletRequest) {
-	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-	            MultipartFile file02 = multipartRequest.getFile("file");
-
-	            if (file02 != null && !file02.isEmpty()) {
-	                String temDir = "C:\\Users\\비트캠프\\git\\08refactoring\\08.Model2MVCShop(RestFul Server)\\src\\main\\webapp\\images";
-	                File uploadDir = new File(temDir);
-	                if (!uploadDir.exists()) {
-	                    uploadDir.mkdirs();
-	                }
-
-	                if (file02.getSize() <= 1024 * 1024 * 10) {
-	                    String fileName = file02.getOriginalFilename();
-	                    File uploadedFile = new File(uploadDir, fileName);
-	                    file02.transferTo(uploadedFile);
-
-	                    product02.setFileName(fileName);
-	                } else {
-	                    int overSize = (int) (file02.getSize() / 1000000);
-	                    System.out.println("<script>alert('파일의 크기는 1MB까지 입니다. 올리신 파일 용량은" + overSize + "MB입니다');</script>");
-	                    return "forward:/product/someErrorPage.jsp";
-	                }
-	            } else {
-	                product02.setFileName("../../images/empty.GIF");
-	            }
-
-	            // 다른 제품 속성 설정
-	            product02.setManuDate(product.getManuDate());
-	            product02.setProdName(product.getProdName());
-	            product02.setProdDetail(product.getProdDetail());
-	            product02.setPrice(product.getPrice());
-	            product02.setProdNo(product.getProdNo());
-	            product02.setCategory(product.getCategory());
-	            product02.setItem(product.getItem());
-
-	            productService.updateProduct(product02);
-	            result = productService.findProduct(product02.getProdNo());
-	        } else {
-	            System.out.println("인코딩 타입이 multipart/form-data가 아닙니다");
-	        }
-
-	        model.addAttribute("product", result);
-
-	        return "redirect:/product/getProduct?prodNo=" + product02.getProdNo() + "&menu=manage";
 
 		/*productService.updateProduct(product);		// 파일 업로드 하기 전
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo()+"&menu=manage"; //파일 업로드 후
@@ -363,6 +376,8 @@ public class ProductController {
 	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listProduct");
+		
+		System.out.println("menu : "+search.getMenu());
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);

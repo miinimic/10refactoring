@@ -604,18 +604,39 @@ $(document).ready(function() {
             </c:otherwise>
         </c:choose>
     </c:when>
-    <c:otherwise>
+     <c:when test="${! (userId eq 'admin' || userId eq 'manager') && search.getMenu() eq 'search'}">
         <c:choose>
-            <c:when test="${product.getItem() > '0'}">
+            <c:when test="${empty product.getProTranCode()}">
                 판매중
-                		<c:choose>
+              <c:choose>  
+                <c:when test="${product.getItem() > '0'}">
+					<c:choose>
                 			 <c:when test="${product.getCartNo() == '0'}">
                 				<span class="PutCart">장바구니에 넣기<span class="prodNoNoDisplay">,${ product.getProdNo() },${ user.getUserId() }</span></span> 
                 			</c:when>
                 			<c:otherwise>
                 				<span class="GoCart">장바구니 확인하기</span>
                 			</c:otherwise>             		
-                		</c:choose>                    	
+                		</c:choose> 
+				</c:when>
+       		</c:choose>
+       		</c:when>
+            
+            <c:when test="${product.getProTranCode() eq '2'}">
+                구매완료
+            </c:when>
+            <c:when test="${product.getProTranCode() eq '3'}">
+                배송중
+            </c:when>
+            <c:otherwise>
+                배송완료
+            </c:otherwise>
+        </c:choose>
+    </c:when>
+    <c:otherwise>
+        <c:choose>
+            <c:when test="${product.getItem() > '0'}">
+                판매중         		                   	
             </c:when>
             <c:otherwise>
                 재고없음
