@@ -5,14 +5,89 @@
 <html>
 <head>
 <title>후기 목록 조회</title>
+<style>
 
+
+  .prodNoNoDisplay {
+    color: transparent;
+  }
+
+
+</style>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+
 function fncGetReviewList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+	$("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/purchase/listReview").submit();
 }
+$(function() {
+	
+	$( ".prodName" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var prodNo = data[1];
+
+		var encodedProdNo = encodeURIComponent(prodNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?menu=purchase&prodNo="+encodedProdNo+"");
+			
+	});
+	
+	$( ".update" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateReviewView?tranNo="+encodedTranNo+"");
+			
+	});
+
+	$( ".delete" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/deleteReview?tranNo="+encodedTranNo+"");
+			
+	});
+
+});
 </script>
 </head>
 
@@ -20,7 +95,7 @@ function fncGetReviewList(currentPage) {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listReview.do" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -63,7 +138,7 @@ function fncGetReviewList(currentPage) {
 
 		<td></td>
 		<td align="center">
-			<a href="/getProduct.do?menu=purchase&prodNo=${  purchase.getPurchaseProd().getProdNo()}">${ purchase.getPurchaseProd().getProdName()}</a>
+			<span class="prodName">${ purchase.getPurchaseProd().getProdName()}<span class="prodNoNoDisplay">,${  purchase.getPurchaseProd().getProdNo()}</span></span> 
 		</td>
 		<td></td>
 		<td align="center">
@@ -74,7 +149,7 @@ function fncGetReviewList(currentPage) {
 	
 			<c:choose>
 				<c:when test="${purchase.getBuyer().getUserId() eq user.getUserId() || user.getRole() eq 'admin' }">
-					<button><a href="/updateReviewView.do?tranNo=${purchase.getTranNo() }">수정하기</button>
+					<span class="update">수정하기<span class="prodNoNoDisplay">,${purchase.getTranNo() }</span></span> 
 				</c:when>
 				<c:otherwise>
 					본인이 작성한 후기만 수정 가능합니다.
@@ -86,7 +161,7 @@ function fncGetReviewList(currentPage) {
 		<td align="center">
 			<c:choose>
 				<c:when test="${purchase.getBuyer().getUserId() eq user.getUserId() || user.getRole() eq 'admin' }">
-					<button><a href="/deleteReview.do?tranNo=${purchase.getTranNo() }">삭제하기</a></button>
+					<span class="delete">삭제하기<span class="prodNoNoDisplay">,${purchase.getTranNo() }</span></span> 
 				</c:when>
 				<c:otherwise>
 					본인이 작성한 후기만 삭제 가능합니다.

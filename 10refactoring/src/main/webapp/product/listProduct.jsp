@@ -13,7 +13,8 @@
 
   .prodNoNoDisplay {
     color: transparent;
-  } 
+
+  }
 
 
 </style>
@@ -239,6 +240,26 @@ $(document).ready(function() {
 			
 	});
 	
+	$( ".purchaseDetail" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+		
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/getPurchase?tranNo="+encodedTranNo+"&menu=manage");
+			
+	});
+	
 	$( ".PutCart" ).on("click" , function() {
 
 		var string = $(this).text().trim();
@@ -251,8 +272,8 @@ $(document).ready(function() {
 		    data.push(fields);
 		}
 
-		   alert(data[1]);
-		  alert(data[2]);
+		  // alert(data[1]);
+		  //alert(data[2]);
 		    
 		 var prodNo = data[1];
 		 var userId = data[2];
@@ -578,15 +599,19 @@ $(document).ready(function() {
                 </c:choose>               
             </c:when>
             <c:when test="${tranCode eq '2'}">
-                구매완료 <span class="delivery">배송하기<span class="prodNoNoDisplay">,${ product.getProdNo() },${ product.getTranNo() }</span></span>             
+                구매완료 <span class="delivery">배송하기<span class="prodNoNoDisplay">,${ product.getProdNo() },${ product.getTranNo() }</span></span>     
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>        
             </c:when>
             <c:when test="${tranCode eq '3'}">
                 배송중
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>
             </c:when>
             <c:otherwise>
                 배송완료
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>
             </c:otherwise>
         </c:choose>
+     
     </c:when>
     <c:when test="${(userId eq 'admin' || userId eq 'manager') && search.getMenu() eq 'search'}">
         <c:choose>
@@ -595,48 +620,42 @@ $(document).ready(function() {
             </c:when>
             <c:when test="${product.getProTranCode() eq '2'}">
                 구매완료
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>
             </c:when>
             <c:when test="${product.getProTranCode() eq '3'}">
                 배송중
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>
             </c:when>
             <c:otherwise>
                 배송완료
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ product.getTranNo() }</span></span>
             </c:otherwise>
         </c:choose>
     </c:when>
-     <c:when test="${! (userId eq 'admin' || userId eq 'manager') && search.getMenu() eq 'search'}">
+     <c:when test="${ !(userId eq 'admin' || userId eq 'manager') && search.getMenu() eq 'search'}">
         <c:choose>
-            <c:when test="${empty product.getProTranCode()}">
+            <c:when test="${empty product.getProTranCode() && product.getItem() > '0'}">
                 판매중
-              <c:choose>  
-                <c:when test="${product.getItem() > '0'}">
-					<c:choose>
+                <c:choose>
                 			 <c:when test="${product.getCartNo() == '0'}">
                 				<span class="PutCart">장바구니에 넣기<span class="prodNoNoDisplay">,${ product.getProdNo() },${ user.getUserId() }</span></span> 
                 			</c:when>
                 			<c:otherwise>
                 				<span class="GoCart">장바구니 확인하기</span>
                 			</c:otherwise>             		
-                		</c:choose> 
-				</c:when>
-       		</c:choose>
-       		</c:when>
-            
-            <c:when test="${product.getProTranCode() eq '2'}">
-                구매완료
+                		</c:choose>  
             </c:when>
-            <c:when test="${product.getProTranCode() eq '3'}">
-                배송중
-            </c:when>
+           
             <c:otherwise>
-                배송완료
+               재고없음
             </c:otherwise>
         </c:choose>
     </c:when>
     <c:otherwise>
         <c:choose>
             <c:when test="${product.getItem() > '0'}">
-                판매중         		                   	
+                판매중
+                		                  	
             </c:when>
             <c:otherwise>
                 재고없음

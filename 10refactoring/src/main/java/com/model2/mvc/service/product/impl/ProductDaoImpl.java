@@ -73,7 +73,9 @@ public class ProductDaoImpl implements ProductDao{
 			System.out.println(product.getProdName());
 			System.out.println(product.getItem());
 
-			//product.setManuDate(product.getManuDate().replace(String.valueOf('-'), ""));
+			product.setManuDate(product.getManuDate().replace(String.valueOf('-'), ""));
+			
+			System.out.println("product.getManuDate() : "+product.getManuDate());
 			sqlSession.update("ProductMapper.updateProduct", product);
 		}
 		

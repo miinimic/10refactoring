@@ -8,7 +8,21 @@
 <title>후기 작성</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	 
+	$( ".ct_btn01:contains('수정')" ).on("click" , function() {
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updatePurchaseView.do?tranNo=${purchase.getTranNo() }");
+	});
+	
+	$( ".ct_btn01:contains('확인')" ).on("click" , function() {
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
+	});
 
+
+});
+</script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -216,7 +230,7 @@
 					<c:choose>
 						<c:when test="${ purchase.getTranCode() eq '2'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="/updatePurchaseView.do?tranNo=${purchase.getTranNo() }">수정</a>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -226,7 +240,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="/listPurchase.do">확인</a>
+						확인
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
@@ -235,7 +249,7 @@
 						</c:when>
 						<c:otherwise>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="/listPurchase.do">확인</a>
+						확인
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>

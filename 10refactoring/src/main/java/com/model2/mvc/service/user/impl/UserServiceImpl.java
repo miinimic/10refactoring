@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService{
 		
 		return map;
 	}
+	
+	public List<User> getUserAutoList(Search search) throws Exception {
+		List<User> list= userDao.getUserAutoList(search);
+
+		return list;
+	}
 
 	public void updateUser(User user) throws Exception {
 		userDao.updateUser(user);

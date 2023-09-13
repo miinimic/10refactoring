@@ -1,30 +1,88 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%-- <%@ page import="com.model2.mvc.service.domain.Product" %>
-<%@ page import="com.model2.mvc.service.domain.User" %>
-<%@ page import="com.model2.mvc.service.domain.Purchase" %>
 
-<%
-	User user=(User)session.getAttribute("user");
-	Purchase purchase=(Purchase)request.getAttribute("purchase");
-%>
---%>
 <html>
 <head>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
 <title>구매정보 수정</title>
 
-<script type="text/javascript" src="../javascript/calendar.js">
+<!-- <script type="text/javascript" src="../javascript/calendar.js"></script> -->
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="/resources/demos/style.css">
+
+ <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+function fncAddPurchase(){
+	//Form 유효성 검증
+	
+	var item=$("input[name='item']").val();
+	var receiverName=$("input[name='receiverName']").val();
+	var receiverPhone=$("input[name='receiverPhone']").val();
+	var divyAddr=$("input[name='divyAddr']").val();
+	
+
+	if(item == null || item.length<1){
+		alert("구매 수량은 반드시 입력하여야 합니다.");
+		return;
+	}
+	if(receiverName == null || receiverName.length<1){
+		alert("구매자 이름은 반드시 입력하여야 합니다.");
+		return;
+	}
+	if(receiverPhone == null || receiverPhone.length<1){
+		alert("구매자 연락처는 반드시 입력하셔야 합니다.");
+		return;
+	}
+	if(divyAddr == null || divyAddr.length<1){
+		alert("구매자 주소는 반드시 입력하셔야 합니다.");
+		return;
+	}
+	
+	$("form").attr("method" , "POST").attr("action" , "/purchase/updatePurchase?tranNo=${purchase.purchase.tranNo }&prodNo=${purchase.product.prodNo }").submit();
+}
+
+
+$(function() {
+	 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
+			$("form")[0].reset();
+	});
+});	
+
+$(function() {	
+	 $( "td.ct_btn01:contains('수정')" ).on("click" , function() {
+		 fncAddPurchase();
+	});
+});	
+
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년'
+});
+
+$(function() {
+    $("#datepicker1").datepicker();
+});
+
+
 </script>
 
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchase.getTranNo() }&prodNo=${purchase.getPurchaseProd().getProdNo() }">
+<form name="updatePurchase">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -52,8 +110,8 @@
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.getBuyer().getUserId()  }</td>
-		<input type="hidden" name="buyerId" value="${purchase.getBuyer().getUserId() }">
+		<td class="ct_write01">${purchase.user.userId }</td>
+		<input type="hidden" name="buyerId" value="${purchase.user.userId }">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -77,7 +135,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.getReceiverName() }" />
+							maxLength="20" value="${purchase.purchase.receiverName }" />
 		</td>
 	</tr>
 	<tr>
@@ -88,7 +146,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.getReceiverPhone()  }" />
+							maxLength="20" value="${purchase.purchase.receiverPhone  }" />
 		</td>
 	</tr>
 
@@ -99,8 +157,8 @@
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.getDivyAddr() }" />
+			<input 	type="text" name="divyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
+							maxLength="20" value="${purchase.purchase.divyAddr }" />
 		</td>
 	</tr>
 	<tr>
@@ -111,7 +169,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="item" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.getItem() }" />
+							maxLength="20" value="${purchase.purchase.item }" />
 		</td>
 	</tr>
 	<tr>
@@ -121,8 +179,8 @@
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.getDivyRequest() }" />
+			<input 	type="text" name="divyRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
+							maxLength="20" value="${purchase.purchase.divyRequest }" />
 		</td>
 	</tr>
 	<tr>
@@ -132,11 +190,16 @@
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20"/>
-				<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/>
+			        <c:set var="str" value="${purchase.purchase.divyDate.toString() }" />		
+					<c:set var="arrayOfStrings" value="${fn:split(str, ' ')}" />
+					<!-- <input type="text" readonly="readonly" name="divyDate" class="ct_input_g"  value="${arrayOfStrings[0] } "
+									style="width: 100px; height: 19px" maxLength="20"/>
+					<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
+							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/> -->
+							
+							<input type="text" name="divyDate" id="datepicker1" value="${arrayOfStrings[0] }">
 		</td>
+
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -153,7 +216,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<input type="submit" value="수정"/>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -163,7 +226,7 @@
 						<img src="/images/ct_btnbg01.gif"width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

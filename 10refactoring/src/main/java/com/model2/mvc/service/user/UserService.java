@@ -1,5 +1,6 @@
 package com.model2.mvc.service.user;
 
+import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
@@ -18,6 +19,7 @@ public interface UserService {
 	// 회원정보리스트 
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	
+	public List<User> getUserAutoList(Search search) throws Exception;
 	// 회원정보수정
 	public void updateUser(User user) throws Exception;
 	

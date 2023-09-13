@@ -1,22 +1,28 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-<%@ page import="com.model2.mvc.service.domain.Purchase" %>
 
-<%
-	Purchase purchase = (Purchase)request.getAttribute("purchase");
-
-%>
- --%>
 <html>
 <head>
-<title>Insert title here</title>
+<title>구매 완료</title>
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+/*$(function() {
+	 $( "td.ct_btn01:contains('확인')" ).on("click" , function() {
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
+	});
+});	
+*/
+
+</script>
+
 </head>
 
 <body>
 
-<form name="updatePurchase" action="/updatePurchaseView.do?tranNo=0" method="post">
+<form name="form">
 
 다음과 같이 구매가 되었습니다.
 
@@ -35,11 +41,6 @@
 	<tr>
 		<td>구매방법</td>
 		<td>		
-		<%-- 	<% if(purchase.getPaymentOption().equals("1")) { %>
-				현금구매
-			<% } else { %>
-				신용구매
-			<% } %>  --%>
 			<c:choose>
 				<c:when test="${ purchase.getPaymentOption() eq '1'}">
 					현금구매

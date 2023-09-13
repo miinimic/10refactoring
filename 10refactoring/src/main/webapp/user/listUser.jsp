@@ -14,9 +14,17 @@
 	
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	
+	
 	<script type="text/javascript">
 	
-		
+		//무한스크롤
 		var isLoading = false; // 데이터 로딩 중인지 여부
 		
 	    // 스크롤 이벤트 처리
@@ -156,7 +164,72 @@
 			//==> 아래와 같이 정의한 이유는 ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
+		 
+		 //autocomplete
+	/*	 $(document).ready(function () {
+			  // input필드에 자동완성 기능을 걸어준다
+			  $('#searchBox').autocomplete({
+			    source: locList,
+			    focus: function (event, ui) {
+			      return false;
+			    },
+			    select: function (event, ui) {},
+			    minLength: 1,
+			    delay: 100,
+			    autoFocus: true,
+			  });
+			});
+	*/
+	
+	$(document).ready(function () {	
+		$("#searchBox").autocomplete({
+			source: function (request, response) {
+				
+				var searchKeyword = $("#searchBox").val(); // 검색어 가져오기
+	            var searchCondition = $("select[name='searchCondition']").val(); // 검색 조건 가져오기
+	            
+	           // alert(searchKeyword);
+	            //alert(searchCondition);
+	            
+			    $.ajax({
+			        url: "/user/json/listUserAuto/" + searchCondition + "/"+searchKeyword ,
+			        method: "GET",
+			        dataType: "json",
+			        headers: {
+			            "Accept": "application/json",
+			            "Content-Type": "application/json"
+			        },
+			        success: function (JSONData, status) {
+			            console.log(status);
+			            console.log(JSONData);
 
+			            // 여기서 서버 응답 데이터를 가공하여 사용자 목록으로 변환해야 합니다.
+			            var userList = [];
+
+			            for (var i = 0; i < JSONData.length; i++) {
+			                var user = JSONData[i];
+			                userList.push({
+			                    label: user.userId,
+			                    value: user.userId, // 또는 사용자 설정값 설정
+			                    test: user // 또는 다른 필요한 데이터 설정
+			                });
+			            }
+
+			            response(userList);
+			        }
+			    });
+			},
+
+		    focus: function (event, ui) {
+		        return false;
+		    },
+		    select: function (event, ui) {
+		    	console.log(ui.item.idx)
+		    },
+		    delay: 100,
+		    autoFocus: true
+		});
+});
 		
 	</script>	
 	
@@ -193,7 +266,7 @@
 				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
 				<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
 			</select>
-			<input type="text" name="searchKeyword" 
+			<input type="text" name="searchKeyword" id="searchBox"
 						value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
 						class="ct_input_g" style="width:200px; height:20px" > 
 		</td>

@@ -1,5 +1,6 @@
 package com.model2.mvc.web.user;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -142,5 +143,25 @@ public class UserRestController {
 		System.out.println("resultPage : "+resultPage);
 		
 		return map;
+	}
+	
+	@RequestMapping( value="json/listUserAuto/{searchCondition}/{searchKeyword}" )
+	public List<User> listUserAuto(@PathVariable String searchCondition, @PathVariable String searchKeyword) throws Exception{	
+		System.out.println("/json/user/listUserAuto : GET / POST");
+
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchKeyword(searchKeyword);
+		
+		System.out.println("search.getSearchCondition() : "+search.getSearchCondition());
+		
+		System.out.println("search.getSearchKeyword() : "+search.getSearchKeyword());
+		
+		// Business logic ผ๖วเ
+		//Map<String , Object> map=userService.getUserList(search);
+		List<User> result =userService.getUserAutoList(search);
+
+		
+		return result;
 	}
 }

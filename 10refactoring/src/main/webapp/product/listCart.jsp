@@ -7,14 +7,80 @@
 <head>
 <title>장바구니</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<style>
 
+
+  .prodNoNoDisplay {
+    color: transparent;
+  }
+
+
+</style>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
-function fncGetCartList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+function fncGetCartList(currentPage) { 
+	
+	$("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/product/listCart").submit();
+	
 }
+
+$(function() {
+	 
+	 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=manage");
+	});
+	 
+	$( ".CartName" ).on("click" , function() {
+
+			var string = $(this).text().trim();
+
+			var lines = string.split(",");
+			var data = [];
+
+			for (var i = 0; i < lines.length; i++) {
+			    var fields = lines[i].split(",");
+			    data.push(fields);
+			}
+
+			 // alert(data[1]);
+			    
+			 var prodNo = data[1];
+
+			var encodedProdNo = encodeURIComponent(prodNo);
+				$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?prodNo="+encodedProdNo+"&menu=cart");
+				
+		});
+
+	$( ".deleteCart" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		//  alert(data[1]);
+		//  alert(data[2]);
+		    
+		 var prodNo = data[1];
+		 var userId = data[2];
+
+		var encodedProdNo = encodeURIComponent(prodNo);
+		var encodedUserId = encodeURIComponent(userId);
+		
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/deleteCart?prodNo="+encodedProdNo+"&userId="+encodedUserId+"");
+			
+	});
+	 
+});
 </script>
 </head>
 
@@ -72,8 +138,8 @@ function fncGetCartList(currentPage) {
 		<tr class="ct_list_pop">
 		<td align="center">${ i }</td>
 		<td></td>
-		<td align="left">
-		<a href="/product/getProduct?prodNo=${cart.getCartProd().getProdNo()}&menu=cart">${cart.getCartProd().getProdName()}</a>
+		<td align="left">				
+		<span class="CartName">${cart.getCartProd().getProdName()}<span class="prodNoNoDisplay">,${ cart.getCartProd().getProdNo() }</span></span>
 		</td>
 		<td></td>
 		<td align="left">${cart.getCartProd().getCategory() }</td> 
@@ -82,7 +148,8 @@ function fncGetCartList(currentPage) {
 		<td></td>
 		<td align="left">${cart.getCartProd().getRegDate() }</td>
 		<td></td>	
-		<td align="left"><button><a href="/product/deleteCart?prodNo=${cart.getCartProd().getProdNo()}">삭제하기</a></button></td>
+		<td align="left">
+		<span class="deleteCart">삭제하기<span class="prodNoNoDisplay">,${ cart.getCartProd().getProdNo() },${cart.getUserId() }</span></span>
 		<td></td>		
 	</tr>	
 	<tr>

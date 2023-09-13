@@ -5,14 +5,141 @@
 <html>
 <head>
 <title>구매 목록조회</title>
+<style>
+
+
+  .tranNoNoDisplay {
+    color: transparent;
+  }
+
+
+</style>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+
 function fncGetPurchaseList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+	$("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/purchase/listPurchase").submit();
 }
+
+$(function() {
+	
+	$( ".prodName" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var prodNo = data[1];
+
+		var encodedProdNo = encodeURIComponent(prodNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?menu=purchase&prodNo="+encodedProdNo+"");
+			
+	});
+	
+	$( ".arrival" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.getCurrentPage()}");
+			
+	});
+	
+	$( ".confirm" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.getCurrentPage()}");
+			
+	});
+	
+	$( ".addReview" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		  // alert(data[1]);
+		  // alert(data[2]);
+		    
+		 var tranNo = data[1];
+		 var prodNo = data[2];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+		var encodedProdNo = encodeURIComponent(prodNo);
+		
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/addReviewView?tranNo="+encodedTranNo+"&prodNo="+encodedProdNo+"&tranCode=6");
+			
+	});
+		
+	$( ".Review" ).on("click" , function() {
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listReview");
+	});
+	
+	$( ".detail" ).on("click" , function() {
+
+		var string = $(this).text().trim();
+
+		var lines = string.split(",");
+		var data = [];
+
+		for (var i = 0; i < lines.length; i++) {
+		    var fields = lines[i].split(",");
+		    data.push(fields);
+		}
+
+		 //  alert(data[1]);
+		    
+		 var tranNo = data[1];
+
+		var encodedTranNo = encodeURIComponent(tranNo);
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/getPurchase?tranNo="+encodedTranNo+"&menu=user");
+			
+	});
+	
+});
 </script>
 </head>
 
@@ -20,7 +147,7 @@ function fncGetPurchaseList(currentPage) {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -58,8 +185,8 @@ function fncGetPurchaseList(currentPage) {
 		<c:set var="i" value="${ i+1 }" />
 		
 			<c:choose>
-			    <c:when test="${not empty purchase.getTranCode()}">
-			        <c:set var="tranCode" value="${purchase.getTranCode()}" />
+			    <c:when test="${not empty purchase.tranCode}">
+			        <c:set var="tranCode" value="${purchase.tranCode}" />
 			    </c:when>
 			    <c:otherwise>
 			        <c:set var="tranCode" value="${null}" />
@@ -70,8 +197,8 @@ function fncGetPurchaseList(currentPage) {
 	<tr class="ct_list_pop">
 
 		<td></td>
-		<td align="center">
-			<a href="/getProduct.do?menu=purchase&prodNo=${  purchase.getPurchaseProd().getProdNo()}">${ purchase.getPurchaseProd().getProdName()}</a>
+		<td align="center">			
+			<span class="prodName">${ purchase.getPurchaseProd().getProdName()}<span class="tranNoNoDisplay">,${  purchase.getPurchaseProd().getProdNo()}</span></span> 
 		</td>
 		<td></td>
 		<td align="center">
@@ -82,7 +209,7 @@ function fncGetPurchaseList(currentPage) {
 			<c:when test="${ tranCode eq '3' }">
 				배송중
 			</c:when>
-			<c:when test="${ tranCode eq '4' }">
+			<c:when test="${ tranCode eq '4' || tranCode eq '5' || tranCode eq '6'}">
 				배송완료
 			</c:when>
 			<c:otherwise>
@@ -95,21 +222,18 @@ function fncGetPurchaseList(currentPage) {
 		
 		<c:choose>
 			<c:when test="${tranCode eq '3' }">
-				<button>
-				<a href="updateTranCode.do?tranNo=${ purchase.getTranNo()}&menu=purchase&prodNo=${purchase.getPurchaseProd().getProdNo()  }&tranCode=4&currentPage=${resultPage.getCurrentPage()}">상품도착</a>
-				</button>		
+				<span class="arrival">상품도착<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
+					
 			</c:when>
-			<c:when test="${tranCode eq '4' && empty purchase.getReviewCode()}">
-				<button><a href="updateTranCode.do?tranNo=${ purchase.getTranNo()}&menu=purchase&prodNo=${purchase.getPurchaseProd().getProdNo()  }&tranCode=5&currentPage=${resultPage.getCurrentPage()}">구매확정</a></button>
+			<c:when test="${tranCode eq '4'}">
+			<span class="confirm">구매확정<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
 			</c:when>
-			<c:when test="${tranCode eq '4' && purchase.getReviewCode() eq '5'}">
-				<button>
-				<a href="/addReviewView.do?tranNo=${purchase.getTranNo() }&prodNo=${purchase.getPurchaseProd().getProdNo()  }&tranCode=6" >후기쓰기</a>
-				</button>		
+			<c:when test="${tranCode eq '5'}">
+				<span class="addReview">후기쓰기<span class="tranNoNoDisplay">,${ purchase.getTranNo()},${  purchase.getPurchaseProd().getProdNo()}</span></span> 
 			</c:when>
-			<c:when test="${ tranCode eq '4' && purchase.getReviewCode() eq '6'}">
-			
-			<button><a href="/listReview.do" >후기 작성 완료</a></button>
+			<c:when test="${ tranCode eq '6'}">
+			<span class="Review">후기 작성 완료</span>
+
 						
 			</c:when>
 			<c:otherwise>
@@ -120,7 +244,7 @@ function fncGetPurchaseList(currentPage) {
 		</td>
 		<td></td>
 		<td align="center">
-			<button><a href="/getPurchase.do?tranNo=${purchase.getTranNo()}">상세보기</a></button>
+		<span class="detail">상세보기<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
 		</td>
 		<td></td>
 	</tr>

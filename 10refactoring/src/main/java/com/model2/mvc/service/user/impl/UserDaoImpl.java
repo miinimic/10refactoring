@@ -45,6 +45,10 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserList(Search search) throws Exception {
 		return sqlSession.selectList("UserMapper.getUserList", search);
 	}
+	
+	public List<User> getUserAutoList(Search search) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserAutoList", search);
+	}
 
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {

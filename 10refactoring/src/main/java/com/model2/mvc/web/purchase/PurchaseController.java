@@ -231,14 +231,16 @@ public class PurchaseController {
 	
 	//@RequestMapping("/getPurchase.do")
 	@RequestMapping( value="getPurchase", method=RequestMethod.GET )
-	public String getPurchase( @RequestParam("tranNo") int tranNo , Model model ) throws Exception {
+	public String getPurchase( @ModelAttribute("search") Search search, @RequestParam("tranNo") int tranNo , Model model ) throws Exception {
 		
 		System.out.println("/getPurchase");
+		System.out.println("menu : "+search.getMenu());
 		//Business Logic
 		System.out.println(tranNo+" : getPurchaseControllers tranNo");
 		Map<String , Object> purchase = purchaseService.findPurchase(tranNo);
 		// Model °ú View ¿¬°á
 		model.addAttribute("purchase", purchase);
+		model.addAttribute("search", search);
 
 		return "forward:/purchase/getPurchase.jsp";
 	}

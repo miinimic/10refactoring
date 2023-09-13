@@ -5,17 +5,30 @@
 <html>
 <head>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<title>후기 작성</title> 
 
-<title>후기 작성</title>
+<script type="text/javascript" src="../javascript/calendar.js"></script>
+<script type="text/javascript">
 
-<script type="text/javascript" src="../javascript/calendar.js">
+$(function() {
+	 $( "td.ct_btn01:contains('작성')" ).on("click" , function() {
+		 $("form").attr("method" , "POST").attr("action" , "/purchase/addReview?tranNo=${purchase.purchase.tranNo }").submit();
+	});
+});	
+
+	
+$(function() {
+	 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
+			$("form")[0].reset();
+	});
+});	
 </script>
-
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="addReview" method="post"	action="/addReview.do?tranNo=${purchase.getTranNo() }">
+<form name="addReview">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -43,8 +56,8 @@
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.getBuyer().getUserId()  }</td>
-		<input type="hidden" name="buyerId" value="${purchase.getBuyer().getUserId() }">
+		<td class="ct_write01">${purchase.user.userId  }</td>
+		<input type="hidden" name="buyerId" value="${purchase.buyer.userId }">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -53,7 +66,7 @@
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchase.getReceiverName() }
+			${purchase.user.userName }
 		</td>
 	</tr>
 	<tr>
@@ -63,7 +76,7 @@
 		<td width="104" class="ct_write">상품명</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchase.getPurchaseProd().getProdName() }
+			${product.prodName }
 		</td>
 	</tr>
 	<tr>
@@ -73,7 +86,7 @@
 		<td width="104" class="ct_write">상품 카테고리</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchase.getPurchaseProd().getCategory() }
+			${product.category }
 		</td>
 	</tr>
 	<tr>
@@ -83,7 +96,7 @@
 		<td width="104" class="ct_write">상품 상세정보</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchase.getPurchaseProd().getProdDetail() }
+			${product.prodDetail }
 		</td>
 	</tr>
 		<tr>
@@ -93,7 +106,7 @@
 		<td width="104" class="ct_write">상품 가격</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchase.getPurchaseProd().getPrice() }
+			${product.price }
 		</td>
 	</tr>
 
@@ -119,7 +132,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<input type="submit" value="작성"/>
+						작성
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -129,7 +142,7 @@
 						<img src="/images/ct_btnbg01.gif"width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

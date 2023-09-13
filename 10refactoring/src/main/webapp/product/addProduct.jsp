@@ -149,10 +149,10 @@ $(function() {
 			<!-- 테이블 시작 -->
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td class="ct_write01">
-			${product.getFileName() }
-	
-		</td> 
+					<td height="26">
+						<%-- <%= product.getFileName() --%>
+						${product.getFileName()}
+					</td>
 				</tr>
 			</table>
 		</td>

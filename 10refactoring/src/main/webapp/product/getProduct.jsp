@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -20,7 +19,7 @@ $(function() {
 	});
 	
 	$( ".ct_btn01:contains('구매')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/addPurchaseView.do?prodNo=${product.getProdNo()}&userId=${user.getUserId()}");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/addPurchaseView?prodNo=${product.getProdNo()}&userId=${user.getUserId()}");
 	});
 	
 	$( ".ct_btn01:contains('이전')" ).on("click" , function() {
@@ -130,16 +129,16 @@ $(function() {
 			상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		
-		
-		
 		<td class="ct_write01">
-		<c:set var="fileNames" value="${product.getFileName()}" />
-		<c:set var="fileNameArray" value="${fn:split(fileNames, ',')}" /> 
-		<c:forEach var="fileName" items="${ fileNameArray}">
-			<img src="/images/${fileName }" alt="Image" width="200" height="200">
-		</c:forEach>	
-		</td>		
+		<c:choose>
+			<c:when test="${ ! empty product.getFileName()}">				
+				<img src="<c:url value='/images/${product.getFileName()}'/>" width="300px" height="300px"/>
+			</c:when>
+			<c:otherwise>
+				이미지 없음
+			</c:otherwise>
+		</c:choose>		
+		</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

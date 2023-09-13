@@ -1,16 +1,30 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <html>
 <head>
 <title>상품수정</title>
+<style>
 
+#imgArea {
+    width: 300px;
+    height: 300px;
+    overflow: hidden; /* 이미지가 영역을 벗어나지 않도록 overflow를 숨김 처리합니다. */
+}
+
+</style>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript" src="../javascript/calendar.js"></script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- <script type="text/javascript" src="../javascript/calendar.js"></script> -->
+
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="/resources/demos/style.css">
+
+ <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 
 function fncUpdateProduct(){
@@ -41,45 +55,6 @@ function fncUpdateProduct(){
 	$("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
 }
 
-
-$(function () {
-    $("#uploadFile").change(function (event) {
-        const file = event.target.files;
-
-        var image = new Image();
-        var ImageTempUrl = window.URL.createObjectURL(file[0]);
-
-        image.onload = function () {
-            // 이미지가 로드된 후에 실행되는 코드
-            var maxWidth = $("#imgArea").width(); // #imgArea의 최대 가로 너비
-            var maxHeight = $("#imgArea").height(); // #imgArea의 최대 세로 높이
-
-            var width = image.width; // 이미지의 원래 가로 크기
-            var height = image.height; // 이미지의 원래 세로 크기
-
-            // 이미지 비율 유지를 위해 가로 또는 세로 크기 중에서 더 작은 쪽을 기준으로 크기를 조절합니다.
-            if (width > maxWidth) {
-                var ratio = maxWidth / width;
-                width = maxWidth;
-                height = height * ratio;
-            }
-
-            if (height > maxHeight) {
-                var ratio = maxHeight / height;
-                height = maxHeight;
-                width = width * ratio;
-            }
-
-            // 이미지의 크기를 조절하여 #imgArea에 추가합니다.
-            image.width = width;
-            image.height = height;
-            $("#imgArea").empty().append(image);
-        };
-
-        image.src = ImageTempUrl;
-    });
-});
-
 $(function() {	
 	 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
 		 history.go(-1)
@@ -91,6 +66,55 @@ $(function() {
 		fncUpdateProduct();
 	});
 });	
+
+$(function(){
+    $("#file").change(function(event){
+        const file = event.target.files;
+
+        var image = new Image();
+        var ImageTempUrl = window.URL.createObjectURL(file[0]);
+
+        image.src = ImageTempUrl;
+        
+        // 이미지가 로드된 후에 실행되도록 이벤트 리스너를 추가합니다.
+        image.onload = function() {
+            // imgArea의 너비와 높이를 가져옵니다.
+            var imgAreaWidth = $("#imgArea").width();
+            var imgAreaHeight = $("#imgArea").height();
+
+            // 이미지의 가로와 세로 크기를 가져옵니다.
+            var imageWidth = image.width;
+            var imageHeight = image.height;
+
+            // 이미지의 가로와 세로 크기를 imgArea의 크기에 맞게 조절합니다.
+            if (imageWidth > imgAreaWidth || imageHeight > imgAreaHeight) {
+                var scaleFactor = Math.min(imgAreaWidth / imageWidth, imgAreaHeight / imageHeight);
+                image.width = imageWidth * scaleFactor;
+                image.height = imageHeight * scaleFactor;
+            }
+
+            // 이미지를 imgArea에 추가합니다.
+            $("#imgArea").empty().append(image);
+        };
+    });
+});
+
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년'
+});
+
+$(function() {
+    $("#datepicker1").datepicker();
+});
 
 </script>
 </head>
@@ -210,10 +234,13 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="manuDate" value="${product.getManuDate() }" readonly="readonly" class="ct_input_g"  
+		<c:set var="str" value="${product.getManuDate().toString() }" />		
+					<c:set var="arrayOfStrings" value="${fn:split(str, ' ')}" />
+			<!-- <input type="text" name="manuDate" value="${product.getManuDate() }" readonly="readonly" class="ct_input_g"  
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
-										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
+										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/> -->
+			 <input type="text" name="manuDate" id="datepicker1" value="${arrayOfStrings[0] }"  />							
 		</td>
 	</tr>
 	<tr>
@@ -236,9 +263,10 @@ $(function() {
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input	type="file" name="file" class="ct_input_g" id="uploadFile" multiple="multiple"
-						style="width: 200px; height: 19px" maxLength="13" value="${product.getFileName() }"/>
-						<div id="imgArea" style="width: 200px; height: 200px" ></div> 
+		${product.getFileName() }
+			<input	multiple="multiple"	type="file" name="file" class="ct_input_g"  id="file"
+							style="width: 200px; height: 19px" maxLength="13"/>
+			<div id="imgArea"></div>
 		</td>
 	</tr>
 	<tr>

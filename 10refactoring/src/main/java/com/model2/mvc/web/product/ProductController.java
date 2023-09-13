@@ -76,37 +76,37 @@ public class ProductController {
 		
 		String fileNames = "";
 
-		  for (MultipartFile files : file) {
-		        if (!files.isEmpty()) {
-		            String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
-		            File uploadDir = new File(temDir);
-		      		            
-		            if (!uploadDir.exists()) {
-		                uploadDir.mkdirs();
-		            }
-		            
-		            String fileName = files.getOriginalFilename() + ",";
-		            System.out.println("fileName : "+fileName);
-		            fileNames += fileName;
-     
-		           
-		            if (files.getSize() <= 1024 * 1024 * 10) {
-		                fileName = files.getOriginalFilename();
-		                File uploadedFile = new File(uploadDir, fileName);
-		                files.transferTo(uploadedFile);
-		               
-		                // 폼 필드에서 다른 속성 설정	          
-		                uploadedFileNames.add(fileName);
-		                
-		            } else {
-		                int overSize = (int) (files.getSize() / 1000000);
-		                System.out.println("<script>alert('파일의 크기는 1MB까지 입니다. 올리신 파일 용량은" + overSize + "MB입니다');");
-		                System.out.println("history.back();</script>");
-		            }
-		        } else {
-		        	product.setFileName("../../images/empty.GIF");
+		for (MultipartFile files : file) {
+		    if (!files.isEmpty()) {
+		        String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
+		        File uploadDir = new File(temDir);
+
+		        if (!uploadDir.exists()) {
+		            uploadDir.mkdirs();
 		        }
+
+		        String originalFileName = files.getOriginalFilename();
+		        String fileName = new String(originalFileName.getBytes("UTF-8"), "UTF-8");
+
+		        System.out.println("fileName : " + fileName);
+		        fileNames += fileName + ",";
+
+		        if (files.getSize() <= 1024 * 1024 * 10) {
+		            File uploadedFile = new File(uploadDir, fileName);
+		            files.transferTo(uploadedFile);
+
+		            // 폼 필드에서 다른 속성 설정
+		            uploadedFileNames.add(fileName);
+		        } else {
+		            int overSize = (int) (files.getSize() / 1000000);
+		            System.out.println("<script>alert('파일의 크기는 1MB까지 입니다. 올리신 파일 용량은" + overSize + "MB입니다');");
+		            System.out.println("history.back();</script>");
+		        }
+		    } else {
+		        product.setFileName(null);
 		    }
+		}
+
 		  
 		     if (fileNames.endsWith(",")) {
 		    	 	fileNames = fileNames.substring(0, fileNames.length() - 1);
@@ -234,18 +234,20 @@ public class ProductController {
 	//public String updateProduct( @ModelAttribute("product") Product product, Model model , HttpServletRequest request, HttpSession session) throws Exception{
 
 		@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
-		public String updateProduct(@ModelAttribute("product") Product product, Model model, MultipartHttpServletRequest request, HttpSession session) throws Exception {
+		public String updateProduct(@ModelAttribute("product") Product product, @RequestParam("file") MultipartFile[] file, Model model, HttpServletRequest request, HttpSession session) throws Exception {
 		    System.out.println("/updateProduct");
 
 		    Product product02 = new Product();
 		    Product result = new Product();
 
-		    List<MultipartFile> files = request.getFiles("file"); // 여러 파일을 받기 위해 List<MultipartFile>을 사용합니다.
 		    List<String> uploadedFileNames = new ArrayList<>();
+
 		    String fileNames = "";
+		    
+		    System.out.println("product.getFileName() : "+product.getFileName());
 
 		    // 파일을 하나씩 처리합니다.
-		    for (MultipartFile file02 : files) {
+		    for (MultipartFile file02 : file) {
 		        if (file02 != null && !file02.isEmpty()) {
 		            String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
 		            File uploadDir = new File(temDir);
