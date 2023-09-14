@@ -56,7 +56,8 @@ public class ProductDaoImpl implements ProductDao{
 		}
 		
 		public Product findProduct(int prodNo) throws Exception {
-			return sqlSession.selectOne("ProductMapper.findProduct", prodNo);
+			//return sqlSession.selectOne("ProductMapper.findProduct", prodNo);
+			return sqlSession.selectOne("ProductMapper.findOneProduct", prodNo);
 		}
 		
 		public int getCartNo(int prodNo) throws Exception{

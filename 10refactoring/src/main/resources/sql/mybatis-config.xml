@@ -17,6 +17,7 @@
 		<typeAlias alias="user" type="com.model2.mvc.service.domain.User" />
 		<typeAlias alias="product" type="com.model2.mvc.service.domain.Product" />
 		<typeAlias alias="cart" type="com.model2.mvc.service.domain.Cart" />
+		<typeAlias alias="cart" type="com.model2.mvc.service.domain.Transaction" />
 		<typeAlias alias="purchase" type="com.model2.mvc.service.domain.Purchase" />
 		<typeAlias alias="search" type="com.model2.mvc.common.Search" />
 	</typeAliases>

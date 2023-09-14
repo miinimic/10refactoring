@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.Transaction;
 
 public interface PurchaseService {
 	

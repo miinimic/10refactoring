@@ -13,6 +13,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Cart;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.Transaction;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.purchase.PurchaseDao;
 
@@ -36,9 +37,15 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		}
 	
 		///Method
-		public void insertPurchase(Purchase purchase) throws Exception{
+		public void insertPurchase(Purchase purchase, Transaction transaction) throws Exception{
 			System.out.println("purchasedaoImpl 임 : "+purchase);
 			sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
+			
+		/*	transaction.setBuyerId(purchase.getBuyer().getUserId());
+			transaction.setProdNo(purchase.getPurchaseProd().getProdNo());
+			transaction.setTranNo(0); // tranNo 가져와서 넣어주기
+					
+			sqlSession.insert("PurchaseMapper.insertTransaction", transaction);*/
 			
 		}
 		
@@ -121,7 +128,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 
 			Purchase purchase = sqlSession.selectOne("PurchaseMapper.findPurchase", tranNo);		
 			User user = sqlSession.selectOne("UserMapper.getUser", purchase.getBuyer().getUserId());
-			Product product = sqlSession.selectOne("ProductMapper.findProduct", purchase.getPurchaseProd().getProdNo());
+			Product product = sqlSession.selectOne("ProductMapper.findOneProduct", purchase.getPurchaseProd().getProdNo());
 			
 			purchase.setPaymentOption(purchase.getPaymentOption().trim());
 			purchase.setTranCode(purchase.getTranCode().trim());

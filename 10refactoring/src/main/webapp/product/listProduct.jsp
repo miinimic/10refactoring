@@ -643,7 +643,8 @@ $(document).ready(function() {
                 			<c:otherwise>
                 				<span class="GoCart">장바구니 확인하기</span>
                 			</c:otherwise>             		
-                		</c:choose>  
+                		</c:choose> 
+  
             </c:when>
            
             <c:otherwise>

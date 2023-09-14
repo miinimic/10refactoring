@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -131,13 +132,16 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<c:choose>
-			<c:when test="${ ! empty product.getFileName()}">				
-				<img src="<c:url value='/images/${product.getFileName()}'/>" width="300px" height="300px"/>
-			</c:when>
-			<c:otherwise>
-				이미지 없음
-			</c:otherwise>
-		</c:choose>		
+		    <c:when test="${ ! empty product.getFileName()}">
+		        <c:forEach var="fileName" items="${fn:split(product.getFileName(), ',')}">
+		            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+		        </c:forEach>
+		    </c:when>
+		    <c:otherwise>
+		        이미지 없음
+		    </c:otherwise>
+		</c:choose>
+	
 		</td>
 	</tr>
 	<tr>

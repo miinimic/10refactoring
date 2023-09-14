@@ -60,6 +60,11 @@
 		WHERE p.prod_no = t.prod_no(+) AND p.prod_no = #{prodNo:NUMERIC}
 	 </select> 
 	 
+	 <select 	id="findOneProduct"		parameterType="int"   resultMap="productSelectMap">							
+		SELECT p.* FROM product p
+		WHERE p.prod_no  = #{prodNo:NUMERIC}
+	 </select> 
+	 
 	 <select 	id="getCartNo"		parameterType="int"   resultType="int">							
 		SELECT cart_no
 		FROM cart

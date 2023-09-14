@@ -28,6 +28,13 @@
   		<result property="userId" 		column="USER_ID"			jdbcType="VARCHAR"/>
   	</resultMap>
   	
+  	<resultMap type="transaction" id="tranSelectMap">
+  		<result property="purNo" 				column="PUR_NO" 		 	jdbcType="NUMERIC"/>
+  		<result property="tranNo" 	column="TRAN_NO" 			jdbcType="NUMERIC"/>
+  		<result property="prodNo" 	column="PROD_NO" 			jdbcType="NUMERIC"/>
+  		<result property="userId" 		column="USER_ID"			jdbcType="VARCHAR"/>
+  	</resultMap>
+  	
 
   	
 	<insert id="insertPurchase" parameterType="purchase">
@@ -47,6 +54,16 @@
 					#{divyDate:VARCHAR},
 					#{review:VARCHAR},
 					#{item:NUMERIC} )
+	</insert>
+	
+	<insert id="insertTransaction" parameterType="transaction">
+		INSERT 
+		INTO purchase
+		VALUES (
+					seq_transaction_pur_no.NEXTVAL,
+					#{tran_no:NUMERIC},
+					#{prod_no:NUMERIC},
+					#{buyer_id:VARCHAR})
 	</insert>
 	
 	<update id="addReview" parameterType="map">

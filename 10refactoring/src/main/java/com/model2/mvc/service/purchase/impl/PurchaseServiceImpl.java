@@ -13,6 +13,7 @@ import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.user.UserDao;
 import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.Transaction;
 import com.model2.mvc.service.domain.User;
 
 @Service("purchaseServiceImpl")
@@ -36,7 +37,10 @@ public class PurchaseServiceImpl implements PurchaseService{
 	///Method
 	public void insertPurchase(Purchase purchase) throws Exception {
 		System.out.println("purchaseserviceImpl юс : "+purchase);
-		purchaseDao.insertPurchase(purchase); 
+		
+		Transaction transaction = new Transaction();
+		
+		purchaseDao.insertPurchase(purchase, transaction); 
 		
 		purchaseDao.updateItem(purchase.getPurchaseProd().getProdNo(), purchase.getPurchaseProd().getItem(), purchase.getItem());
 			
