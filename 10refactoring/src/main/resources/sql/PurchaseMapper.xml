@@ -35,9 +35,7 @@
   		<result property="userId" 		column="USER_ID"			jdbcType="VARCHAR"/>
   	</resultMap>
   	
-
-  	
-	<insert id="insertPurchase" parameterType="purchase">
+	 <insert id="insertPurchase" parameterType="purchase">
 		INSERT 
 		INTO transaction
 		VALUES (
@@ -54,17 +52,17 @@
 					#{divyDate:VARCHAR},
 					#{review:VARCHAR},
 					#{item:NUMERIC} )
-	</insert>
-	
+	</insert> 
+
 	<insert id="insertTransaction" parameterType="transaction">
 		INSERT 
 		INTO purchase
 		VALUES (
 					seq_transaction_pur_no.NEXTVAL,
-					#{tran_no:NUMERIC},
-					#{prod_no:NUMERIC},
-					#{buyer_id:VARCHAR})
-	</insert>
+					seq_transaction_tran_no.CURRVAL,
+					#{prodNo:NUMERIC},
+					#{userId:VARCHAR})
+	</insert> 
 	
 	<update id="addReview" parameterType="map">
 		UPDATE transaction SET review = #{review:VARCHAR} WHERE tran_no =  #{tranNo:NUMERIC}
@@ -82,6 +80,24 @@
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
+	</select>
+	
+	<select id="getTransactionList" parameterType="map" resultMap="tranSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.* FROM purchase p WHERE user_id = #{userId} ORDER BY pur_no  ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+	</select>
+	
+	<select id="getTransactionAll" parameterType="search" resultMap="tranSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT * FROM purchase ORDER BY pur_no  ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
+  		WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1
+  		AND #{currentPage}*#{pageSize}
 	</select>
 	
 	<select id="getCartList" parameterType="map" resultMap="cartSelectMap">
@@ -183,6 +199,21 @@
 	  	FROM(	SELECT *
 						FROM transaction 
 						WHERE buyer_id = #{buyerId}
+			 ) countTable						
+	 </select>
+	 
+	 <select  id="getTotalCountPurchase"  parameterType="string"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+						FROM purchase
+						WHERE user_id = #{userId}
+			 ) countTable						
+	 </select>
+	 
+	  <select  id="getTotalCountPurchaseAll"  parameterType="string"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+						FROM purchase
 			 ) countTable						
 	 </select>
 	 

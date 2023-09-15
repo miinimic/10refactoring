@@ -21,6 +21,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.Transaction;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
@@ -263,19 +264,46 @@ public class PurchaseController {
 		search.setPageSize(pageSize);
 		
 		// Business logic 수행
-		Map<String , Object> map=purchaseService.getPurchaseList(search, buyerId);	
+		//Map<String , Object> map=purchaseService.getPurchaseList(search, buyerId);	
+		Map<String, Object> result = purchaseService.getTransactionList(search, buyerId);	
 		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)result.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		// Model 과 View 연결
-		model.addAttribute("list", map.get("list"));
+		model.addAttribute("transaction", result.get("transaction"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		System.out.println("purchase list : "+map.get("list"));
+		System.out.println("transaction list : "+result.get("transaction"));
 	
 		return "forward:/purchase/listPurchase.jsp";
+		
+	}
+	@RequestMapping("/listTransaction")
+	public String listTransaction( @ModelAttribute("search") Search search, Model model) throws Exception{
+		
+		System.out.println("/listTransaction");
+	
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		} 
+
+		search.setPageSize(pageSize);
+
+		Map<String, Object> result = purchaseService.getTransactionAll(search);	
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)result.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("transaction", result.get("transaction"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		System.out.println("transaction all : "+result.get("transaction"));
+	
+		return "forward:/purchase/listTransaction.jsp";
 		
 	}
 	
@@ -347,7 +375,7 @@ public class PurchaseController {
 		purchaseService.updateTranCode(tranNo, tranCode);
 
 			if( search.getMenu().equals("manage")) {
-				return "forward:/product/listProduct?page="+search.getCurrentPage();
+				return "forward:/purchase/listTransaction?page="+search.getCurrentPage();
 			} else {
 				return "forward:/purchase/listPurchase?page="+search.getCurrentPage();
 			}

@@ -181,35 +181,25 @@ $(function() {
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>	
 	<c:set var="i" value="0" />
-	<c:forEach var="purchase" items="${list}">
-		<c:set var="i" value="${ i+1 }" />
-		
-			<c:choose>
-			    <c:when test="${not empty purchase.tranCode}">
-			        <c:set var="tranCode" value="${purchase.tranCode}" />
-			    </c:when>
-			    <c:otherwise>
-			        <c:set var="tranCode" value="${null}" />
-			    </c:otherwise>
-			</c:choose>
-			
+	<c:forEach var="transaction" items="${transaction}">
+		<c:set var="i" value="${ i+1 }" />			
 			
 	<tr class="ct_list_pop">
 
 		<td></td>
 		<td align="center">			
-			<span class="prodName">${ purchase.getPurchaseProd().getProdName()}<span class="tranNoNoDisplay">,${  purchase.getPurchaseProd().getProdNo()}</span></span> 
+			<span class="prodName">${ transaction.product.prodName}<span class="tranNoNoDisplay">,${  transaction.product.prodNo}</span></span> 
 		</td>
 		<td></td>
 		<td align="center">
 		<c:choose>
-			<c:when test="${tranCode eq '2'}" >
+			<c:when test="${transaction.purchase.tranCode eq '2'}" > 
 				배송 준비 중
 			</c:when>
-			<c:when test="${ tranCode eq '3' }">
+			<c:when test="${ transaction.purchase.tranCode eq '3' }">
 				배송중
 			</c:when>
-			<c:when test="${ tranCode eq '4' || tranCode eq '5' || tranCode eq '6'}">
+			<c:when test="${ transaction.purchase.tranCode eq '4' || transaction.purchase.tranCode eq '5' || transaction.purchase.tranCode eq '6'}">
 				배송완료
 			</c:when>
 			<c:otherwise>
@@ -221,17 +211,17 @@ $(function() {
 		<td align="left">
 		
 		<c:choose>
-			<c:when test="${tranCode eq '3' }">
-				<span class="arrival">상품도착<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
+			<c:when test="${transaction.purchase.tranCode eq '3' }">
+				<span class="arrival">상품도착<span class="tranNoNoDisplay">,${ transaction.tranNo}</span></span> 
 					
 			</c:when>
-			<c:when test="${tranCode eq '4'}">
-			<span class="confirm">구매확정<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
+			<c:when test="${transaction.purchase.tranCode eq '4'}">
+			<span class="confirm">구매확정<span class="tranNoNoDisplay">,${ transaction.tranNo}</span></span> 
 			</c:when>
-			<c:when test="${tranCode eq '5'}">
-				<span class="addReview">후기쓰기<span class="tranNoNoDisplay">,${ purchase.getTranNo()},${  purchase.getPurchaseProd().getProdNo()}</span></span> 
+			<c:when test="${transaction.purchase.tranCode eq '5'}">
+				<span class="addReview">후기쓰기<span class="tranNoNoDisplay">,${ transaction.tranNo},${  transaction.product.prodNo}</span></span> 
 			</c:when>
-			<c:when test="${ tranCode eq '6'}">
+			<c:when test="${ transaction.purchase.tranCode eq '6'}">
 			<span class="Review">후기 작성 완료</span>
 
 						
@@ -244,7 +234,7 @@ $(function() {
 		</td>
 		<td></td>
 		<td align="center">
-		<span class="detail">상세보기<span class="tranNoNoDisplay">,${ purchase.getTranNo()}</span></span> 
+		<span class="detail">상세보기<span class="tranNoNoDisplay">,${ transaction.tranNo}</span></span> 
 		</td>
 		<td></td>
 	</tr>

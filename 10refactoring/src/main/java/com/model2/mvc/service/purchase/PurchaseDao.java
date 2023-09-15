@@ -10,9 +10,13 @@ import com.model2.mvc.service.domain.Transaction;
 
 public interface PurchaseDao {
 
-	public void insertPurchase(Purchase purchase, Transaction transaction) throws Exception;
+	public void insertPurchase(Purchase purchase) throws Exception;
 	
 	public Map<String, Object> getPurchaseList(Search search, String buyerId) throws Exception;
+	
+	public Map<String , Object> getTransactionList(Search search, String buyerId) throws Exception;
+	
+	public Map<String , Object> getTransactionAll(Search search) throws Exception;
 	
 	public Map<String , Object> findPurchase(int tranNo) throws Exception;
 

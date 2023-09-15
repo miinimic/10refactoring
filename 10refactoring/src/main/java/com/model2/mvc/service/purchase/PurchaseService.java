@@ -13,6 +13,10 @@ public interface PurchaseService {
 	
 	public Map<String , Object> getPurchaseList(Search search, String buyerId) throws Exception;
 	
+	public Map<String , Object> getTransactionList(Search search, String buyerId) throws Exception;
+	
+	public Map<String , Object> getTransactionAll(Search search) throws Exception;
+
 	public Map<String , Object> findPurchase(int tranNo) throws Exception;
 	
 	public void updatePurchase(Purchase purchase, int prodNo) throws Exception;

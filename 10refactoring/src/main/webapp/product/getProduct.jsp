@@ -16,7 +16,9 @@
 $(function() {
 	 
 	$( ".ct_btn01:contains('확인')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+
+		//$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+		history.go(-1)
 	});
 	
 	$( ".ct_btn01:contains('구매')" ).on("click" , function() {

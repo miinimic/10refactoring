@@ -54,11 +54,15 @@
 		WHERE prod_no = #{prodNo:NUMERIC}
 	 </update>
 	 
-	 <select 	id="findProduct"		parameterType="int"   resultMap="productSelectMap">							
+	<!--  <select 	id="findProduct"		parameterType="int"   resultMap="productSelectMap">							
 		SELECT p.*, t.tran_status_code
 		FROM product p, transaction t
 		WHERE p.prod_no = t.prod_no(+) AND p.prod_no = #{prodNo:NUMERIC}
-	 </select> 
+	 </select>  -->
+	 
+	 <select 	id="findProduct"		parameterType="int"   resultMap="productSelectMap">
+	 	SELECT * FROM product WHERE prod_no = #{prodNo:NUMERIC}
+	  </select>
 	 
 	 <select 	id="findOneProduct"		parameterType="int"   resultMap="productSelectMap">							
 		SELECT p.* FROM product p
@@ -119,7 +123,7 @@
 	 
 	
 	 <select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
-	 	<if test="menu != null and menu == 'manage'">
+	 	<!-- <if test="menu != null and menu == 'manage'">
 	 			  	SELECT  * FROM (	
 	 			  		SELECT inner_table.* , ROWNUM AS row_seq
 	  						FROM		(
@@ -158,6 +162,50 @@
 																	
 																	<if test="category != null and order == 'desc'">
 																				AND p.category = #{category} ORDER BY price DESC
+																	</if>
+																	
+	
+																				
+	 	</if> -->
+	 	 <if test="menu != null and menu == 'manage'">
+	 			  	SELECT  * FROM (	
+	 			  		SELECT inner_table.* , ROWNUM AS row_seq
+	  						FROM		(
+	  										SELECT *
+									 		FROM PRODUCT
+									 		
+																	<if test="searchCondition != null">
+																			
+																					<if test="searchCondition == 0 and searchKeyword !='' ">
+																		 				WHERE p.PROD_NO like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																					</if>
+																					<if test="searchCondition == 1 and searchKeyword !='' ">
+																		 				WHERE p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																					</if>
+																					<if test="searchCondition == 2 and searchKeyword !='' ">
+																		 				WHERE p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																					</if>
+																			
+																	</if>	
+														
+																	<if test="order == 'asc' and category == null">
+																						ORDER BY price ASC
+																	</if>
+																	
+																	<if test="order == 'desc' and category == null">
+																						ORDER BY price DESC
+																	</if>
+																			
+																	<if test="category != null and order == null">
+																						WHERE p.category = #{category} ORDER BY reg_date DESC
+																	</if>
+																			
+																    <if test="category != null and order == 'asc'">
+																				WHERE p.category = #{category} ORDER BY price ASC
+																	</if>
+																	
+																	<if test="category != null and order == 'desc'">
+																				WHERE p.category = #{category} ORDER BY price DESC
 																	</if>
 																	
 	

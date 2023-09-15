@@ -34,13 +34,22 @@ public class PurchaseServiceImpl implements PurchaseService{
 		System.out.println(this.getClass());
 	}
 	
+	public Map<String , Object> getTransactionList(Search search, String buyerId) throws Exception{
+		Map<String , Object > list= purchaseDao.getTransactionList(search, buyerId); 		
+		return list;
+		
+	}
+	public Map<String , Object> getTransactionAll(Search search) throws Exception{
+		System.out.println("getTransactionAll serviceImpl");
+		Map<String , Object > list= purchaseDao.getTransactionAll(search); 		
+		return list;
+		
+	}
 	///Method
 	public void insertPurchase(Purchase purchase) throws Exception {
 		System.out.println("purchaseserviceImpl юс : "+purchase);
-		
-		Transaction transaction = new Transaction();
-		
-		purchaseDao.insertPurchase(purchase, transaction); 
+
+		purchaseDao.insertPurchase(purchase); 
 		
 		purchaseDao.updateItem(purchase.getPurchaseProd().getProdNo(), purchase.getPurchaseProd().getItem(), purchase.getItem());
 			

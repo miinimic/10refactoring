@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>상품 목록조회</title>
+<title>거래현황관리</title>
 
 <style>
 
@@ -300,58 +300,6 @@ $(document).ready(function() {
 
 <div style="width:98%; margin-left:10px;">
 
-<c:choose>
-	<c:when test="${search.getMenu() eq 'manage'}">
-		<c:choose>
-			<c:when test="${ ! empty search.getOrder()}">
-				<c:choose>
-					<c:when test="${!empty search.getCategory() }">
-						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.getOrder()}&category=${search.getCategory()}" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.getOrder()}" method="post">
-					</c:otherwise>
-				</c:choose>
-				
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${!empty search.getCategory() }">
-						<form name="detailForm" action="/product/listProduct?menu=manage&category=${search.getCategory() }" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=manage" method="post">
-					</c:otherwise>			
-				</c:choose>			
-			</c:otherwise>	
-		</c:choose>	
-	</c:when>
-	<c:otherwise>
-		<c:choose>
-			<c:when test="${ ! empty search.getOrder()}">
-				<c:choose>
-					<c:when test="${ ! empty search.getCategory()}">
-						<form name="detailForm" action="/product/listProduct?menu=search&order=${search.getOrder() }&category=${search.getCategory()}" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=search&order=${search.getOrder()  }" method="post">
-					</c:otherwise>
-				</c:choose>					
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${ ! empty search.getCategory()}">
-						<form name="detailForm" action="/product/listProduct?menu=search&category=${search.getCategory() }" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=search" method="post">
-					</c:otherwise>
-				</c:choose>	
-			</c:otherwise>
-		</c:choose>		
-	</c:otherwise>
-</c:choose>
-
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
@@ -361,14 +309,7 @@ $(document).ready(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="93%" class="ct_ttl01">
-					<c:choose>
-						<c:when test="${search.getMenu() eq 'manage' }" >
-							상품관리
-						</c:when>
-						<c:otherwise>
-							상품 목록 조회
-						</c:otherwise>
-					</c:choose>
+					거래현황관리
 					</td>
 				</tr>
 			</table>
@@ -382,8 +323,6 @@ $(document).ready(function() {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-	<c:choose>
-		<c:when test="${search.getMenu() eq 'manage' || user.getRole() eq 'admin' }" >
 			<c:choose>
 					<c:when test="${ !empty search.getSearchCondition() }" >
 						<td align="right">
@@ -432,50 +371,7 @@ $(document).ready(function() {
 						</td>			
 					</c:otherwise>	
 				</c:choose>
-		</c:when>
-		<c:otherwise>
-			<c:choose>
-					<c:when test="${ !empty search.getSearchCondition() }" >
-						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">		
-						<c:choose>				
-							<c:when test="${search.getSearchCondition() eq '1' }">
-									<option value="1" selected>상품명</option>
-									<option value="2">상품가격</option>
-							</c:when>
-							<c:when test="${search.getSearchCondition() eq '2' }">
-									<option value="1">상품명</option>
-									<option value="2" selected>상품가격</option>
-							</c:when>
-							<c:otherwise>
-								<option value="1">상품명</option>
-								<option value="2">상품가격</option>					
-							</c:otherwise>
-							</c:choose>	
-							</select>	
-						<c:choose>
-							<c:when test="${ empty search.getSearchCondition() }">
-								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
-							</c:when>
-							<c:when test="${ !empty search.getSearchCondition() }">
-							<input 	type="text" name="searchKeyword"  value="${search.getSearchKeyword()}" 
-										class="ct_input_g" style="width:200px; height:19px" >
-							</c:when>
-						</c:choose>
-					</c:when>		
-					<c:otherwise>
-						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">
-							<option value="1">상품명</option>
-							<option value="2">상품가격</option>
-						</select>
-						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
-						</td>			
-					</c:otherwise>	
-				</c:choose>
-		</c:otherwise>
-	</c:choose>
-				
+
 				</td>
 					
 		<td align="right" width="70">
@@ -499,7 +395,7 @@ $(document).ready(function() {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td colspan="11" >전체  ${ resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지 
-		<c:choose>
+	<!-- 	<c:choose>
 			<c:when test="${search.getMenu() eq 'manage' || user.getRole() eq 'admin'}">
 				<c:choose>
 					<c:when test="${empty search.getCategory() }">
@@ -524,7 +420,7 @@ $(document).ready(function() {
 				    </c:otherwise>
 				</c:choose>
 			</c:otherwise>
-		</c:choose>
+		</c:choose> -->
 		</td>
 	</tr>
 	<tr>
@@ -538,92 +434,51 @@ $(document).ready(function() {
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">등록일</td>	
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">상품현황</td>
+		<td class="ct_list_b">상품현황</td>		
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
 	<c:set var="i" value="0" />
-	<c:forEach var="product" items="${list}">
+	<c:forEach var="transaction" items="${transaction}">
 		<c:set var="i" value="${ i+1 }" />
-			<c:choose>
-			    <c:when test="${not empty product.getProTranCode()}">
-			        <c:set var="tranCode" value="${fn:trim(product.getProTranCode())}" />
-			    </c:when>
-			    <c:otherwise>
-			        <c:set var="tranCode" value="${null}" />
-			    </c:otherwise>
-			</c:choose>
 		<tr class="ct_list_pop">
 		<td align="center">${ i }</td>
 		<td></td>
 		<td align="left">
-		<c:choose>		
-			<c:when test="${search.getMenu() eq 'manage' && empty product.getProTranCode()  || user.getRole() eq 'admin' && empty product.getProTranCode()  }" >			
-				<span class="ManageProduct">${product.getProdName()}<span class="prodNoNoDisplay">,${ product.getProdNo() }</span></span>
-				<!-- <span class="ManageProduct">${product.getProdName()}, ${ product.getProdNo() }</span> -->
-				
-			</c:when>
-			<c:when test="${search.getMenu() eq 'search' && empty product.getProTranCode() }">		
-				<span class="SearchProduct">${product.getProdName()}<span class="prodNoNoDisplay">,${ product.getProdNo() }</span></span>
-			</c:when>
-			<c:when test="${search.getMenu() eq 'manage' && ! empty product.getProTranCode()  || user.getRole() eq 'admin' && ! empty product.getProTranCode()  }" >
-				<span class="ManageGetProduct">${product.getProdName()}<span class="prodNoNoDisplay">,${ product.getProdNo() }</span></span>
-			</c:when>
-			<c:otherwise>
-				<span class="GetProduct">${product.getProdName()}<span class="prodNoNoDisplay">,${ product.getProdNo() }</span></span>
-			</c:otherwise>
-		</c:choose>
+				<span class="ManageGetProduct">${transaction.product.prodName}<span class="prodNoNoDisplay">,${ transaction.product.getProdNo() }</span></span>
 		</td>
 		<td></td>
-		<td align="left">${product.getCategory() }</td> 
+		<td align="left">${transaction.product.category }</td> 
 		<td></td>
-		<td align="left">${product.getPrice() } ( 재고 : ${product.getItem() } 개)</td> 
+		<td align="left">${transaction.product.price } 원</td> 
 		<td></td>
-		<td align="left">${product.getRegDate() }</td>
+		<td align="left">${transaction.product.regDate }</td>
 		<td></td>	
 		<td align="left">
-<c:choose>
 
-     <c:when test="${ !(userId eq 'admin' || userId eq 'manager') && search.getMenu() eq 'search'}">
         <c:choose>
-            <c:when test="${empty product.getProTranCode() && product.getItem() > '0'}">
-                판매중
-                <c:choose>
-                			 <c:when test="${product.getCartNo() == '0'}">
-                				<span class="PutCart">장바구니에 넣기<span class="prodNoNoDisplay">,${ product.getProdNo() },${ user.getUserId() }</span></span> 
-                			</c:when>
-                			<c:otherwise>
-                				<span class="GoCart">장바구니 확인하기</span>
-                			</c:otherwise>             		
-                		</c:choose> 
-  
+            <c:when test="${transaction.purchase.tranCode eq '2'}">
+                구매완료 <span class="delivery">배송하기<span class="prodNoNoDisplay">,${ transaction.product.prodNo },${ transaction.tranNo }</span></span>     
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ transaction.tranNo  }</span></span>        
             </c:when>
-           
-            <c:otherwise>
-               재고없음
-            </c:otherwise>
-        </c:choose>
-    </c:when>
-    <c:otherwise>
-        <c:choose>
-            <c:when test="${product.getItem() > '0'}">
-                판매중
-                		                  	
+            <c:when test="${transaction.purchase.tranCode eq '3'}">
+                배송중
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ transaction.tranNo  }</span></span>
             </c:when>
             <c:otherwise>
-                재고없음
+                배송완료
+                <span class="purchaseDetail">구매상세보기<span class="prodNoNoDisplay">,${ transaction.tranNo  }</span></span>
             </c:otherwise>
         </c:choose>
-    </c:otherwise>
-</c:choose>
+
 
  		
 			</td>		
 	</tr>
 	<tr>
-	<td id="${product.getProdNo()}" colspan="11" bgcolor="D6D7D6" height="1"></td>
+	<td id="${transaction.product.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	
 	</c:forEach>

@@ -18,11 +18,13 @@ $(function() {
 	});
 	
 	$( ".ct_btn01:contains('뒤로')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+		//$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
+		history.go(-1)
 	});
 	
 	$( ".ct_btn01:contains('확인')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
+		//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
+		history.go(-1)
 	});
 
 });

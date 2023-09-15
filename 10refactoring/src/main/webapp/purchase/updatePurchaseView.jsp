@@ -48,7 +48,8 @@ function fncAddPurchase(){
 
 $(function() {
 	 $( "td.ct_btn01:contains('√Îº“')" ).on("click" , function() {
-			$("form")[0].reset();
+			//$("form")[0].reset();
+			history.go(-1)
 	});
 });	
 

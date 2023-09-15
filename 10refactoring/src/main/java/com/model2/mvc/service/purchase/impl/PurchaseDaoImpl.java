@@ -37,15 +37,19 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		}
 	
 		///Method
-		public void insertPurchase(Purchase purchase, Transaction transaction) throws Exception{
+		public void insertPurchase(Purchase purchase) throws Exception{
 			System.out.println("purchasedaoImpl 임 : "+purchase);
-			sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
 			
-		/*	transaction.setBuyerId(purchase.getBuyer().getUserId());
+			Transaction transaction = new Transaction();
+			
 			transaction.setProdNo(purchase.getPurchaseProd().getProdNo());
-			transaction.setTranNo(0); // tranNo 가져와서 넣어주기
-					
-			sqlSession.insert("PurchaseMapper.insertTransaction", transaction);*/
+			transaction.setUserId(purchase.getBuyer().getUserId());
+			
+			System.out.println("prodno : "+transaction.getProdNo());
+			System.out.println("userId : "+transaction.getUserId());
+			
+			sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
+			sqlSession.insert("PurchaseMapper.insertTransaction", transaction);
 			
 		}
 		
@@ -72,6 +76,53 @@ public class PurchaseDaoImpl implements PurchaseDao{
 				map.put("list", list);
 				
 				System.out.println("map : "+map);
+				
+			return map;
+		}
+		
+		public Map<String, Object> getTransactionList(Search search,String buyerId ) throws Exception{
+			
+			Map<String , Object>  map = new HashMap<String, Object>();
+			
+				map.put("search", search);
+				map.put("userId", buyerId);
+			
+				System.out.println(map);
+				List<Transaction> transaction = sqlSession.selectList("PurchaseMapper.getTransactionList", map); 
+				
+				for (int i = 0; i < transaction.size(); i++) {
+		
+					transaction.get(i).setProduct((Product)sqlSession.selectOne("ProductMapper.findProduct", transaction.get(i).getProdNo()));
+					transaction.get(i).setUser((User)sqlSession.selectOne("UserMapper.getUser", transaction.get(i).getUserId()));
+					transaction.get(i).setPurchase((Purchase)sqlSession.selectOne("PurchaseMapper.findPurchase", transaction.get(i).getTranNo()));		
+					transaction.get(i).getPurchase().setTranCode((transaction.get(i).getPurchase().getTranCode().trim()));
+				}
+	
+				map.put("totalCount", sqlSession.selectOne("PurchaseMapper.getTotalCountPurchase", buyerId));		
+				map.put("transaction", transaction);
+				
+			return map;
+		}
+		
+		public Map<String, Object> getTransactionAll(Search search ) throws Exception{
+			
+			System.out.println("getTransactionAll daoImpl");
+				Map<String , Object>  map = new HashMap<String, Object>();
+
+				List<Transaction> transaction = sqlSession.selectList("PurchaseMapper.getTransactionAll", search); 
+				
+				System.out.println("1111transaction : "+transaction);
+				for (int i = 0; i < transaction.size(); i++) {
+		
+					transaction.get(i).setProduct((Product)sqlSession.selectOne("ProductMapper.findProduct", transaction.get(i).getProdNo()));
+					transaction.get(i).setUser((User)sqlSession.selectOne("UserMapper.getUser", transaction.get(i).getUserId()));
+					transaction.get(i).setPurchase((Purchase)sqlSession.selectOne("PurchaseMapper.findPurchase", transaction.get(i).getTranNo()));		
+					transaction.get(i).getPurchase().setTranCode((transaction.get(i).getPurchase().getTranCode().trim()));
+				}
+	
+				map.put("totalCount", sqlSession.selectOne("PurchaseMapper.getTotalCountPurchaseAll"));		
+				map.put("transaction", transaction);
+				
 				
 			return map;
 		}

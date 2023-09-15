@@ -52,6 +52,11 @@ $(function() {
 		$(window.parent.frames["rightFrame"].document.location).attr("href","../product/addProductView.jsp");
 	}); 
 	
+	$( ".Depth03:contains('거래현황관리')" ).on("click" , function() {
+
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listTransaction?menu=manage");
+	}); 
+	
 	$( ".Depth03:contains('판매상품관리')" ).on("click" , function() {
 
 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage"); 
@@ -138,6 +143,11 @@ $(function() {
 			<tr>
 				<td class="Depth03">
 					판매상품관리
+				</td>
+			</tr>
+			<tr>
+				<td class="Depth03">
+					거래현황관리
 				</td>
 			</tr>
 			<tr>
