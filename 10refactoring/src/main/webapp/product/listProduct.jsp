@@ -606,6 +606,26 @@ $(document).ready(function() {
             </c:otherwise>
         </c:choose>
     </c:when>
+    
+    <c:when test="${search.getMenu() eq 'manage'}">
+        <c:choose>
+            <c:when test="${product.getItem() > '0'}">
+                판매중
+                <c:choose>
+                	<c:when test="${ product.getCartNo() == '0'}">
+                		<span class="delete">삭제하기<span class="prodNoNoDisplay">,${ product.getProdNo() }</span></span>
+                	</c:when>
+                	<c:otherwise>
+                	
+                	</c:otherwise>
+                </c:choose>               
+            </c:when>
+            <c:otherwise>
+               재고없음
+            </c:otherwise>
+        </c:choose>
+    </c:when>
+    
     <c:otherwise>
         <c:choose>
             <c:when test="${product.getItem() > '0'}">
