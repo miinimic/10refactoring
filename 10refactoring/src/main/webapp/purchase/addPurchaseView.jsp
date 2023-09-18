@@ -38,10 +38,17 @@ function fncAddPurchase(){
 	var receiverPhone=$("input[name='receiverPhone']").val();
 	var receiverAddr=$("input[name='receiverAddr']").val();
 	
+	
+	
 
 	if(item == null || item.length<1){
 		alert("구매 수량은 반드시 입력하여야 합니다.");
 		return;
+	}
+	if( ${product.getItem() } < item ){
+		alert("재고보다 적은 수량을 입력해주세요.");
+		return;
+		
 	}
 	if(receiverName == null || receiverName.length<1){
 		alert("구매자 이름은 반드시 입력하여야 합니다.");
