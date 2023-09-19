@@ -47,6 +47,13 @@ public class ProductServiceImpl implements ProductService{
 		return map;
 
 	}
+	public int getCategoryTotal(String category) throws Exception{
+		int result = productDao.getCategoryTotal(category);
+		System.out.println("result : "+result);
+		
+		return result;
+
+	}
 	
 	public Map<String,Object> getSaleList(Search search) throws Exception {
 		List<Product> list= productDao.getSaleList(search);

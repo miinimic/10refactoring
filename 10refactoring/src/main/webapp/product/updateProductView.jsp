@@ -123,8 +123,8 @@ $(function() {
 
 <form name="detailForm" enctype="multipart/form-data">
 
-<input type="hidden" name="prodNo" value="${product.getProdNo()}"/>
-<input type="hidden" name="reg_date" value="${product.getRegDate() }"/>
+<input type="hidden" name="prodNo" value="${product.prodNo}"/>
+<input type="hidden" name="reg_date" value="${product.regDate}"/>
 <input type="hidden" name="menu" value="manage"/>
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
@@ -160,7 +160,7 @@ $(function() {
 				<tr>
 					<td width="105">
 						<input 	type="text" name="prodName" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="${product.getProdName() }">
+										style="width: 100px; height: 19px" maxLength="20" value="${product.prodName }">
 					</td>
 				</tr>
 			</table>
@@ -179,7 +179,7 @@ $(function() {
 				<tr>
 					<td width="105">
 						<input 	type="text" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="${product.getCategory() }">
+										style="width: 100px; height: 19px" maxLength="20" value="${product.category }">
 				<select id="category" name="category">
 			        <option value="chicken">chicken</option>
 			        <option value="beef">beef</option>
@@ -206,7 +206,7 @@ $(function() {
 				<tr>
 					<td width="105">
 						<input 	type="text" name="item" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="${product.getItem() }">&nbsp;개
+										style="width: 100px; height: 19px" maxLength="20" value="${product.item }">&nbsp;개
 					</td>
 				</tr>
 			</table>
@@ -221,7 +221,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="prodDetail" value="${product.getProdDetail() }" class="ct_input_g" 
+			<input type="text" name="prodDetail" value="${product.prodDetail }" class="ct_input_g" 
 						style="width: 100px; height: 19px" maxLength="10"	minLength="6">
 		</td>
 	</tr>
@@ -234,7 +234,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		<c:set var="str" value="${product.getManuDate().toString() }" />		
+		<c:set var="str" value="${product.manuDate.toString() }" />		
 					<c:set var="arrayOfStrings" value="${fn:split(str, ' ')}" />
 			<!-- <input type="text" name="manuDate" value="${product.getManuDate() }" readonly="readonly" class="ct_input_g"  
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
@@ -252,7 +252,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="price" value="${product.getPrice() }"
+			<input type="text" name="price" value="${product.price }"
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="50"/>&nbsp;원
 		</td>
 	</tr>
@@ -263,7 +263,7 @@ $(function() {
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		${product.getFileName() }
+		${product.fileName }
 			<input	multiple="multiple"	type="file" name="file" class="ct_input_g"  id="file"
 							style="width: 200px; height: 19px" maxLength="13"/>
 			<div id="imgArea"></div>

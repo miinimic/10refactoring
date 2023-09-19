@@ -61,7 +61,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 				<!--  	<td width="105"><%-- <%= product.getProdName() %>--%></td>--> 
-					<td width="105">${product.getProdName()}</td>
+					<td width="105">${product.prodName}</td>
 					<td></td>
 				</tr>
 			</table>
@@ -79,7 +79,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getCategory() }			
+						${product.category }			
 					</td>
 				</tr>
 			</table>
@@ -97,7 +97,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getItem() }&nbsp;개
+						${product.item }&nbsp;개
 					</td>
 				</tr>
 			</table>
@@ -113,7 +113,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 	<!-- 	<td class="ct_write01"><%-- <%= product.getProdDetail() %> --%> </td>  -->
-		<td class="ct_write01">${product.getProdDetail()}</td>
+		<td class="ct_write01">${product.prodDetail}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -125,7 +125,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 				<!--   <td class="ct_write01"><%--<%= product.getManuDate() %>--%></td>  -->
-			<td class="ct_write01"> ${product.getManuDate()} </td>
+			<td class="ct_write01"> ${product.manuDate} </td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -136,7 +136,7 @@ $(function() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 	<!--  	<td class="ct_write01"><%--<%= product.getPrice() %>--%></td>  -->
-		<td class="ct_write01">${product.getPrice()}&nbsp;원</td>
+		<td class="ct_write01">${product.price}&nbsp;원</td>
 	</tr>
 
 	<tr>
@@ -151,7 +151,7 @@ $(function() {
 				<tr>
 					<td height="26">
 						<%-- <%= product.getFileName() --%>
-						${product.getFileName()}
+						${product.fileName}
 					</td>
 				</tr>
 			</table>

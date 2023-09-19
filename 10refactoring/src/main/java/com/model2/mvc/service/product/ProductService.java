@@ -1,5 +1,6 @@
 package com.model2.mvc.service.product;
 
+import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
@@ -21,6 +22,8 @@ public interface ProductService {
 	public void addCart(int prodNo, String userId) throws Exception;
 	
 	public int getCartNo(int prodNo) throws Exception;
+	
+	public int getCategoryTotal(String category) throws Exception;
 	
 	public void deleteProduct(int prodNo) throws Exception;
 	

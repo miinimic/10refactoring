@@ -13,7 +13,7 @@
 $(function() {
 	 
 	$( ".ct_btn01:contains('수정')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updatePurchaseView.do?tranNo=${purchase.getTranNo() }");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updatePurchaseView.do?tranNo=${purchase.tranNo }");
 	});
 	
 	$( ".ct_btn01:contains('확인')" ).on("click" , function() {
@@ -59,7 +59,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-					${purchase.getPurchaseProd().getProdNo() }</td>
+					${purchase.purchaseProd.prodNo }</td>
 					<td></td>
 				</tr>
 			</table>
@@ -73,7 +73,7 @@ $(function() {
 			구매자아이디 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.getBuyer().getUserId() }</td>
+		<td class="ct_write01">${purchase.buyer.userId }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -82,7 +82,7 @@ $(function() {
 	<tr>
 		<td width="104" class="ct_write">주문일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.getOrderDate() }</td>
+		<td class="ct_write01">${purchase.orderDate }</td>
 	</tr>
 
 	<tr>
@@ -98,7 +98,7 @@ $(function() {
 				<tr>
 					<td width="105">
 				<%-- 	<%= product.getProdNo() %>--%>
-					${ product.getProdNo()} <br>
+					${ product.prodNo} <br>
 					</td>
 				</tr>
 			</table>
@@ -114,7 +114,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 	<%-- 	<%= product.getProdName() %>  --%>
-		${product.getProdName() }
+		${product.prodName }
 		</td>
 	</tr>
 	<tr>
@@ -129,7 +129,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getCategory() }			
+						${product.category }			
 					</td>
 				</tr>
 			</table>
@@ -147,7 +147,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getItem() }&nbsp;개
+						${product.item }&nbsp;개
 					</td>
 				</tr>
 			</table>
@@ -163,7 +163,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<%--<%= product.getFileName() --%>
-			${product.getFileName() }
+			${product.fileName }
 		</td>
 	</tr>
 	<tr>
@@ -176,7 +176,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getProdDetail() --%>
-		${ product.getProdDetail()}
+		${ product.prodDetail}
 		</td>
 	</tr>
 	<tr>
@@ -187,7 +187,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getManuDate() --%>
-		${product.getManuDate() }
+		${product.manuDate }
 		</td>
 	</tr>
 	<tr>
@@ -198,7 +198,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getPrice() --%>
-		${product.getPrice() } &nbsp;원
+		${product.price } &nbsp;원
 		</td>
 	</tr>
 	<tr>
@@ -209,7 +209,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 	<%-- 	<%= product.getRegDate() %> --%>
-			${product.getRegDate()}
+			${product.regDate}
 		</td>
 	</tr>
 	<tr>
@@ -228,7 +228,7 @@ $(function() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<c:choose>
-						<c:when test="${ purchase.getTranCode() eq '2'}">
+						<c:when test="${ purchase.tranCode eq '2'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
 						수정
 					</td>

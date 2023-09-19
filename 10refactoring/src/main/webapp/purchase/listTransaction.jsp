@@ -25,40 +25,40 @@
 
 function fncGetProductList(currentPage) { 
 	
-	if( ${search.getMenu() eq 'manage'} && ${ ! empty search.getOrder()} && ${!empty search.getCategory() } ) {
+	if( ${search.menu eq 'manage'} && ${ ! empty search.order} && ${!empty search.category } ) {
 			
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&order=${search.getOrder()}&category=${search.getCategory()}").submit();	
+			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&order=${search.order}&category=${search.category}").submit();	
 	
-	} else if( ${search.getMenu() eq 'manage'} && ${ ! empty search.getOrder()} && ${empty search.getCategory() } ) {
+	} else if( ${search.menu eq 'manage'} && ${ ! empty search.order} && ${empty search.category } ) {
 			
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&order=${search.getOrder()}").submit();	
+			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&order=${search.order}").submit();	
 	
-	} else if (${search.getMenu() eq 'manage'} && ${ empty search.getOrder()} && ${!empty search.getCategory() }){
+	} else if (${search.menu eq 'manage'} && ${ empty search.order} && ${!empty search.category }){
 		
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&category=${search.getCategory() }").submit();	
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&category=${search.category }").submit();	
 		
-	} else if ( ${search.getMenu() eq 'manage'} && ${ empty search.getOrder()} && ${empty search.getCategory() } ){
+	} else if ( ${search.menu eq 'manage'} && ${ empty search.order} && ${empty search.category } ){
 		
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage").submit();	
 		
-	} else if ( ${! search.getMenu() eq 'manage'} && ${ ! empty search.getOrder()} && ${ ! empty search.getCategory()} ){
+	} else if ( ${! search.menu eq 'manage'} && ${ ! empty search.order} && ${ ! empty search.category} ){
 		
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&order=${search.getOrder() }&category=${search.getCategory()}").submit();	
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&order=${search.order }&category=${search.category}").submit();	
 				
-	} else if( ${! search.getMenu() eq 'manage'} && ${ ! empty search.getOrder()} && ${ empty search.getCategory()} ){
+	} else if( ${! search.menu eq 'manage'} && ${ ! empty search.order} && ${ empty search.category} ){
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&order=${search.getOrder()  }").submit();
-	} else if(${! search.getMenu() eq 'manage'} && ${ empty search.getOrder()} && ${ ! empty search.getCategory()}) {
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&order=${search.order  }").submit();
+	} else if(${! search.menu eq 'manage'} && ${ empty search.order} && ${ ! empty search.category}) {
 		
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&category=${search.getCategory() }").submit();
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&category=${search.category }").submit();
 		
-	} else if( ${! search.getMenu() eq 'manage'} && ${ empty search.getOrder()} && ${ empty search.getCategory()} ){
+	} else if( ${! search.menu eq 'manage'} && ${ empty search.order} && ${ empty search.category} ){
 		
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search").submit();
@@ -87,11 +87,11 @@ $(document).ready(function() {
 	});
 	 
 	 $( ".ManageCategoryAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=manage&category=${search.getCategory() }");
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=manage&category=${search.category }");
 	});
 	 
 	 $( ".ManageCategoryDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=manage&category=${search.getCategory() }");
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=manage&category=${search.category}");
 	});
 	 
 	 $( ".SearchAsc:contains('낮은 가격 순')" ).on("click" , function() {
@@ -103,11 +103,11 @@ $(document).ready(function() {
 	});
 	 
 	 $( ".SearchCategoryAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=search&category=${search.getCategory()}");
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=search&category=${search.category}");
 	});
 	 
 	 $( ".SearchCategoryDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=search&category=${search.getCategory() }");
+		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=search&category=${search.category }");
 	});
 	 
 	$( ".ManageProduct" ).on("click" , function() {
@@ -324,21 +324,21 @@ $(document).ready(function() {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 			<c:choose>
-					<c:when test="${ !empty search.getSearchCondition() }" >
+					<c:when test="${ !empty search.searchCondition }" >
 						<td align="right">
 						<select name="searchCondition" class="ct_input_g" style="width:80px">		
 						<c:choose>				
-							<c:when test="${search.getSearchCondition() eq '0' }">
+							<c:when test="${search.searchCondition eq '0' }">
 									<option value="0" selected>상품번호</option>
 									<option value="1">상품명</option>
 									<option value="2">상품가격</option>
 							</c:when>
-							<c:when test="${search.getSearchCondition() eq '1' }">
+							<c:when test="${search.searchCondition eq '1' }">
 									<option value="0">상품번호</option>
 									<option value="1" selected>상품명</option>
 									<option value="2">상품가격</option>
 							</c:when>
-							<c:when test="${search.getSearchCondition() eq '2' }">
+							<c:when test="${search.searchCondition eq '2' }">
 									<option value="0">상품번호</option>
 									<option value="1">상품명</option>
 									<option value="2" selected>상품가격</option>
@@ -351,11 +351,11 @@ $(document).ready(function() {
 							</c:choose>	
 							</select>	
 						<c:choose>
-							<c:when test="${ empty search.getSearchCondition() }">
+							<c:when test="${ empty search.searchCondition}">
 								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
 							</c:when>
-							<c:when test="${ !empty search.getSearchCondition() }">
-							<input 	type="text" name="searchKeyword"  value="${search.getSearchKeyword()}" 
+							<c:when test="${ !empty search.searchCondition }">
+							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" >
 							</c:when>
 						</c:choose>
@@ -394,7 +394,7 @@ $(document).ready(function() {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  ${ resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지 
+		<td colspan="11" >전체  ${ resultPage.totalCount} 건수, 현재 ${resultPage.currentPage } 페이지 
 	<!-- 	<c:choose>
 			<c:when test="${search.getMenu() eq 'manage' || user.getRole() eq 'admin'}">
 				<c:choose>
@@ -447,7 +447,7 @@ $(document).ready(function() {
 		<td align="center">${ i }</td>
 		<td></td>
 		<td align="left">
-				<span class="ManageGetProduct">${transaction.product.prodName}<span class="prodNoNoDisplay">,${ transaction.product.getProdNo() }</span></span>
+				<span class="ManageGetProduct">${transaction.product.prodName}<span class="prodNoNoDisplay">,${ transaction.product.prodNo }</span></span>
 		</td>
 		<td></td>
 		<td align="left">${transaction.product.category }</td> 

@@ -207,6 +207,7 @@ public class ProductController {
 	public String getProduct(@ModelAttribute("search") Search search, @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
 		
 		System.out.println("/getProduct");
+		System.out.println("search : "+search);
 		//Business Logic
 		Product product = productService.findProduct(prodNo);
 		// Model °ú View ¿¬°á
@@ -373,13 +374,22 @@ public class ProductController {
 		
 		return "redirect:/product/getProduct?prodNo="+product02.getProdNo()+"&menu=manage";*/
 	}
-	
+
 	@RequestMapping("/listProduct")
 	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listProduct");
 		
+		int category=0;
+		
 		System.out.println("menu : "+search.getMenu());
+		if (search.getCategory() != null) {
+			System.out.println("category : "+search.getCategory());
+			category=productService.getCategoryTotal(search.getCategory());
+			System.out.println(category);
+		}
+		
+				
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -399,6 +409,9 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
+		if(category != 0) {
+		model.addAttribute("category", category);
+		}
 		return "forward:/product/listProduct.jsp";
 	}
 	

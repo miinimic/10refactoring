@@ -21,6 +21,8 @@ public interface ProductDao {
 	
 	//cart_no select
 	public int getCartNo(int prodNo) throws Exception;
+	
+	public int getCategoryTotal(String category) throws Exception;
 		
 	//getProductList
 	public List<Product> getProductList(Search search) throws Exception;

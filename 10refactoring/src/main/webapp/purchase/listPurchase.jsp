@@ -64,7 +64,7 @@ $(function() {
 		 var tranNo = data[1];
 
 		var encodedTranNo = encodeURIComponent(tranNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.getCurrentPage()}");
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.currentPage}");
 			
 	});
 	
@@ -85,7 +85,7 @@ $(function() {
 		 var tranNo = data[1];
 
 		var encodedTranNo = encodeURIComponent(tranNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.getCurrentPage()}");
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.currentPage}");
 			
 	});
 	
@@ -165,7 +165,7 @@ $(function() {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11" >전체  ${resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지</td>
+		<td colspan="11" >전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지</td>
 	</tr>
 	<tr>		
 		<td class="ct_line02"></td>

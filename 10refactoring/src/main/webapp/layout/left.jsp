@@ -31,7 +31,7 @@ $(function() {
 	$( ".Depth03:contains('카테고리별 상품조회')" ).on("click" , function() {
 		//Debug..
 		//alert(  $( ".Depth03:contains('개인정보조회')" ).html() );
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listCategory.jsp");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","../product/listCategory.jsp");
 	});
 	
 	$( ".Depth03:contains('후기 목록 조회')" ).on("click" , function() {

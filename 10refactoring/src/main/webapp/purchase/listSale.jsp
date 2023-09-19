@@ -40,9 +40,20 @@
 
 <script type="text/javascript">
 function fncGetSaleList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
+	
+	$("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/product/listSale").submit();	
+	
 }
+
+$(function() {
+	 
+	 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+		 fncGetSaleList(1);
+	});
+});
+
+
 </script>
 </head>
 
@@ -50,7 +61,7 @@ function fncGetSaleList(currentPage) {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listSale.do" method="post">
+<form name="detailForm" >
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -69,23 +80,23 @@ function fncGetSaleList(currentPage) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 								<c:choose>
-					<c:when test="${ !empty search.getSearchCondition() }" >
+					<c:when test="${ !empty search.searchCondition }" >
 						<td align="right">
 						<select name="searchCondition" class="ct_input_g" style="width:80px">		
 						<c:choose>				
-							<c:when test="${search.getSearchCondition() eq '0' }">
+							<c:when test="${search.searchCondition eq '0' }">
 							<%--<%if(search.getSearchCondition().equals("0")){--%>
 									<option value="0" selected>상품번호</option>
 									<option value="1">상품명</option>
 									<option value="2">상품가격</option>
 							</c:when>
-							<c:when test="${search.getSearchCondition() eq '1' }">
+							<c:when test="${search.searchCondition eq '1' }">
 							<%--<%}else if(search.getSearchCondition().equals("1")){%> --%>
 									<option value="0">상품번호</option>
 									<option value="1" selected>상품명</option>
 									<option value="2">상품가격</option>
 							</c:when>
-							<c:when test="${search.getSearchCondition() eq '2' }">
+							<c:when test="${search.searchCondition eq '2' }">
 							<%--<%}else if(search.getSearchCondition().equals("2")){%>  --%>
 									<option value="0">상품번호</option>
 									<option value="1">상품명</option>
@@ -100,12 +111,12 @@ function fncGetSaleList(currentPage) {
 							</c:choose>	
 							</select>	
 						<c:choose>
-							<c:when test="${ empty search.getSearchCondition() }">
+							<c:when test="${ empty search.searchCondition }">
 							<%--<% if(search.getSearchCondition().equals("null")) { %> --%>
 								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
 							</c:when>
-							<c:when test="${ !empty search.getSearchCondition() }">
-							<input 	type="text" name="searchKeyword"  value="${search.getSearchKeyword()}" 
+							<c:when test="${ !empty search.searchCondition }">
+							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" >
 							</c:when>
 						</c:choose>
@@ -130,7 +141,7 @@ function fncGetSaleList(currentPage) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetSaleList('1');">검색</a>
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -143,7 +154,7 @@ function fncGetSaleList(currentPage) {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  ${resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지</td>
+		<td colspan="11" >전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -183,25 +194,25 @@ function fncGetSaleList(currentPage) {
 		<td align="left">
 				<c:choose>		
 			<c:when test="${menu eq 'manage' || userId eq 'admin' || userId eq 'manager' }" >
-				<a href="/updateProductView.do?prodNo=${product.getProdNo()}">${product.getProdName()}</a>
+				<a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
 			</c:when>
 			<c:when test="${menu eq 'search' && empty tranCode }">
 			<%--<% } else if(menu.equals("search") && tranCode == null) { %> --%>			
-				<a href="/getProduct.do?prodNo=${product.getProdNo()}&menu=search">${product.getProdName()}</a>
+				<a href="/getProduct?prodNo=${product.prodNo}&menu=search">${product.prodName}</a>
 			</c:when>
 			<c:otherwise>
-				${product.getProdName()}
+				${product.prodName}
 			</c:otherwise>
 		</c:choose>
 		
 		<td></td>
-		<td align="left">${vo.getPrice() }</td> 
+		<td align="left">${vo.price }</td> 
 		<td></td>
-		<td align="left">${vo.getRegDate() }</td>
+		<td align="left">${vo.regDate }</td>
 		<td></td>	
 		<td align="left">
 		<c:choose>
-			<c:when test="${ empty product.getProTranCode()}">
+			<c:when test="${ empty product.proTranCode}">
 				판매중
 			</c:when>
 			<c:otherwise>

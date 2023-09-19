@@ -63,6 +63,10 @@
 	 <select 	id="findProduct"		parameterType="int"   resultMap="productSelectMap">
 	 	SELECT * FROM product WHERE prod_no = #{prodNo:NUMERIC}
 	  </select>
+	  
+	  <select 	id="getCategoryTotal"	parameterType="string" resultType="int">
+	 	select count(*) count from product where category= #{category:VARCHAR}
+	  </select>
 	 
 	 <select 	id="findOneProduct"		parameterType="int"   resultMap="productSelectMap">							
 		SELECT p.* FROM product p
@@ -171,19 +175,19 @@
 	 			  	SELECT  * FROM (	
 	 			  		SELECT inner_table.* , ROWNUM AS row_seq
 	  						FROM		(
-	  										SELECT *
-									 		FROM PRODUCT
-									 		
+	  										SELECT c.CART_NO, p.* 
+									 		FROM PRODUCT p, CART c 
+									 		WHERE  c.PROD_NO(+)=p.PROD_NO	
 																	<if test="searchCondition != null">
 																			
 																					<if test="searchCondition == 0 and searchKeyword !='' ">
-																		 				WHERE p.PROD_NO like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																		 				AND p.PROD_NO like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																					<if test="searchCondition == 1 and searchKeyword !='' ">
-																		 				WHERE p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																		 				AND p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																					<if test="searchCondition == 2 and searchKeyword !='' ">
-																		 				WHERE p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																		 				AND p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																			
 																	</if>	
@@ -201,11 +205,11 @@
 																	</if>
 																			
 																    <if test="category != null and order == 'asc'">
-																				WHERE p.category = #{category} ORDER BY price ASC
+																				AND p.category = #{category} ORDER BY price ASC
 																	</if>
 																	
 																	<if test="category != null and order == 'desc'">
-																				WHERE p.category = #{category} ORDER BY price DESC
+																				AND p.category = #{category} ORDER BY price DESC
 																	</if>
 																	
 	

@@ -113,7 +113,7 @@ $(function() {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11" >전체  ${resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지</td>
+		<td colspan="11" >전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지</td>
 		
 	</tr>
 	<tr>		
@@ -138,18 +138,18 @@ $(function() {
 
 		<td></td>
 		<td align="center">
-			<span class="prodName">${ purchase.getPurchaseProd().getProdName()}<span class="prodNoNoDisplay">,${  purchase.getPurchaseProd().getProdNo()}</span></span> 
+			<span class="prodName">${ purchase.purchaseProd.prodName}<span class="prodNoNoDisplay">,${  purchase.purchaseProd.prodNo}</span></span> 
 		</td>
 		<td></td>
 		<td align="center">
-				${purchase.getReview() }
+				${purchase.review }
 		</td>
 		<td></td>
 		<td align="center">
 	
 			<c:choose>
-				<c:when test="${purchase.getBuyer().getUserId() eq user.getUserId() || user.getRole() eq 'admin' }">
-					<span class="update">수정하기<span class="prodNoNoDisplay">,${purchase.getTranNo() }</span></span> 
+				<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
+					<span class="update">수정하기<span class="prodNoNoDisplay">,${purchase.tranNo }</span></span> 
 				</c:when>
 				<c:otherwise>
 					본인이 작성한 후기만 수정 가능합니다.
@@ -160,8 +160,8 @@ $(function() {
 		<td></td>
 		<td align="center">
 			<c:choose>
-				<c:when test="${purchase.getBuyer().getUserId() eq user.getUserId() || user.getRole() eq 'admin' }">
-					<span class="delete">삭제하기<span class="prodNoNoDisplay">,${purchase.getTranNo() }</span></span> 
+				<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
+					<span class="delete">삭제하기<span class="prodNoNoDisplay">,${purchase.tranNo }</span></span> 
 				</c:when>
 				<c:otherwise>
 					본인이 작성한 후기만 삭제 가능합니다.

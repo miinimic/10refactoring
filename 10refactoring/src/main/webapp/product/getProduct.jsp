@@ -22,7 +22,7 @@ $(function() {
 	});
 	
 	$( ".ct_btn01:contains('구매')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/addPurchaseView?prodNo=${product.getProdNo()}&userId=${user.getUserId()}");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/addPurchaseView?prodNo=${product.prodNo}&userId=${user.userId}");
 	});
 	
 	$( ".ct_btn01:contains('이전')" ).on("click" , function() {
@@ -69,7 +69,7 @@ $(function() {
 				<tr>
 					<td width="105">
 				<%-- 	<%= product.getProdNo() %>--%>
-					${ product.getProdNo()} <br>
+					${ product.prodNo} <br>
 					</td>
 				</tr>
 			</table>
@@ -85,7 +85,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 	<%-- 	<%= product.getProdName() %>  --%>
-		${product.getProdName() }
+		${product.prodName }
 		</td>
 	</tr>
 	<tr>
@@ -100,7 +100,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getCategory() }			
+						${product.category }			
 					</td>
 				</tr>
 			</table>
@@ -118,7 +118,7 @@ $(function() {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${product.getItem() }&nbsp;개
+						${product.item }&nbsp;개
 					</td>
 				</tr>
 			</table>
@@ -134,8 +134,8 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<c:choose>
-		    <c:when test="${ ! empty product.getFileName()}">
-		        <c:forEach var="fileName" items="${fn:split(product.getFileName(), ',')}">
+		    <c:when test="${ ! empty product.fileName}">
+		        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
 		            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
 		        </c:forEach>
 		    </c:when>
@@ -156,7 +156,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getProdDetail() --%>
-		${ product.getProdDetail()}
+		${ product.prodDetail}
 		</td>
 	</tr>
 	<tr>
@@ -167,7 +167,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getManuDate() --%>
-		${product.getManuDate() }
+		${product.manuDate }
 		</td>
 	</tr>
 	<tr>
@@ -178,7 +178,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 		<%--<%= product.getPrice() --%>
-		${product.getPrice() } &nbsp;원
+		${product.price } &nbsp;원
 		</td>
 	</tr>
 	<tr>
@@ -189,7 +189,7 @@ $(function() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 	<%-- 	<%= product.getRegDate() %> --%>
-			${product.getRegDate()}
+			${product.regDate}
 		</td>
 	</tr>
 	<tr>
@@ -205,11 +205,11 @@ $(function() {
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
 			<c:choose>
-				<c:when test="${!empty user.getUserId()}">
+				<c:when test="${!empty user.userId}">
 					<c:choose>
-					<c:when test="${ search.getMenu() eq 'purchase' || search.getMenu() eq 'manage' || product.getItem() == '0'}">
+					<c:when test="${ search.menu eq 'purchase' ||  search.menu eq 'manage' || product.item == '0'}">
 						<c:choose>
-							<c:when test="${search.getMenu() eq 'manage' }">
+							<c:when test="${ search.menu eq 'manage' }">
 							<tr>			
 								<td width="17" height="23">
 									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
@@ -221,7 +221,7 @@ $(function() {
 								</td>
 								<td width="30"></td>		
 							</c:when>
-							<c:when test="${search.getMenu() eq 'cart' }">
+							<c:when test="${ search.menu eq 'cart' }">
 													<tr>			
 								<td width="17" height="23">
 									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>

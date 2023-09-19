@@ -29,20 +29,20 @@
 <table border=1>
 	<tr>
 		<td>물품번호</td>
-		<td>${purchase.getPurchaseProd().getProdNo() }</td>
+		<td>${purchase.purchaseProd.prodNo }</td>
 		
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td>${purchase.getBuyer().getUserId() }</td>
+		<td>${purchase.buyer.userId }</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매방법</td>
 		<td>		
 			<c:choose>
-				<c:when test="${ purchase.getPaymentOption() eq '1'}">
+				<c:when test="${ purchase.paymentOption eq '1'}">
 					현금구매
 				</c:when>
 				<c:otherwise>
@@ -54,32 +54,32 @@
 	</tr>
 	<tr>
 		<td>구매수량</td>
-		<td>${purchase.getItem() }</td>
+		<td>${purchase.item }</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자이름</td>
-		<td>${purchase.getReceiverName() }</td>
+		<td>${purchase.receiverName }</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자연락처</td>
-		<td>${purchase.getReceiverPhone() }</td>
+		<td>${purchase.receiverPhone }</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자주소</td>
-		<td>${purchase.getDivyAddr() }</td>
+		<td>${purchase.divyAddr }</td>
 		<td></td>
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td>${purchase.getDivyRequest() }</td>
+		<td>${purchase.divyRequest }</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>배송희망일자</td>
-		<td>${purchase.getDivyDate()  }</td>
+		<td>${purchase.divyDate  }</td>
 		<td></td>
 	</tr>
 </table>

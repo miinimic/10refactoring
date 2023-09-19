@@ -47,7 +47,7 @@ $(function() {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/product/listProduct" method="post">
+<form name="detailForm" >
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">

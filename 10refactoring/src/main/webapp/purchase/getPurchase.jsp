@@ -190,7 +190,7 @@ $(function() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<c:choose>
-						<c:when test="${ purchase.purchase.tranCode eq '2' && search.getMenu()  eq 'user'}">
+						<c:when test="${ purchase.purchase.tranCode eq '2' && search.menu  eq 'user'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
 						수정
 					</td>
@@ -209,7 +209,7 @@ $(function() {
 					</td>
 					
 						</c:when>
-						<c:when test="${ purchase.purchase.tranCode eq '2' &&  search.getMenu()  eq 'manage'}">
+						<c:when test="${ purchase.purchase.tranCode eq '2' &&  search.menu  eq 'manage'}">
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
 							수정
 						</td>
@@ -227,7 +227,7 @@ $(function() {
 						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
 						</td>					
 						</c:when>
-						<c:when test="${ purchase.purchase.tranCode ne '2' &&  search.getMenu()  eq 'manage'}">
+						<c:when test="${ purchase.purchase.tranCode ne '2' &&  search.menu  eq 'manage'}">
 							<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
 								뒤로
 							</td>

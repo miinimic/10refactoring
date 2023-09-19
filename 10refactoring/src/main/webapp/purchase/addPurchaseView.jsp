@@ -45,7 +45,7 @@ function fncAddPurchase(){
 		alert("구매 수량은 반드시 입력하여야 합니다.");
 		return;
 	}
-	if( ${product.getItem() } < item ){
+	if( ${product.item } < item ){
 		alert("재고보다 적은 수량을 입력해주세요.");
 		return;
 		
@@ -183,8 +183,8 @@ function execDaumPostcode() {
 	</tr>
 </table>
 
-<input type="hidden" name="prodNo" value="${product.getProdNo() }" />
-<input type="hidden" name="buyerId" value="${user.getUserId() }" />
+<input type="hidden" name="prodNo" value="${product.prodNo }" />
+<input type="hidden" name="buyerId" value="${user.userId }" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -198,7 +198,7 @@ function execDaumPostcode() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${product.getProdNo() }</td>
+					<td width="105">${product.prodNo }</td>
 				</tr>
 			</table>
 		</td>
@@ -211,7 +211,7 @@ function execDaumPostcode() {
 			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ product.getProdName() }</td>
+		<td class="ct_write01">${ product.prodName }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -221,7 +221,7 @@ function execDaumPostcode() {
 			상품상세정보 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.getProdDetail() }</td>
+		<td class="ct_write01">${product.prodDetail }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -229,7 +229,7 @@ function execDaumPostcode() {
 	<tr>
 		<td width="104" class="ct_write">제조일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.getManuDate() }</td>
+		<td class="ct_write01">${product.manuDate }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -237,7 +237,7 @@ function execDaumPostcode() {
 	<tr>
 		<td width="104" class="ct_write">가격</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.getPrice()}</td>
+		<td class="ct_write01">${product.price}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -246,7 +246,7 @@ function execDaumPostcode() {
 		<td width="104" class="ct_write">구매 수량</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><input type="text" name="item" 	class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" /> ( 재고 : ${product.getItem() } 개)</td>
+						style="width: 100px; height: 19px" maxLength="20" /> ( 재고 : ${product.item } 개)</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -254,7 +254,7 @@ function execDaumPostcode() {
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.getRegDate() }</td>
+		<td class="ct_write01">${product.regDate }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -264,7 +264,7 @@ function execDaumPostcode() {
 			구매자아이디<img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.getUserId() }</td> 
+		<td class="ct_write01">${user.userId }</td> 
 		
 	</tr>
 	<tr>
@@ -289,7 +289,7 @@ function execDaumPostcode() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="receiverName" 	class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" value="${ user.getUserName() }" />
+						style="width: 100px; height: 19px" maxLength="20" value="${ user.userName }" />
 		</td>
 	</tr>
 	<tr>
@@ -300,7 +300,7 @@ function execDaumPostcode() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" value="${user.getPhone() }" />
+							style="width: 100px; height: 19px" maxLength="20" value="${user.phone }" />
 		</td>
 	</tr>
 	<tr>
@@ -311,7 +311,7 @@ function execDaumPostcode() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" 	value="${user.getAddr() }" readonly=""/>
+							style="width: 100px; height: 19px" maxLength="20" 	value="${user.addr }" readonly=""/>
 							<input type="hidden" id="postcode" placeholder="우편번호" readonly="readonly"  >
 	<input type="button" onclick="execDaumPostcode()" value="주소 찾기" readonly="readonly" ><br>
 	<input type="text" name="address" id="address" placeholder="주소">

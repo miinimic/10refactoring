@@ -111,7 +111,7 @@ $(function() {
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<td colspan="11" >전체  ${ resultPage.getTotalCount() } 건수, 현재 ${resultPage.getCurrentPage() } 페이지 
+		<td colspan="11" >전체  ${ resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지 
 		</td>
 	</tr>
 	<tr>
@@ -139,17 +139,17 @@ $(function() {
 		<td align="center">${ i }</td>
 		<td></td>
 		<td align="left">				
-		<span class="CartName">${cart.getCartProd().getProdName()}<span class="prodNoNoDisplay">,${ cart.getCartProd().getProdNo() }</span></span>
+		<span class="CartName">${cart.cartProd.prodName}<span class="prodNoNoDisplay">,${ cart.cartProd.prodNo }</span></span>
 		</td>
 		<td></td>
-		<td align="left">${cart.getCartProd().getCategory() }</td> 
+		<td align="left">${cart.cartProd.category }</td> 
 		<td></td>
-		<td align="left">${cart.getCartProd().getPrice()} 원 ( 재고 : ${cart.getCartProd().getItem()} 개)</td> 
+		<td align="left">${cart.cartProd.price} 원 ( 재고 : ${cart.cartProd.item} 개)</td> 
 		<td></td>
-		<td align="left">${cart.getCartProd().getRegDate() }</td>
+		<td align="left">${cart.cartProd.regDate }</td>
 		<td></td>	
 		<td align="left">
-		<span class="deleteCart">삭제하기<span class="prodNoNoDisplay">,${ cart.getCartProd().getProdNo() },${cart.getUserId() }</span></span>
+		<span class="deleteCart">삭제하기<span class="prodNoNoDisplay">,${ cart.cartProd.prodNo },${cart.userId }</span></span>
 		<td></td>		
 	</tr>	
 	<tr>
