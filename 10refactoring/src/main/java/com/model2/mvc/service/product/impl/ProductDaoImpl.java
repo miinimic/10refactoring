@@ -44,7 +44,7 @@ public class ProductDaoImpl implements ProductDao{
 		}
 		
 		public List<Product> getProductList(Search search) throws Exception {
-			
+			System.out.println("search.getSearchKeyword() daoImpl :"+search.getSearchKeyword());
 			return sqlSession.selectList("ProductMapper.getProductList", search);
 
 		}

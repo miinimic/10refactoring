@@ -23,7 +23,23 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
+
 function fncGetProductList(currentPage) { 
+	
+	if($('input[name=searchCondition]').val() == '2'){
+		
+		alert("aaa");
+		
+		var result = '';
+		$('input[name=searchKeyword]').map(function() {
+		    result += $(this).val()+",";
+		});
+		
+		// 마지막 값에는 ','를 붙이지 않음
+		$('input[name=searchKeyword]').val(result.slice(0, -1));
+		
+	}
+
 	
 	if( ${search.menu eq 'manage'} && ${ ! empty search.order} && ${!empty search.category } ) {
 			
@@ -293,6 +309,8 @@ $(document).ready(function() {
 	
 });
 
+
+
 </script>
 </head>
 
@@ -306,7 +324,7 @@ $(document).ready(function() {
 			<c:when test="${ ! empty search.order}">
 				<c:choose>
 					<c:when test="${!empty search.category}">
-						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order}&category=${search.category}" method="post">
+						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order}&category=${search.category}" method="post" >
 					</c:when>
 					<c:otherwise>
 						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order}" method="post">
@@ -387,48 +405,64 @@ $(document).ready(function() {
 			<c:choose>
 					<c:when test="${ !empty search.searchCondition}" >
 						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">		
+						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
 						<c:choose>				
 							<c:when test="${search.searchCondition eq '0' }">
 									<option value="0" selected>상품번호</option>
 									<option value="1">상품명</option>
-									<option value="2">상품가격</option>
+									<option value="2">가격범위</option>
 							</c:when>
 							<c:when test="${search.searchCondition eq '1' }">
 									<option value="0">상품번호</option>
 									<option value="1" selected>상품명</option>
-									<option value="2">상품가격</option>
+									<option value="2">가격범위</option>
 							</c:when>
 							<c:when test="${search.searchCondition eq '2' }">
 									<option value="0">상품번호</option>
 									<option value="1">상품명</option>
-									<option value="2" selected>상품가격</option>
+									<option value="2" selected>가격범위</option>
 							</c:when>
 							<c:otherwise>
 								<option value="0">상품번호</option>
 								<option value="1">상품명</option>
-								<option value="2">상품가격</option>					
+								<option value="2">가격범위</option>				
 							</c:otherwise>
 							</c:choose>	
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
 								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+								<div id="textInput" style="display: none;">
+							       부터 <input type="text" name="searchKeyword"  id="text"> 까지
+							    	</div>
 							</c:when>
-							<c:when test="${ !empty search.searchCondition }">
+							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" >
+							<div id="textInput" style="display: none;">
+							      부터  <input type="text" id="text" name="searchKeyword"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+							<input 	type="text" name="searchKeyword"  value="${search.from}" 
+										class="ct_input_g" style="width:200px; height:19px" >
+							<div id="textInput">
+							      부터  <input type="text" id="text" name="searchKeyword" value="${search.to}"> 까지
+							    	</div>
 							</c:when>
 						</c:choose>
 					</c:when>		
 					<c:otherwise>
 						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">
+						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">
 							<option value="0">상품번호</option>
 							<option value="1">상품명</option>
-							<option value="2">상품가격</option>
+							<option value="2">가격범위</option>
 						</select>
 						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+						<div id="textInput" style="display: none;">
+							      부터 <input type="text" id="text" name="searchKeyword"> 까지
+							    	</div>
 						</td>			
 					</c:otherwise>	
 				</c:choose>
@@ -437,39 +471,55 @@ $(document).ready(function() {
 			<c:choose>
 					<c:when test="${ !empty search.searchCondition }" >
 						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">		
+						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
 						<c:choose>				
 							<c:when test="${search.searchCondition eq '1' }">
 									<option value="1" selected>상품명</option>
-									<option value="2">상품가격</option>
+									<option value="2">가격범위</option>
 							</c:when>
 							<c:when test="${search.searchCondition eq '2' }">
 									<option value="1">상품명</option>
-									<option value="2" selected>상품가격</option>
+									<option value="2" selected>가격범위</option>
 							</c:when>
 							<c:otherwise>
 								<option value="1">상품명</option>
-								<option value="2">상품가격</option>					
+								<option value="2">가격범위</option>				
 							</c:otherwise>
 							</c:choose>	
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
 								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+								<div id="textInput" style="display: none;">
+							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							    	</div>
 							</c:when>
-							<c:when test="${ !empty search.searchCondition}">
+							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" >
+										<div id="textInput" style="display: none;">
+							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+							<input 	type="text" name="searchKeyword"  value="${search.from}" 
+										class="ct_input_g" style="width:200px; height:19px" >
+										<div id="textInput">
+							       부터 <input type="text" id="text" name="searchKeyword" value="${search.to}" > 까지
+							    	</div>
 							</c:when>
 						</c:choose>
 					</c:when>		
 					<c:otherwise>
 						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px">
+						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">
 							<option value="1">상품명</option>
-							<option value="2">상품가격</option>
+							<option value="2">가격범위</option>
 						</select>
 						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+						<div id="textInput" style="display: none;">
+							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							    	</div>
 						</td>			
 					</c:otherwise>	
 				</c:choose>
@@ -672,5 +722,26 @@ $(document).ready(function() {
 </form>
 
 </div>
+
+<script>
+
+//select 요소와 input 요소를 가져옵니다.
+var optionSelect = document.getElementById("optionSelect");
+var textInput = document.getElementById("textInput");
+
+//select 요소의 변경 이벤트를 감지하고 처리합니다.
+optionSelect.addEventListener("change", function() {
+  // 선택된 옵션의 값을 가져옵니다.
+  var selectedOption = optionSelect.value;
+
+  // 선택된 옵션에 따라 input 요소를 나타내거나 감춥니다.
+  if (selectedOption === "2") {
+      textInput.style.display = "block"; // 나타내기
+  } else {
+      textInput.style.display = "none"; // 감추기
+  }
+});
+
+</script>
 </body>
 </html>

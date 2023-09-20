@@ -187,7 +187,8 @@
 																		 				AND p.PROD_NAME like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
 																					</if>
 																					<if test="searchCondition == 2 and searchKeyword !='' ">
-																		 				AND p.PRICE like '%'||#{searchKeyword}||'%' ORDER BY reg_date DESC
+																		 				AND p.PRICE BETWEEN #{from} AND #{to} ORDER BY reg_date DESC
+
 																					</if>
 																			
 																	</if>	
@@ -230,7 +231,8 @@
 																 				 and p.PROD_NAME like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC
 																			</if>
 																			<if test="searchCondition == 2 and searchKeyword !='' ">
-																 				 and p.PRICE like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC
+																 				<!--   and p.PRICE like '%'||#{searchKeyword}||'%' order by p.REG_DATE DESC-->
+																 				AND p.PRICE BETWEEN #{from} AND #{to} ORDER BY reg_date DESC
 																			</if>
 																		
 														</if>	
@@ -281,7 +283,8 @@
 						 			prod_name like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			price like '%'||#{searchKeyword}||'%'
+						 			<!-- price like '%'||#{searchKeyword}||'%' -->
+						 			price BETWEEN #{from} AND #{to} ORDER BY reg_date DESC
 								</if>
 							</where>
 						</if> ) countTable						
@@ -300,7 +303,8 @@
 						 			AND p.prod_name like '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition == 2 and searchKeyword !='' ">
-						 			AND p.price like '%'||#{searchKeyword}||'%'
+						 			<!-- AND p.price like '%'||#{searchKeyword}||'%' -->
+						 			AND p.PRICE BETWEEN #{from} AND #{to} ORDER BY reg_date DESC 
 								</if>
 						</if> ) countTable						
 	 </select>

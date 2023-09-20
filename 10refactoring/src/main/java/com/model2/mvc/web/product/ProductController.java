@@ -397,6 +397,14 @@ public class ProductController {
 
 		search.setPageSize(pageSize);
 		
+		if(search.getSearchKeyword() != null) {
+			String keyword = search.getSearchKeyword().replaceAll(",$", "");
+			search.setSearchKeyword(keyword);
+			
+		}
+		
+		System.out.println("search.getSearchKeyword() controller :"+search.getSearchKeyword());
+		
 		
 		// Business logic ผ๖วเ
 		Map<String , Object> map=productService.getProductList(search);	

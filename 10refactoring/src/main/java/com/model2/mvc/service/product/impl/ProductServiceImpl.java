@@ -37,6 +37,24 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public Map<String,Object> getProductList(Search search) throws Exception {
+		
+		if(search.getSearchCondition() != null && search.getSearchCondition().equals("2")) {
+			
+			String[] keywords = search.getSearchKeyword().split(",");
+			
+			for (int i=0; i<keywords.length; i++) {
+			    System.out.println(keywords);
+			}
+			int from = Integer.parseInt(keywords[0]);
+			int to = Integer.parseInt(keywords[1]);
+			
+			search.setFrom(from);
+			search.setTo(to);
+			
+			System.out.println("from : "+from);
+			System.out.println("to : "+to);
+		}
+
 		List<Product> list= productDao.getProductList(search);
 		int totalCount = productDao.getTotalCount(search);
 		

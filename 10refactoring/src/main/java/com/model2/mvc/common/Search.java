@@ -20,12 +20,26 @@ public class Search {
 	private String order;
 	private String category;
 	
+	private int from;
+	private int to;
+	
 	///Constructor
 	public Search() {
 	}
 	
 	///Method
-	
+	public int getFrom() {
+		return from;
+	}
+	public void setFrom(int from) {
+		this.from = from;
+	}
+	public int getTo() {
+		return to;
+	}
+	public void setTo(int to) {
+		this.to = to;
+	}
 	public String getMenu() {
 		return menu;
 	}
