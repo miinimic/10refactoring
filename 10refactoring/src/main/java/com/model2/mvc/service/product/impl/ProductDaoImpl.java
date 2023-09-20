@@ -48,6 +48,9 @@ public class ProductDaoImpl implements ProductDao{
 			return sqlSession.selectList("ProductMapper.getProductList", search);
 
 		}
+		public List<Product> getProductAutoList(Search search) throws Exception {
+			return sqlSession.selectList("ProductMapper.getProductAutoList", search);
+		}
 		
 		public List<Product> getSaleList(Search search) throws Exception {
 			

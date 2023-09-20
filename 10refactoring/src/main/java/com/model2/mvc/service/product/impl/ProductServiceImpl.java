@@ -12,6 +12,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.User;
 
 @Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService{
@@ -30,12 +31,18 @@ public class ProductServiceImpl implements ProductService{
 	public ProductServiceImpl() {
 		System.out.println(this.getClass());
 	}
+	
 
 	///Method
 	public void insertProduct(Product product) throws Exception {
 		productDao.insertProduct(product);
 	}
-	
+	public List<Product> getProductAutoList(Search search) throws Exception {
+		List<Product> list= productDao.getProductAutoList(search);
+
+		return list;
+	}
+
 	public Map<String,Object> getProductList(Search search) throws Exception {
 		
 		if(search.getSearchCondition() != null && search.getSearchCondition().equals("2")) {

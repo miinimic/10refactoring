@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -153,6 +154,25 @@ public class ProductRestController {
 		Product result = productService.findProduct(product.getProdNo());
 		
 		//return "redirect:/product/getProduct?prodNo="+product.getProdNo()+"&menu=manage";
+		return result;
+	}
+	@RequestMapping( value="json/listProductAuto/{searchCondition}/{searchKeyword}" )
+	public List<Product> listProductAuto(@PathVariable String searchCondition, @PathVariable String searchKeyword) throws Exception{	
+		System.out.println("/json/user/listProductAuto : GET / POST");
+
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchKeyword(searchKeyword);
+		
+		System.out.println("search.getSearchCondition() : "+search.getSearchCondition());
+		
+		System.out.println("search.getSearchKeyword() : "+search.getSearchKeyword());
+		
+		// Business logic ผ๖วเ
+		//Map<String , Object> map=userService.getUserList(search);
+		List<Product> result =productService.getProductAutoList(search);
+
+		
 		return result;
 	}
 

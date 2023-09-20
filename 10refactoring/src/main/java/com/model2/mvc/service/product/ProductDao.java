@@ -11,6 +11,8 @@ public interface ProductDao {
 	//admin이 판매중인 상품 delete
 	public void deleteProduct(int ProdNo) throws Exception;
 	
+	public List<Product> getProductAutoList(Search search) throws Exception;
+	
 	public void deleteCart(int ProdNo, String userId) throws Exception;
 
 	//admin이 상품 등록

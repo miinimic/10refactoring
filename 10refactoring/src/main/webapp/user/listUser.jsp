@@ -188,8 +188,8 @@
 				var searchKeyword = $("#searchBox").val(); // 검색어 가져오기
 	            var searchCondition = $("select[name='searchCondition']").val(); // 검색 조건 가져오기
 	            
-	           // alert(searchKeyword);
-	            //alert(searchCondition);
+	         //  alert(searchKeyword);
+	         //  alert(searchCondition);
 	            
 			    $.ajax({
 			        url: "/user/json/listUserAuto/" + searchCondition + "/"+searchKeyword ,
@@ -205,7 +205,8 @@
 
 			            // 여기서 서버 응답 데이터를 가공하여 사용자 목록으로 변환해야 합니다.
 			            var userList = [];
-
+					
+			            if(searchCondition == '0'){
 			            for (var i = 0; i < JSONData.length; i++) {
 			                var user = JSONData[i];
 			                userList.push({
@@ -214,7 +215,18 @@
 			                    test: user // 또는 다른 필요한 데이터 설정
 			                });
 			            }
-
+			           } else if(searchCondition == '1'){
+			        	   for (var i = 0; i < JSONData.length; i++) {
+				                var user = JSONData[i];
+				                userList.push({
+				                    label: user.userName,
+				                    value: user.userName, // 또는 사용자 설정값 설정
+				                    test: user // 또는 다른 필요한 데이터 설정
+				                });
+				            }
+			        	   
+			           }
+			            
 			            response(userList);
 			        }
 			    });

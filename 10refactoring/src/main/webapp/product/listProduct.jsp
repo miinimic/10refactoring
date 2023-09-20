@@ -20,20 +20,39 @@
 </style>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
+
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 <script type="text/javascript">
 
 
 function fncGetProductList(currentPage) { 
 	
-	if($('input[name=searchCondition]').val() == '2'){
-		
-		alert("aaa");
-		
+	var searchCondition=$("input[name='searchCondition']").val();
+
+	if( searchCondition == '2'){
+		alert("22");
 		var result = '';
 		$('input[name=searchKeyword]').map(function() {
+
 		    result += $(this).val()+",";
 		});
+		
+		var keywordArray = result.split(",");
+
+		// 첫 번째 값과 두 번째 값을 추출
+		var firstValue = keywordArray[0];
+		var secondValue = keywordArray[1];
+		
+		alert(firstValue);
+		alert(secondValue);
+		
+		if(firstValue > secondValue ) {
+			alert("더 작은 수를 첫번째 칸에 입력해주세요!")
+		}
 		
 		// 마지막 값에는 ','를 붙이지 않음
 		$('input[name=searchKeyword]').val(result.slice(0, -1));
@@ -309,6 +328,77 @@ $(document).ready(function() {
 	
 });
 
+$(document).ready(function () {	
+	$("#searchBox").autocomplete({
+		source: function (request, response) {
+			
+			var searchKeyword = $("#searchBox").val(); // 검색어 가져오기
+            var searchCondition = $("select[name='searchCondition']").val(); // 검색 조건 가져오기
+            
+         //  alert(searchKeyword);
+         //  alert(searchCondition);
+            
+		    $.ajax({
+		        url: "/product/json/listProductAuto/" + searchCondition + "/"+searchKeyword ,
+		        method: "GET",
+		        dataType: "json",
+		        headers: {
+		            "Accept": "application/json",
+		            "Content-Type": "application/json"
+		        },
+		        success: function (JSONData, status) {
+		            console.log(status);
+		            console.log(JSONData);
+
+		            // 여기서 서버 응답 데이터를 가공하여 사용자 목록으로 변환해야 합니다.
+		            var productList = [];
+				
+		            if(searchCondition == '0'){
+		            for (var i = 0; i < JSONData.length; i++) {
+		                var product = JSONData[i];
+		                productList.push({
+		                    label: product.prodNo,
+		                    value: product.prodNo, // 또는 사용자 설정값 설정
+		                    test: product // 또는 다른 필요한 데이터 설정
+		                });
+		            }
+		           } else if(searchCondition == '1'){
+		        	   for (var i = 0; i < JSONData.length; i++) {
+			                var product = JSONData[i];
+			                productList.push({
+			                    label: product.prodName,
+			                    value: product.prodName, // 또는 사용자 설정값 설정
+			                    test: product // 또는 다른 필요한 데이터 설정
+			                });
+			            }
+		        	   
+		           } else if(searchCondition == '2'){
+		        	   for (var i = 0; i < JSONData.length; i++) {
+			                var product = JSONData[i];
+			                productList.push({
+			                    label: product.price,
+			                    value: product.price, // 또는 사용자 설정값 설정
+			                    test: product // 또는 다른 필요한 데이터 설정
+			                });
+			            }
+		        	   
+		           }
+		            
+		            response(productList);
+		        }
+		    });
+		},
+
+	    focus: function (event, ui) {
+	        return false;
+	    },
+	    select: function (event, ui) {
+	    	console.log(ui.item.idx)
+	    },
+	    delay: 100,
+	    autoFocus: true
+	});
+});
 
 
 </script>
@@ -431,23 +521,23 @@ $(document).ready(function() {
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox" >
 								<div id="textInput" style="display: none;">
-							       부터 <input type="text" name="searchKeyword"  id="text"> 까지
+							       부터 <input type="text" name="searchKeyword"  id="searchBox"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
-										class="ct_input_g" style="width:200px; height:19px" >
+										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 							<div id="textInput" style="display: none;">
-							      부터  <input type="text" id="text" name="searchKeyword"> 까지
+							      부터  <input type="text" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.from}" 
-										class="ct_input_g" style="width:200px; height:19px" >
+										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 							<div id="textInput">
-							      부터  <input type="text" id="text" name="searchKeyword" value="${search.to}"> 까지
+							      부터  <input type="text" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
 							    	</div>
 							</c:when>
 						</c:choose>
@@ -459,9 +549,9 @@ $(document).ready(function() {
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
 						</select>
-						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 						<div id="textInput" style="display: none;">
-							      부터 <input type="text" id="text" name="searchKeyword"> 까지
+							      부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 						</td>			
 					</c:otherwise>	
@@ -489,23 +579,23 @@ $(document).ready(function() {
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 								<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
-										class="ct_input_g" style="width:200px; height:19px" >
+										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 										<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
 							<input 	type="text" name="searchKeyword"  value="${search.from}" 
-										class="ct_input_g" style="width:200px; height:19px" >
+										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 										<div id="textInput">
-							       부터 <input type="text" id="text" name="searchKeyword" value="${search.to}" > 까지
+							       부터 <input type="text" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
 							    	</div>
 							</c:when>
 						</c:choose>
@@ -516,9 +606,9 @@ $(document).ready(function() {
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
 						</select>
-						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" >
+						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox" >
 						<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="text" name="searchKeyword"> 까지
+							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 						</td>			
 					</c:otherwise>	

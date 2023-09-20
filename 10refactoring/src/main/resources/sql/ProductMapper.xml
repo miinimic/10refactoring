@@ -60,6 +60,26 @@
 		WHERE p.prod_no = t.prod_no(+) AND p.prod_no = #{prodNo:NUMERIC}
 	 </select>  -->
 	 
+	 	 <select id="getProductAutoList" parameterType="search" resultMap="productSelectMap">
+		   SELECT prod_no, prod_name, price
+		            FROM product
+		            <if test="searchCondition != null">
+		                <where>
+		                    <if test="searchCondition == 0 and searchKeyword != null and searchKeyword != ''">
+		                        prod_no like '${searchKeyword}%'
+		                    </if>
+		                    <if test="searchCondition == 1 and searchKeyword != null and searchKeyword != ''">
+		                        prod_name like '${searchKeyword}%'
+		                    </if>
+		                     <if test="searchCondition == 2 and searchKeyword != null and searchKeyword != ''">
+		                        price like '${searchKeyword}%'
+		                    </if>
+		                </where>
+		            </if>
+		            ORDER BY prod_no
+		</select>
+	 
+	 
 	 <select 	id="findProduct"		parameterType="int"   resultMap="productSelectMap">
 	 	SELECT * FROM product WHERE prod_no = #{prodNo:NUMERIC}
 	  </select>
