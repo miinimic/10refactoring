@@ -43,6 +43,24 @@ public class UserController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
+
+	@RequestMapping( value="emailCheck", method=RequestMethod.POST )
+	public User emailCheck(@RequestParam("email") String email, @ModelAttribute("user") User user , HttpSession session ) throws Exception{
+		
+		System.out.println("/user/emailCheck : POST");
+		//Business Logic
+		User dbUser=userService.emailCheck(email);
+		
+		if(dbUser == null) {
+			System.out.println("dbuser is null");
+			return null;
+		}
+		if( user.getPassword().equals(dbUser.getPassword())){
+			session.setAttribute("user", dbUser);
+		}
+		
+		return dbUser;
+	}
 	
 	@RequestMapping( value="addUser", method=RequestMethod.GET )
 	public String addUser() throws Exception{

@@ -25,11 +25,11 @@
 			}
 		}
 		if (history != null) {
-			String[] h = history.split(",");
+			String[] h = history.split("/");
 			for (int i = 0; i < h.length; i++) {
 				if (!h[i].equals("null")) {
 %>
-<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"
+<a href="/getProduct?prodNo=<%=h[i]%>&menu=search"
 	target="rightFrame"><%=h[i]%></a>
 <br>
 <%

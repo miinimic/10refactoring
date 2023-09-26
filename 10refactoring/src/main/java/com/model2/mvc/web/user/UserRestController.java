@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model2.mvc.common.Page;
@@ -44,6 +45,28 @@ public class UserRestController {
 		System.out.println(this.getClass());
 	}
 	
+	
+	@RequestMapping(value = "json/emailCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public User emailCheck(@RequestBody Map<String, String> emailData , HttpSession session) throws Exception {
+	    System.out.println("/user/json/emailCheck : POST");
+	    
+	    String email = emailData.get("email");	    
+	    System.out.println("email : " + email);
+
+	    //Business Logic
+	    User dbUser = userService.emailCheck(email);
+
+	    if (dbUser == null) {
+	        System.out.println("dbuser is null");
+	        return null;
+	    } else {
+	        session.setAttribute("user", dbUser);
+	        return dbUser;
+	    }
+	}
+
+	
 	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{
 		
@@ -54,16 +77,23 @@ public class UserRestController {
 	}
 
 	@RequestMapping( value="json/login", method=RequestMethod.POST )
-	public User login(	@RequestBody User user,
+	public User login(	@RequestBody Map<String, String> userData,
 									HttpSession session ) throws Exception{
-	
+		 	    
 		System.out.println("/user/json/login : POST");
 		//Business Logic
-		System.out.println("::"+user);
-		User dbUser=userService.getUser(user.getUserId());
+		System.out.println("::"+userData);
+		String userId = userData.get("userId");
 		
-		if( user.getPassword().equals(dbUser.getPassword())){
+		User dbUser=userService.getUser(userId);
+		
+		/*if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
+		}*/
+		if(dbUser != null) {
+			session.setAttribute("user", dbUser);
+		} else if (dbUser == null) {
+			return null;
 		}
 		
 		return dbUser;

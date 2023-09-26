@@ -35,6 +35,13 @@
 		WHERE user_id = #{value}
 	 </select>
 	 
+	 <select 	id="emailCheck"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
+		FROM users 
+		WHERE email = #{value}
+	 </select>
+	 
 	 <!-- SQL : UPDATE -->
 	 <update	id="updateUser"	parameterType="user" >
 	   	UPDATE users

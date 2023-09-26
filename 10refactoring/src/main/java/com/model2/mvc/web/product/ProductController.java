@@ -204,12 +204,13 @@ public class ProductController {
 	
 	//@RequestMapping("/getProduct")
 	@RequestMapping( value="getProduct", method=RequestMethod.GET )
-	public String getProduct(@ModelAttribute("search") Search search, @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
+	public String getProduct(@ModelAttribute("search") Search search, @RequestParam("prodNo") int prodNo , Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		System.out.println("/getProduct");
 		System.out.println("search : "+search);
 		//Business Logic
 		Product product = productService.findProduct(prodNo);
+				
 		// Model °ú View ¿¬°á
 		model.addAttribute("product", product);
 		model.addAttribute("search", search);
