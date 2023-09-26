@@ -18,6 +18,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
     	 body >  div.container{ 
@@ -84,7 +86,7 @@
 					      } else if(response.userId != null) {
 					    	  console.log('null이 아님');
 					    	  alert("로그인되었습니다.")
-					    	  window.location.href = '../index.jsp';
+					    	  window.location.href = 'http://localhost:8080/index.jsp';
 					    	  
 					      }
 
@@ -158,12 +160,13 @@ function sendEmailToServer(email) {
 	      if(response.userId == null){
 	    	  //console.log('null임');
 	    	  alert("회원이 아닙니다. 가입해주세요.")
-	    	  $(window.parent.frames["rightFrame"].document.location).attr("href","../user/addUserView.jsp");
+	    	 // $(window.parent.frames["rightFrame"].document.location).attr("href","../user/addUserView.jsp");
+	    	  window.location.href = 'http://localhost:8080/user/addUserView.jsp';
 	    	  
 	      } else if(response.userId != null) {
 	    	  console.log('null이 아님');
 	    	  alert("로그인되었습니다.")
-	    	  window.location.href = '../index.jsp';
+	    	  window.location.href = 'http://localhost:8080/index.jsp';
 	    	  
 	      }
 
@@ -175,22 +178,6 @@ function sendEmailToServer(email) {
 	  });
 	}
 
-	
-//카카오로그아웃  
-/*function kakaoLogout() {
-    if (Kakao.Auth.getAccessToken()) {
-      Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-        	console.log(response)
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-      Kakao.Auth.setAccessToken(undefined)
-    }
-  }  */
 </script>
 
 	
@@ -246,11 +233,9 @@ function sendEmailToServer(email) {
 					  </div>
 					  <div>
 					          <button type="button" class="kakaoLogin" onclick="kakaoLogin();" ></button>
-						<!-- 
-					      <a href="javascript:void(0)" onclick="kakaoLogout();">
-					          <span>카카오 로그아웃</span>
-					      </a>
-						 -->
+					          
+					         <div id="naver_id_login"></div> 
+
 					</div>
 					</form>
 			   	 </div>
@@ -262,6 +247,30 @@ function sendEmailToServer(email) {
   	 	
  	</div>
  	<!--  화면구성 div end /////////////////////////////////////-->
+<script>
+
+	        var naver_id_login = new naver_id_login("igomuMoiXz2Au79qZzXU", "http://localhost:8080/user/loginView.jsp");
+	        var state = naver_id_login.getUniqState();
+	        naver_id_login.setButton("white", 2,40);
+	        naver_id_login.setDomain("http://localhost:8080/user/loginView.jsp");
+	        naver_id_login.setState(state);
+	        naver_id_login.setPopup();
+	        naver_id_login.init_naver_id_login();
+	        
+	       // var naver_id_login = new naver_id_login("YOUR_CLIENT_ID", "YOUR_CALLBACK_URL");
+	        // 접근 토큰 값 출력
+	        console.log(naver_id_login.oauthParams.access_token);
+	        // 네이버 사용자 프로필 조회
+	        naver_id_login.get_naver_userprofile("naverSignInCallback()");
+	        // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+	        function naverSignInCallback() {
+	          console.log(naver_id_login.getProfileData('email'));
+	          console.log(naver_id_login.getProfileData('name'));
+	          email = naver_id_login.getProfileData('email');
+	          sendEmailToServer(email);
+	          
+	        }
+	    </script>
 
 </body>
 

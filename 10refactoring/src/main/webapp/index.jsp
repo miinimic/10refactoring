@@ -3,7 +3,9 @@
 <html>
 <head>
 <title>Lunch Box</title>
+<script>
 
+</script>
 </head>
 
 <frameset rows="80,*" cols="*" frameborder="NO" border="0" framespacing="0">
