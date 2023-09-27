@@ -91,7 +91,8 @@ $.datepicker.setDefaults({
     dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
     dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
     showMonthAfterYear: true,
-    yearSuffix: '년'
+    yearSuffix: '년',
+    minDate: 0   // 오늘날짜 이전은 선택 못함
 });
 
 $(function() {
