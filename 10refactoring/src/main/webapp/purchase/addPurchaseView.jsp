@@ -193,7 +193,7 @@ function execDaumPostcode() {
 	</tr>
 	<tr>
 		<td width="300" class="ct_write">
-			상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품번호 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01" width="299">
@@ -209,7 +209,7 @@ function execDaumPostcode() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품명 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${ product.prodName }</td>
@@ -219,7 +219,7 @@ function execDaumPostcode() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품상세정보 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품상세정보 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${product.prodDetail }</td>
@@ -244,7 +244,7 @@ function execDaumPostcode() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매 수량</td>
+		<td width="104" class="ct_write">구매 수량 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01"><input type="text" name="item" 	class="ct_input_g" 
 						style="width: 100px; height: 19px" maxLength="20" /> ( 재고 : ${product.item } 개)</td>
@@ -262,7 +262,7 @@ function execDaumPostcode() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			구매자아이디<img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			구매자아이디
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${user.userId }</td> 
@@ -286,7 +286,7 @@ function execDaumPostcode() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
+		<td width="104" class="ct_write">구매자이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="receiverName" 	class="ct_input_g" 
@@ -297,7 +297,7 @@ function execDaumPostcode() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자연락처</td>
+		<td width="104" class="ct_write">구매자연락처 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" 
@@ -308,7 +308,7 @@ function execDaumPostcode() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
+		<td width="104" class="ct_write">구매자주소 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" class="ct_input_g" 

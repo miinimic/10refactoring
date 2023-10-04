@@ -52,7 +52,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			물품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			물품번호
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -70,7 +70,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			구매자아이디 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			구매자아이디 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${purchase.buyer.userId }</td>
@@ -90,7 +90,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품번호 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -109,7 +109,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품명 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -122,7 +122,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			카테고리 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			카테고리 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -140,7 +140,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			개수 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			개수 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -158,7 +158,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품이미지 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
@@ -171,7 +171,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">
-			상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			상품상세정보 
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">

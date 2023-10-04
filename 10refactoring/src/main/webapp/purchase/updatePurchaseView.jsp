@@ -132,7 +132,7 @@ $(function() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
+		<td width="104" class="ct_write">구매자이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
@@ -143,7 +143,7 @@ $(function() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자 연락처</td>
+		<td width="104" class="ct_write">구매자 연락처 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
@@ -155,7 +155,7 @@ $(function() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
+		<td width="104" class="ct_write">구매자주소 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="divyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
@@ -166,7 +166,7 @@ $(function() {
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	<tr>
-		<td width="104" class="ct_write">구매수량</td>
+		<td width="104" class="ct_write">구매수량 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/></td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="item" class="ct_input_g" style="width: 100px; height: 19px" 

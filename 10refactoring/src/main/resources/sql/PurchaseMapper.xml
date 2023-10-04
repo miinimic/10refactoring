@@ -85,7 +85,7 @@
 	<select id="getTransactionList" parameterType="map" resultMap="tranSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.* FROM purchase p WHERE user_id = #{userId} ORDER BY pur_no  ) inner_table
+  						FROM ( SELECT * FROM purchase WHERE buyer_id = #{userId} ORDER BY pur_no  ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
@@ -206,7 +206,7 @@
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT *
 						FROM purchase
-						WHERE user_id = #{userId}
+						WHERE buyer_id = #{userId}
 			 ) countTable						
 	 </select>
 	 

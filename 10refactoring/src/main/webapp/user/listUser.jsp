@@ -43,45 +43,24 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+		<script type="text/javascript">	
 	
-		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
+		// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 		function fncGetUserList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
 		}
-		
-		
-		//============= "검색"  Event  처리 =============	
-		 $(function() {
-			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 //$( "button.btn.btn-default" ).on("click" , function() {
-			//	fncGetUserList(1);
-			//});
-		 });
-		
-		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
-		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userId="+$(this).text().trim();
-			});
-						
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
-			
-		});	
-		
-		
-		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
-		 $(function() {
-			 
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5) > i" ).on("click" , function() {
 
-					var userId = $(this).next().val();
-				
+
+		 $(function() {		 
+
+			 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+				fncGetUserList(1);
+			});
+
+			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
+
+					var userId = $(this).text().trim();
 					$.ajax( 
 							{
 								url : "/user/json/getUser/"+userId ,
@@ -93,14 +72,21 @@
 								},
 								success : function(JSONData , status) {
 
-									var displayValue = "<h6>"
+									//Debug...
+									//alert(status);
+									//Debug...
+									//alert("JSONData : \n"+JSONData);
+									
+									var displayValue = "<h3>"
 																+"아이디 : "+JSONData.userId+"<br/>"
 																+"이  름 : "+JSONData.userName+"<br/>"
 																+"이메일 : "+JSONData.email+"<br/>"
 																+"ROLE : "+JSONData.role+"<br/>"
 																+"등록일 : "+JSONData.regDateString+"<br/>"
-																+"</h6>";
-									$("h6").remove();
+																+"</h3>";
+									//Debug...									
+									//alert(displayValue);
+									$("h3").remove();
 									$( "#"+userId+"" ).html(displayValue);
 								}
 						});
@@ -115,139 +101,71 @@
 			//==> 아래와 같이 정의한 이유는 ??
 			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		});	
-		
-		//무한스크롤
-			var isLoading = false; // 데이터 로딩 중인지 여부
-			
-		    // 스크롤 이벤트 처리
-	 		$(window).on("scroll", function () {
-		        var scrollTop = $(window).scrollTop();
-		        var windowsHeight = $(window).height();
-		        var documentHeight = $(document).height();
-		        var isBottom = scrollTop + windowsHeight >= documentHeight;
+		 
+		 //autocomplete
+	$(document).ready(function () {	
+		$("#searchBox").autocomplete({
+			source: function (request, response) {
+				
+				var searchKeyword = $("#searchBox").val(); // 검색어 가져오기
+	            var searchCondition = $("select[name='searchCondition']").val(); // 검색 조건 가져오기
+	            
+	         //  alert(searchKeyword);
+	         //  alert(searchCondition);
+	            
+			    $.ajax({
+			        url: "/user/json/listUserAuto/" + searchCondition + "/"+searchKeyword ,
+			        method: "GET",
+			        dataType: "json",
+			        headers: {
+			            "Accept": "application/json",
+			            "Content-Type": "application/json"
+			        },
+			        success: function (JSONData, status) {
+			            console.log(status);
+			            console.log(JSONData);
 
-		        if (isBottom && !isLoading) {
-		            loadMoreData();
-		        }
-		    });
-			
-		
-		
-	 		//loadMoreData();
-	 				
-		    var curPage = ${resultPage.currentPage}; 
-		    
-		    var previousData = []; // 이전에 로드한 데이터를 저장할 배열
-
-		    // 데이터를 불러오고 게시판에 추가하는 함수
-		    function loadMoreData() {
-		    	
-		    	isLoading = true;
-		        
-		         
-		        curPage = curPage + 1; // 다음 페이지로 이동
-		        //alert(curPage);
-
-		        $.ajax({
-		            url: "/user/json/listUser/" + curPage, // 데이터를 가져올 서버 API 또는 페이지 경로
-		            method: "GET",
-		            dataType: "json",
-		            async: true,
-				 	headers: {
-		       	         "Accept": "application/json",
-		       	         "Content-Type": "application/json"
-		       	     	},
-		            success: function (JSONData, status) {
-		                // 가져온 데이터를 HTML로 변환하여 기존 게시판에 추가
-		                       	
-	   	     			console.log(JSONData);	
-		               alert(JSONData.list.length);
-	 	
-	   	     	 		var tableBody = $("#getUserList tbody");
-
-	               
-	                   for (var i = 0; i < JSONData.list.length; i++) {
-	                	   var user = JSONData.list[i];
-
-	                	   console.log(i);	
-	                      var newRow = $("<tr class='ct_list_pop'>");
-	                       newRow.append("<td align='center'>" +(i+1) + "</td>");
-	                       newRow.append("<td></td>");
-	                       newRow.append("<td align='left'>" + user.userId + "123123</td>");
-	                       newRow.append("<td></td>");
-	                       newRow.append("<td align='left'>" + user.userName + "</td>");
-	                       newRow.append("<td></td>");
-	                       newRow.append("<td align='left'>" + user.email + "</td>");    
-	                       console.log(newRow);
-	                       tableBody.append(newRow);
-	                       var newRow2 = $("<tr>");
-	                       newRow2.append("<td id='"+user.userId+"' colspan='11' bgcolor='D6D7D6' height='1'></td>");
-	                       console.log(newRow2);
-	                       tableBody.append(newRow2);
-
-	                   }
-
-		               
-		                isLoading = false;
-
-		            },
-		            error: function () {
-		                console.log("데이터 로드 중 오류 발생");
-
-		                isLoading = false;
-		            }
-		        });
-		    }
-		    
-		    $(document).ready(function () {	
-				$("#searchBox").autocomplete({
-					source: function (request, response) {
-						
-						var searchKeyword = $("#searchBox").val(); // 검색어 가져오기
-			            var searchCondition = $("select[name='searchCondition']").val(); // 검색 조건 가져오기
+			            // 여기서 서버 응답 데이터를 가공하여 사용자 목록으로 변환해야 합니다.
+			            var userList = [];
+					
+			            if(searchCondition == '0'){
+			            for (var i = 0; i < JSONData.length; i++) {
+			                var user = JSONData[i];
+			                userList.push({
+			                    label: user.userId,
+			                    value: user.userId, // 또는 사용자 설정값 설정
+			                    test: user // 또는 다른 필요한 데이터 설정
+			                });
+			            }
+			           } else if(searchCondition == '1'){
+			        	   for (var i = 0; i < JSONData.length; i++) {
+				                var user = JSONData[i];
+				                userList.push({
+				                    label: user.userName,
+				                    value: user.userName, // 또는 사용자 설정값 설정
+				                    test: user // 또는 다른 필요한 데이터 설정
+				                });
+				            }
+			        	   
+			           }
 			            
-			           // alert(searchKeyword);
-			            //alert(searchCondition);
-			            
-					    $.ajax({
-					        url: "/user/json/listUserAuto/" + searchCondition + "/"+searchKeyword ,
-					        method: "GET",
-					        dataType: "json",
-					        headers: {
-					            "Accept": "application/json",
-					            "Content-Type": "application/json"
-					        },
-					        success: function (JSONData, status) {
-					            console.log(status);
-					            console.log(JSONData);
+			            response(userList);
+			        }
+			    });
+			},
 
-					            // 여기서 서버 응답 데이터를 가공하여 사용자 목록으로 변환해야 합니다.
-					            var userList = [];
-
-					            for (var i = 0; i < JSONData.length; i++) {
-					                var user = JSONData[i];
-					                userList.push({
-					                    label: user.userId,
-					                    value: user.userId, // 또는 사용자 설정값 설정
-					                    test: user // 또는 다른 필요한 데이터 설정
-					                });
-					            }
-
-					            response(userList);
-					        }
-					    });
-					},
-
-				    focus: function (event, ui) {
-				        return false;
-				    },
-				    select: function (event, ui) {
-				    	console.log(ui.item.idx)
-				    },
-				    delay: 100,
-				    autoFocus: true
-				});
+		    focus: function (event, ui) {
+		        return false;
+		    },
+		    select: function (event, ui) {
+		    	console.log(ui.item.idx)
+		    },
+		    delay: 100,
+		    autoFocus: true
 		});
+});
+		
+	</script>	
 	
 	</script>
 	

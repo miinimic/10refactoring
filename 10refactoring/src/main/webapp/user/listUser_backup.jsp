@@ -22,91 +22,7 @@
 	
 	
 	
-	<script type="text/javascript">
-	
-		//무한스크롤
-		var isLoading = false; // 데이터 로딩 중인지 여부
-		
-	    // 스크롤 이벤트 처리
- 		$(window).on("scroll", function () {
-	        var scrollTop = $(window).scrollTop();
-	        var windowsHeight = $(window).height();
-	        var documentHeight = $(document).height();
-	        var isBottom = scrollTop + windowsHeight >= documentHeight;
-
-	        if (isBottom && !isLoading) {
-	            loadMoreData();
-	        }
-	    });
-		
-	
-	
- 		//loadMoreData();
- 				
-	    var curPage = ${resultPage.currentPage}; 
-	    
-	    var previousData = []; // 이전에 로드한 데이터를 저장할 배열
-
-	    // 데이터를 불러오고 게시판에 추가하는 함수
-	    function loadMoreData() {
-	    	
-	    	isLoading = true;
-	        
-	         
-	        curPage = curPage + 1; // 다음 페이지로 이동
-	        //alert(curPage);
-
-	        $.ajax({
-	            url: "/user/json/listUser/" + curPage, // 데이터를 가져올 서버 API 또는 페이지 경로
-	            method: "GET",
-	            dataType: "json",
-	            async: true,
-			 	headers: {
-	       	         "Accept": "application/json",
-	       	         "Content-Type": "application/json"
-	       	     	},
-	            success: function (JSONData, status) {
-	                // 가져온 데이터를 HTML로 변환하여 기존 게시판에 추가
-	                       	
-   	     			console.log(JSONData);	
-	               alert(JSONData.list.length);
- 	
-   	     	 		var tableBody = $("#getUserList tbody");
-
-               
-                   for (var i = 0; i < JSONData.list.length; i++) {
-                	   var user = JSONData.list[i];
-
-                	   console.log(i);	
-                      var newRow = $("<tr class='ct_list_pop'>");
-                       newRow.append("<td align='center'>" +(i+1) + "</td>");
-                       newRow.append("<td></td>");
-                       newRow.append("<td align='left'>" + user.userId + "123123</td>");
-                       newRow.append("<td></td>");
-                       newRow.append("<td align='left'>" + user.userName + "</td>");
-                       newRow.append("<td></td>");
-                       newRow.append("<td align='left'>" + user.email + "</td>");    
-                       console.log(newRow);
-                       tableBody.append(newRow);
-                       var newRow2 = $("<tr>");
-                       newRow2.append("<td id='"+user.userId+"' colspan='11' bgcolor='D6D7D6' height='1'></td>");
-                       console.log(newRow2);
-                       tableBody.append(newRow2);
-
-                   }
-
-	               
-	                isLoading = false;
-
-	            },
-	            error: function () {
-	                console.log("데이터 로드 중 오류 발생");
-
-	                isLoading = false;
-	            }
-	        });
-	    }
-
+	<script type="text/javascript">	
 	
 		// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 		function fncGetUserList(currentPage) {
@@ -166,21 +82,6 @@
 		});	
 		 
 		 //autocomplete
-	/*	 $(document).ready(function () {
-			  // input필드에 자동완성 기능을 걸어준다
-			  $('#searchBox').autocomplete({
-			    source: locList,
-			    focus: function (event, ui) {
-			      return false;
-			    },
-			    select: function (event, ui) {},
-			    minLength: 1,
-			    delay: 100,
-			    autoFocus: true,
-			  });
-			});
-	*/
-	
 	$(document).ready(function () {	
 		$("#searchBox").autocomplete({
 			source: function (request, response) {
@@ -337,7 +238,17 @@
 	</c:forEach>
 <tbody></tbody>	
 </table>
-
+<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
+	<tr>
+		<td align="center">
+		   <input type="hidden" id="currentPage" name="currentPage" value=""/>
+			<jsp:include page="../common/pageNavigator.jsp">
+			    <jsp:param name="pageNavigator" value="listUser" />
+			</jsp:include>
+		
+    	</td>
+	</tr>
+</table>
 </form>
 </div>
 

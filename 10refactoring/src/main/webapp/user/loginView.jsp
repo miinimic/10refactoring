@@ -188,7 +188,7 @@ function sendEmailToServer(email) {
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
+        	<a class="navbar-brand" href="/index.jsp">Lunch Box</a>
    		</div>
    	</div>
    	<!-- ToolBar End /////////////////////////////////////-->	
@@ -199,7 +199,7 @@ function sendEmailToServer(email) {
 		<div class="row">
 		
 			<div class="col-md-6">
-					<img src="/images/logo-spring.png" class="img-rounded" width="100%" />
+					<img src="/images/lunchbox.jpg" class="img-rounded" width="100%" />
 			</div>
 	   	 	
 	 	 	<div class="col-md-6">

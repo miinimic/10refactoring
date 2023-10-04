@@ -15,16 +15,34 @@
     color: transparent;
 
   }
+  
+  body {
+            padding-top : 60px;
+        }
 
 
 </style>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<meta charset="EUC-KR">
+	
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
 
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 <script type="text/javascript">
 
@@ -106,10 +124,9 @@ function fncGetProductList(currentPage) {
 		
 }
 
-$(document).ready(function() {
 	$(function() {
 	 
-	 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+	 $( "#searchButton" ).on("click" , function() {
 		 fncGetProductList(1);
 	});
 	 
@@ -162,7 +179,7 @@ $(document).ready(function() {
 		 var prodNo = data[1];
 
 		var encodedProdNo = encodeURIComponent(prodNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/updateProductView?prodNo="+encodedProdNo+"");
+			self.location = "/product/updateProductView?prodNo="+encodedProdNo+""
 			
 	});
 	
@@ -208,26 +225,28 @@ $(document).ready(function() {
 			
 	});
 	
+
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$( ".GetProduct" ).on("click" , function() {
+				 var string = $(this).text().trim();
 
-		var string = $(this).text().trim();
+					var lines = string.split(",");
+					var data = [];
 
-		var lines = string.split(",");
-		var data = [];
+					for (var i = 0; i < lines.length; i++) {
+					    var fields = lines[i].split(",");
+					    data.push(fields);
+					}
 
-		for (var i = 0; i < lines.length; i++) {
-		    var fields = lines[i].split(",");
-		    data.push(fields);
-		}
+					//   alert(data[1]);
+					    
+					 var prodNo = data[1];
 
-		//   alert(data[1]);
-		    
-		 var prodNo = data[1];
+					var encodedProdNo = encodeURIComponent(prodNo);
+				 
+					self.location = "/product/getProduct?prodNo="+encodedProdNo+""
+				});
 
-		var encodedProdNo = encodeURIComponent(prodNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?prodNo="+encodedProdNo+"");
-			
-	});
 
 	$( ".delete" ).on("click" , function() {
 
@@ -246,8 +265,7 @@ $(document).ready(function() {
 		 var prodNo = data[1];
 
 		var encodedProdNo = encodeURIComponent(prodNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/deleteProduct?currentPage=${resultPage.currentPage}&prodNo="+encodedProdNo+"&menu=manage");
-			
+			self.location = "/product/deleteProduct?currentPage=${resultPage.currentPage}&prodNo="+encodedProdNo+"&menu=manage"	
 	});
 	
 	$( ".delivery" ).on("click" , function() {
@@ -326,8 +344,7 @@ $(document).ready(function() {
 	
 });
 	
-});
-
+/*
 $(document).ready(function () {	
 	$("#searchBox").autocomplete({
 		source: function (request, response) {
@@ -398,15 +415,15 @@ $(document).ready(function () {
 	    delay: 100,
 	    autoFocus: true
 	});
-});
+});*/
 
 
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
-
-<div style="width:98%; margin-left:10px;">
+<jsp:include page="/layout/toolbar.jsp" />
+<div class="container">
 
 <c:choose>
 	<c:when test="${search.menu eq 'manage'}">
@@ -460,41 +477,25 @@ $(document).ready(function () {
 	</c:otherwise>
 </c:choose>
 
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">
 					<c:choose>
 						<c:when test="${search.menu eq 'manage' }" >
-							상품관리
+							<div class="page-header">
+						       <h3 class=" text-info">상품 관리</h3>
+						    </div>
 						</c:when>
 						<c:otherwise>
-							상품 목록 조회
+							<div class="page-header">
+						       <h3 class=" text-info">상품 목록 조회</h3>
+						    </div>
 						</c:otherwise>
 					</c:choose>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
+	<div style="white-space: nowrap;">				
 	<c:choose>
+
 		<c:when test="${search.menu eq 'manage' || user.role eq 'admin' }" >
 			<c:choose>
 					<c:when test="${ !empty search.searchCondition}" >
-						<td align="right">
+
 						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
 						<c:choose>				
 							<c:when test="${search.searchCondition eq '0' }">
@@ -521,46 +522,43 @@ $(document).ready(function () {
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox" >
+								<input type="text" name="searchKeyword" class="form-control" style="width:200px; height:19px" id="searchBox" >
 								<div id="textInput" style="display: none;">
-							       부터 <input type="text" name="searchKeyword"  id="searchBox"> 까지
+							       부터 <input type="text" class="form-control" name="searchKeyword"  id="searchBox"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
-							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
+							<input 	type="text" name="searchKeyword"  class="form-control" value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 							<div id="textInput" style="display: none;">
-							      부터  <input type="text" id="searchBox" name="searchKeyword"> 까지
+							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
-							<input 	type="text" name="searchKeyword"  value="${search.from}" 
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
 										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 							<div id="textInput">
-							      부터  <input type="text" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
+							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
 							    	</div>
 							</c:when>
 						</c:choose>
 					</c:when>		
 					<c:otherwise>
-						<td align="right">
 						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">
 							<option value="0">상품번호</option>
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
 						</select>
-						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
+						<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 						<div id="textInput" style="display: none;">
-							      부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
-							    	</div>
-						</td>			
+							      부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
+							    	</div>			
 					</c:otherwise>	
 				</c:choose>
 		</c:when>
 		<c:otherwise>
 			<c:choose>
 					<c:when test="${ !empty search.searchCondition }" >
-						<td align="right">
 						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
 						<c:choose>				
 							<c:when test="${search.searchCondition eq '1' }">
@@ -579,74 +577,53 @@ $(document).ready(function () {
 							</select>	
 						<c:choose>
 							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
+								<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 								<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
+							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
-							<input 	type="text" name="searchKeyword"  value="${search.searchKeyword}" 
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.searchKeyword}" 
 										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 										<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
+							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
 							</c:when>
 							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
-							<input 	type="text" name="searchKeyword"  value="${search.from}" 
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
 										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
 										<div id="textInput">
-							       부터 <input type="text" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
+							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
 							    	</div>
 							</c:when>
 						</c:choose>
 					</c:when>		
 					<c:otherwise>
-						<td align="right">
-						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">
+					<div style="white-space: nowrap;">
+						<select name="searchCondition" class="ct_input_g" style="width:80px; display: inline-block;" id="optionSelect">
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
 						</select>
-						<input type="text" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox" >
-						<div id="textInput" style="display: none;">
-							       부터 <input type="text" id="searchBox" name="searchKeyword"> 까지
-							    	</div>
-						</td>			
+						<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:150px; height:19px; display: inline-block;" id="searchBox" >
+						<div id="textInput" style="display: none; ">
+							       부터 <input type="text" class="form-control" id="searchBox" style="width:150px; height:19px; display: inline-block;" name="searchKeyword"> 까지
+							    	</div>	
+					</div>		
 					</c:otherwise>	
 				</c:choose>
 		</c:otherwise>
 	</c:choose>
-				
-				</td>
-					
-		<td align="right" width="70">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						검색
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td colspan="11" >전체 상품 ${ resultPage.totalCount } 개, 현재 ${resultPage.currentPage } 페이지 
-		
-		<c:choose>
+	<button type="button" class="btn btn-default" id="searchButton" style="display: inline-block;">검색</button>
+</div>
+<div>전체 상품 ${ resultPage.totalCount } 개, 현재 ${resultPage.currentPage } 페이지 
+
+<c:choose>
 			<c:when test="${ ! empty category }">
 			${search.category } 개수  ${ category } 개
 			</c:when>	
-		</c:choose>
-		
-		<c:choose>
+</c:choose>
+<c:choose>
 			<c:when test="${search.menu eq 'manage' || user.role eq 'admin'}">
 				<c:choose>
 					<c:when test="${empty search.category }">
@@ -671,27 +648,10 @@ $(document).ready(function () {
 				    </c:otherwise>
 				</c:choose>
 			</c:otherwise>
-		</c:choose>
-		</td>
-	</tr>
-	<tr>
-		<td class="ct_list_b" width="100">No</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품명</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">카테고리</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">가격</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">등록일</td>	
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">상품현황</td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
+</c:choose>
+</div>
+<c:set var="i" value="0" />
 
-	<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
 			<c:choose>
@@ -702,15 +662,67 @@ $(document).ready(function () {
 			        <c:set var="tranCode" value="${null}" />
 			    </c:otherwise>
 			</c:choose>
-		<tr class="ct_list_pop">
-		<td align="center">${ i }</td>
-		<td></td>
-		<td align="left">
+
 		<c:choose>		
 			<c:when test="${search.menu eq 'manage' && empty product.proTranCode  || user.role eq 'admin' && empty product.proTranCode  }" >			
-				<span class="ManageProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
-				<!-- <span class="ManageProduct">${product.getProdName()}, ${ product.getProdNo() }</span> -->
-				
+				<div class="row">
+				  <div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty product.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption">
+				        <h3>${product.prodName}</h3>
+				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
+				        <p>등록일 : ${product.regDate }</p>
+				        <p><a href="#" class="btn btn-primary" role="button"><span class="ManageProduct">상품수정<span class="hidden">,${ product.prodNo }</span></span></a> 
+				      
+				      
+				      <c:choose>
+					    <c:when test="${search.menu eq 'manage'}">
+					        <c:choose>
+					            <c:when test="${product.item > '0'}">
+					                
+					                <c:choose>
+					                	<c:when test="${ product.cartNo == '0'}">
+					                		<a class="btn btn-default" role="button"><span class="delete">삭제하기<span class="hidden">,${ product.prodNo }</span></span></a>
+					                	</c:when>
+					                	<c:otherwise>
+					                	
+					                	</c:otherwise>
+					                </c:choose>
+					                판매중               
+					            </c:when>
+					            <c:otherwise>
+					               재고없음
+					            </c:otherwise>
+					        </c:choose>
+					    </c:when>
+					    
+					    <c:otherwise>
+					        <c:choose>
+					            <c:when test="${product.item > '0'}">
+					                판매중
+					                		                  	
+					            </c:when>
+					            <c:otherwise>
+					                재고없음
+					            </c:otherwise>
+					        </c:choose>
+					    </c:otherwise>
+					</c:choose>
+   
+				      </div>
+				    </div>
+				  </div>
+				</div>
 			</c:when>
 			<c:when test="${search.menu eq 'search' && empty product.proTranCode }">		
 				<span class="SearchProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
@@ -719,82 +731,41 @@ $(document).ready(function () {
 				<span class="ManageGetProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
 			</c:when>
 			<c:otherwise>
-				<span class="GetProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
+				<div class="row">
+				  <div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty product.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption">
+				        <h3>${product.prodName}</h3>
+				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
+				        <p>등록일 : ${product.regDate }</p>
+				        <p><a href="#" class="btn btn-primary" role="button"><span class="GetProduct">상품조회<span class="hidden">,${ product.prodNo }</span></span></a> 				      
+					        <c:choose>
+					            <c:when test="${product.item > '0'}">
+					                판매중				                		                  	
+					            </c:when>
+					            <c:otherwise>
+					                재고없음
+					            </c:otherwise>
+					        </c:choose>
+  
+				      </div>
+				    </div>
+				  </div>
+				</div>
 			</c:otherwise>
 		</c:choose>
-		</td>
-		<td></td>
-		<td align="left">${product.category }</td> 
-		<td></td>
-		<td align="left">${product.price } ( 재고 : ${product.item} 개)</td> 
-		<td></td>
-		<td align="left">${product.regDate }</td>
-		<td></td>	
-		<td align="left">
-<c:choose>
-
-     <c:when test="${ !(userId eq 'admin' || userId eq 'manager') && search.menu eq 'search'}">
-        <c:choose>
-            <c:when test="${empty product.proTranCode && product.item > '0'}">
-                판매중
-                <c:choose>
-                			 <c:when test="${product.cartNo == '0'}">
-                				<span class="PutCart">장바구니에 넣기<span class="prodNoNoDisplay">,${ product.prodNo },${ user.userId }</span></span> 
-                			</c:when>
-                			<c:otherwise>
-                				<span class="GoCart">장바구니 확인하기</span>
-                			</c:otherwise>             		
-                		</c:choose> 
-  
-            </c:when>
-           
-            <c:otherwise>
-               재고없음
-            </c:otherwise>
-        </c:choose>
-    </c:when>
-    
-    <c:when test="${search.menu eq 'manage'}">
-        <c:choose>
-            <c:when test="${product.item > '0'}">
-                판매중
-                <c:choose>
-                	<c:when test="${ product.cartNo == '0'}">
-                		<span class="delete">삭제하기<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
-                	</c:when>
-                	<c:otherwise>
-                	
-                	</c:otherwise>
-                </c:choose>               
-            </c:when>
-            <c:otherwise>
-               재고없음
-            </c:otherwise>
-        </c:choose>
-    </c:when>
-    
-    <c:otherwise>
-        <c:choose>
-            <c:when test="${product.item > '0'}">
-                판매중
-                		                  	
-            </c:when>
-            <c:otherwise>
-                재고없음
-            </c:otherwise>
-        </c:choose>
-    </c:otherwise>
-</c:choose>
-
- 		
-			</td>		
-	</tr>
-	<tr>
-	<td id="${product.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
 	
 	</c:forEach>
-</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>

@@ -6,11 +6,11 @@
 
 
 <!-- ToolBar Start /////////////////////////////////////-->
-<div class="navbar  navbar-inverse navbar-fixed-top">
+<div class="navbar  navbar-inverse navbar-fixed-top" style="margin-bottom:100px;">
 	
 	<div class="container">
 	       
-		<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
+		<a class="navbar-brand" href="/index.jsp">Lunch Box</a>
 		
 		<!-- toolBar Button Start //////////////////////// -->
 		<div class="navbar-header">
@@ -31,6 +31,7 @@
 	             <ul class="nav navbar-nav">
 	             
 	              <!--  회원관리 DrowDown -->
+	              <c:if test="${ !empty user }">
 	              <li class="dropdown">
 	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 	                         <span >회원관리</span>
@@ -43,52 +44,92 @@
 	                         	<li><a href="#">회원정보조회</a></li>
 	                         </c:if>
 	                         
-	                         <li class="divider"></li>
-	                         <li><a href="#">etc...</a></li>
+	                        
 	                     </ul>
 	                 </li>
+	                 </c:if>
 	                 
 	              <!-- 판매상품관리 DrowDown  -->
 	               <c:if test="${sessionScope.user.role == 'admin'}">
 		              <li class="dropdown">
 		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-		                         <span >판매상품관리</span>
+		                         <span >상품관리</span>
 		                         <span class="caret"></span>
 		                     </a>
 		                     <ul class="dropdown-menu">
-		                         <li><a href="#">판매상품등록</a></li>
-		                         <li><a href="#">판매상품관리</a></li>
-		                         <li class="divider"></li>
-		                         <li><a href="#">etc..</a></li>
+		                     	<c:if test="${sessionScope.user.role == 'admin'}">
+		                         <li><a href="../product/addProductView.jsp">판매상품등록</a></li>
+		                         <li><a href="/product/listProduct?menu=manage">판매상품관리</a></li>
+		                         <li><a href="#">최근본상품</a></li>
+		                      	</c:if>
+		                         
 		                     </ul>
 		                </li>
 	                 </c:if>
 	                 
-	              <!-- 구매관리 DrowDown -->
+	             <c:if test="${ ! empty user && sessionScope.user.role != 'admin'}"> 
 	              <li class="dropdown">
 	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 	                         <span >상품구매</span>
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="#">상 품 검 색</a></li>
-	                         
-	                         <c:if test="${sessionScope.user.role == 'user'}">
-	                           <li><a href="#">구매이력조회</a></li>
-	                         </c:if>
-	                         
+	                         <li><a href="/product/listProduct?menu=search">상품검색</a></li>                        
+	                           <li><a href="../product/listCategory.jsp">카테고리별 상품조회</a></li>                         
+	                          <li><a href="/purchase/listCart">장바구니</a></li>
 	                         <li><a href="#">최근본상품</a></li>
-	                         <li class="divider"></li>
-	                         <li><a href="#">etc..</a></li>
+	                                              
 	                     </ul>
 	                 </li>
+	                </c:if>
 	                 
-	                 <li><a href="#">etc...</a></li>
+	                 <c:if test="${ ! empty user}">
+		              <li class="dropdown">
+		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+		                         <span >구매관리</span>
+		                         <span class="caret"></span>
+		                     </a>
+		                     <ul class="dropdown-menu">
+		                     	<c:if test="${sessionScope.user.role == 'admin'}">
+		                         <li><a href="/purchase/listTransaction?menu=manage">거래현황관리</a></li>
+		                      	</c:if>
+		                      	<c:if test="${sessionScope.user.role != 'admin'}">
+		                         <li><a href="/purchase/listPurchase">주문내역조회</a></li>
+		                         <li><a href="/purchase/listReview">후기목록조회</a></li>
+		                         </c:if>
+		                     </ul>
+		                </li>
+	                 </c:if>
+	                 
+	              <!-- 구매관리 DrowDown -->
+
+	                
+	                <c:if test="${ empty user }"> 
+	              <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >상품검색</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                         <li><a href="/product/listProduct?menu=logout">상품조회</a></li>                                               
+	                         <li><a href="#">최근본상품</a></li>	                                              
+	                     </ul>
+	                 </li>
+	                </c:if>
+	                 
+	                 
 	             </ul>
-	             
-	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#">로그아웃</a></li>
-	            </ul>
+	             <c:if test="${ empty user }">
+					<ul class="nav navbar-nav navbar-right">
+	                	<li><a href="/user/login">로그인</a></li>
+	            	</ul>
+		           </c:if>
+		           <c:if test="${ ! empty user }">
+					<ul class="nav navbar-nav navbar-right">
+	                	<li><a href="/user/logout">로그아웃</a></li>
+	            	</ul>
+		           </c:if>      
+	            
 		</div>
 		<!-- dropdown hover END -->	       
 	    
