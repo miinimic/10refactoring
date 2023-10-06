@@ -9,21 +9,15 @@
 <title>상품 목록조회</title>
 
 <style>
-
-
-  .prodNoNoDisplay {
-    color: transparent;
-
-  }
-  
   body {
             padding-top : 60px;
         }
-
+ .thumbnail{
+ 			height : 500px; }
 
 </style>
 
-<meta charset="EUC-KR">
+	<meta charset="EUC-KR">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,13 +31,14 @@
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-
-	
+   
+   
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip 사용 JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 
 
@@ -82,7 +77,7 @@ function fncGetProductList(currentPage) {
 			
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&order=${search.order}&category=${search.category}").submit();	
-	
+			
 	} else if( ${search.menu eq 'manage'} && ${ ! empty search.order} && ${empty search.category } ) {
 			
 			$("#currentPage").val(currentPage)
@@ -130,37 +125,37 @@ function fncGetProductList(currentPage) {
 		 fncGetProductList(1);
 	});
 	 
-	 $( ".ManageAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=manage");
+	 $( "#ManageAsc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=asc&menu=manage"
 	});
 	 
-	 $( ".ManageDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=manage");
+	 $( "#ManageDesc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=desc&menu=manage"
 	});
 	 
-	 $( ".ManageCategoryAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=manage&category=${search.category }");
+	 $( "#ManageCategoryAsc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=asc&menu=manage&category=${search.category }"
+	 });
+	 
+	 $( "#ManageCategoryDesc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=desc&menu=manage&category=${search.category}"
+	 });
+	 
+	 $( "#SearchAsc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=asc&menu=search"
 	});
 	 
-	 $( ".ManageCategoryDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=manage&category=${search.category}");
+	 $( "#SearchDesc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=desc&menu=search"
 	});
 	 
-	 $( ".SearchAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=search");
-	});
+	 $( "#SearchCategoryAsc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=asc&menu=search&category=${search.category}"
+	 });
 	 
-	 $( ".SearchDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=search");
-	});
-	 
-	 $( ".SearchCategoryAsc:contains('낮은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=asc&menu=search&category=${search.category}");
-	});
-	 
-	 $( ".SearchCategoryDesc:contains('높은 가격 순')" ).on("click" , function() {
-		 $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?order=desc&menu=search&category=${search.category }");
-	});
+	 $( "#SearchCategoryDesc" ).on("click" , function() {
+		 self.location = "/product/listProduct?order=desc&menu=search&category=${search.category }"
+	 });
 	 
 	$( ".ManageProduct" ).on("click" , function() {
 
@@ -200,7 +195,7 @@ function fncGetProductList(currentPage) {
 		 var prodNo = data[1];
 
 		var encodedProdNo = encodeURIComponent(prodNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?prodNo="+encodedProdNo+"&menu=search");
+			self.location = "/product/getProduct?prodNo="+encodedProdNo+"&menu=search"
 			
 	});
 	
@@ -334,15 +329,41 @@ function fncGetProductList(currentPage) {
 		var encodedProdNo = encodeURIComponent(prodNo);
 		var encodeduserId = encodeURIComponent(userId);
 		
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/addCart?prodNo="+encodedProdNo+"&userId="+encodeduserId+"");
-			
+		self.location = "/product/addCart?prodNo="+encodedProdNo+"&userId="+encodeduserId+""	
 	});
 	
-	$( ".GoCart" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listCart");			
+	$( ".GoCart" ).on("click" , function() {	
+		self.location = "/purchase/listCart"	
 	});
 	
 });
+	
+	$(function() {
+		
+		$( "#chicken" ).on("click" , function() {
+			self.location = "/product/listProduct?category=chicken"
+		});
+		
+		$( "#beef" ).on("click" , function() {
+			self.location = "/product/listProduct?category=beef"
+		});
+		
+		$( "#pork" ).on("click" , function() {
+			self.location = "/product/listProduct?category=pork"
+		});
+		
+		$( "#egg" ).on("click" , function() {
+			self.location = "/product/listProduct?category=egg"
+		});
+		
+		$( "#seafood" ).on("click" , function() {
+			self.location = "/product/listProduct?category=seafood"
+		});
+		
+		$( "#vegan" ).on("click" , function() {
+			self.location = "/product/listProduct?category=vegan"
+		});
+});	
 	
 /*
 $(document).ready(function () {	
@@ -488,78 +509,59 @@ $(document).ready(function () {
 						       <h3 class=" text-info">상품 목록 조회</h3>
 						    </div>
 						</c:otherwise>
-					</c:choose>
-	<div style="white-space: nowrap;">				
-	<c:choose>
-
-		<c:when test="${search.menu eq 'manage' || user.role eq 'admin' }" >
-			<c:choose>
-					<c:when test="${ !empty search.searchCondition}" >
-
-						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
-						<c:choose>				
-							<c:when test="${search.searchCondition eq '0' }">
-									<option value="0" selected>상품번호</option>
-									<option value="1">상품명</option>
-									<option value="2">가격범위</option>
-							</c:when>
-							<c:when test="${search.searchCondition eq '1' }">
-									<option value="0">상품번호</option>
-									<option value="1" selected>상품명</option>
-									<option value="2">가격범위</option>
-							</c:when>
-							<c:when test="${search.searchCondition eq '2' }">
-									<option value="0">상품번호</option>
-									<option value="1">상품명</option>
-									<option value="2" selected>가격범위</option>
-							</c:when>
+					</c:choose>		
+				
+					<form class="form-inline"></form>
+				
+		    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    	</p>
+		    </div>
+		    
+		    <div class="col-md-6 text-right">
+			    <form class="form-inline" name="detailForm">
+			    
+				  <div class="form-group">
+					<c:choose>
+						<c:when test="${search.menu eq 'manage' || user.role eq 'admin' }" >
+							<c:choose>
+								<c:when test="${ !empty search.searchCondition}" >
+									<select name="searchCondition" class="form-control" style="width:120px" id="optionSelect">		
+										<c:choose>				
+										<c:when test="${search.searchCondition eq '0' }">
+												<option value="0" selected>상품번호</option>
+												<option value="1">상품명</option>
+												<option value="2">가격범위</option>
+										</c:when>
+										<c:when test="${search.searchCondition eq '1' }">
+												<option value="0">상품번호</option>
+												<option value="1" selected>상품명</option>
+												<option value="2">가격범위</option>
+										</c:when>
+										<c:when test="${search.searchCondition eq '2' }">
+												<option value="0">상품번호</option>
+												<option value="1">상품명</option>
+												<option value="2" selected>가격범위</option>
+										</c:when>
+										</c:choose>	
+										</select>	
+							</c:when>		
 							<c:otherwise>
-								<option value="0">상품번호</option>
-								<option value="1">상품명</option>
-								<option value="2">가격범위</option>				
-							</c:otherwise>
-							</c:choose>	
-							</select>	
-						<c:choose>
-							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="form-control" style="width:200px; height:19px" id="searchBox" >
-								<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" name="searchKeyword"  id="searchBox"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
-							<input 	type="text" name="searchKeyword"  class="form-control" value="${search.searchKeyword}" 
-										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-							<div id="textInput" style="display: none;">
-							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
-							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
-										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-							<div id="textInput">
-							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
-							    	</div>
-							</c:when>
-						</c:choose>
-					</c:when>		
-					<c:otherwise>
-						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">
+						<select name="searchCondition" class="form-control" style="width:120px" id="optionSelect">
 							<option value="0">상품번호</option>
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
-						</select>
-						<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-						<div id="textInput" style="display: none;">
-							      부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
-							    	</div>			
+						</select>		
 					</c:otherwise>	
 				</c:choose>
 		</c:when>
 		<c:otherwise>
 			<c:choose>
 					<c:when test="${ !empty search.searchCondition }" >
-						<select name="searchCondition" class="ct_input_g" style="width:80px" id="optionSelect">		
+						<select name="searchCondition" class="form-control" style="width:120px" id="optionSelect">		
 						<c:choose>				
 							<c:when test="${search.searchCondition eq '1' }">
 									<option value="1" selected>상품명</option>
@@ -574,49 +576,115 @@ $(document).ready(function () {
 								<option value="2">가격범위</option>				
 							</c:otherwise>
 							</c:choose>	
-							</select>	
-						<c:choose>
-							<c:when test="${ empty search.searchCondition }">
-								<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-								<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
-							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.searchKeyword}" 
-										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-										<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
-							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
-										class="ct_input_g" style="width:200px; height:19px" id="searchBox">
-										<div id="textInput">
-							       부터 <input type="text" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
-							    	</div>
-							</c:when>
-						</c:choose>
+							</select>							
 					</c:when>		
 					<c:otherwise>
-					<div style="white-space: nowrap;">
-						<select name="searchCondition" class="ct_input_g" style="width:80px; display: inline-block;" id="optionSelect">
+						<select name="searchCondition" class="form-control" style="width:120px" id="optionSelect">
 							<option value="1">상품명</option>
 							<option value="2">가격범위</option>
-						</select>
-						<input type="text" class="form-control" name="searchKeyword" class="ct_input_g" style="width:150px; height:19px; display: inline-block;" id="searchBox" >
-						<div id="textInput" style="display: none; ">
-							       부터 <input type="text" class="form-control" id="searchBox" style="width:150px; height:19px; display: inline-block;" name="searchKeyword"> 까지
-							    	</div>	
-					</div>		
+						</select>		
 					</c:otherwise>	
 				</c:choose>
 		</c:otherwise>
 	</c:choose>
+	</div>
+				  
+<div class="form-group">				
+<c:choose>
+<c:when test="${search.menu eq 'manage' || user.role eq 'admin' }" >
+			<c:choose>
+					<c:when test="${ !empty search.searchCondition}" >
+						<c:choose>
+							<c:when test="${ empty search.searchCondition }">
+								<input type="text" name="searchKeyword" class="form-control" id="searchBox" style="width:200px; height:34px">
+								<div id="textInput" style="display: none;">
+							       부터 <input type="text" class="form-control" name="searchKeyword"  id="searchBox" style="width:200px; height:34px"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
+							<input 	type="text" name="searchKeyword"  class="form-control" value="${search.searchKeyword}" 
+										class="ct_input_g" id="searchBox" style="width:200px; height:34px">
+							<div id="textInput" style="display: none;">
+							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword" style="width:200px; height:34px"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
+										style="width:200px; height:34px" id="searchBox">
+							<div id="textInput">
+							      부터  <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
+							    	</div>
+							</c:when>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox" >
+						<div id="textInput" style="display: none;">
+							      부터 <input style="width:200px; height:34px" type="text" class="form-control" id="searchBox" name="searchKeyword"> 까지
+							    	</div>		
+					</c:otherwise>
 
-	<button type="button" class="btn btn-default" id="searchButton" style="display: inline-block;">검색</button>
+			</c:choose>
+</c:when>
+<c:otherwise>
+	<c:choose>
+					<c:when test="${ !empty search.searchCondition }" >
+						<c:choose>
+							<c:when test="${ empty search.searchCondition }">
+							<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox">
+								<div id="textInput" style="display: none;">
+							       부터 <input type="text" class="form-control" id="searchBox" style="width:200px; height:34px" name="searchKeyword"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.searchKeyword}" 
+										style="width:200px; height:34px"  id="searchBox">
+										<div id="textInput" style="display: none;">
+							       부터 <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword"> 까지
+							    	</div>
+							</c:when>
+							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
+										style="width:200px; height:34px" id="searchBox">
+										<div id="textInput">
+							       부터 <input type="text" style="width:200px; height:34px" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
+							    	</div>
+							</c:when>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox" >
+						<div id="textInput" style="display: none; ">
+							       부터 <input type="text" style="width:200px; height:34px" class="form-control" id="searchBox" name="searchKeyword"> 까지
+					</div>		
+					</c:otherwise>	
+				</c:choose>
+				</c:otherwise>
+				</c:choose>
+			  </div>
+				  
+				  <button type="button" class="btn btn-default" id="searchButton">검색</button>
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				</form>
+			
 </div>
-<div>전체 상품 ${ resultPage.totalCount } 개, 현재 ${resultPage.currentPage } 페이지 
+</div>
+<form class="form-inline">
+<div class="form-group">
+<div class="btn-group" role="group" >
+	  <button type="button" class="btn btn-default" id="chicken">chicken</button>
+	  <button type="button" class="btn btn-default" id="beef">beef</button>
+	  <button type="button" class="btn btn-default" id="pork">pork</button>
+	  <button type="button" class="btn btn-default" id="egg">egg</button>
+	  <button type="button" class="btn btn-default" id="seafood">seafood</button>
+	  <button type="button" class="btn btn-default" id="vegan">vegan</button>
+</div>
+</div>
+
+<div class="form-group">
 
 <c:choose>
 			<c:when test="${ ! empty category }">
@@ -627,31 +695,33 @@ $(document).ready(function () {
 			<c:when test="${search.menu eq 'manage' || user.role eq 'admin'}">
 				<c:choose>
 					<c:when test="${empty search.category }">
-						<span class = "ManageAsc">낮은 가격 순</span>
-						<span class="ManageDesc">높은 가격 순</span>		   
+						<a href="#" class="btn btn-default btn" id="ManageAsc" role="button">낮은 가격 순</a>
+						<a href="#" class="btn btn-default btn" id="ManageDesc" role="button">높은 가격 순</a>	   
 					</c:when>
 					<c:otherwise>
-						<span class="ManageCategoryAsc">낮은 가격 순</span>
-						<span class="ManageCategoryDesc">높은 가격 순</span>
+						<a href="#" class="btn btn-default btn" id="ManageCategoryAsc" role="button">낮은 가격 순</a>
+						<a href="#" class="btn btn-default btn" id="ManageCategoryDesc" role="button">높은 가격 순</a>
 					</c:otherwise>
 				</c:choose>			
 			</c:when>
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${empty search.category }">
-						<span class="SearchAsc">낮은 가격 순</span>
-						<span class="SearchDesc">높은 가격 순</span>
+						<a href="#" class="btn btn-default btn" id="SearchAsc" role="button">낮은 가격 순</a>
+						<a href="#" class="btn btn-default btn" id="SearchDesc" role="button">높은 가격 순</a>
 					</c:when>
-				    <c:otherwise>
-				    	<span class="SearchCategoryAsc">낮은 가격 순</span>
-						<span class="SearchCategoryDesc">높은 가격 순</span>			    
+				    <c:otherwise> 
+				    	<a href="#"  class="btn btn-default btn" id="SearchCategoryAsc" role="button">낮은 가격 순</a>
+						<a href="#" class="btn btn-default btn" id="SearchCategoryDesc" role="button">높은 가격 순</a>			    
 				    </c:otherwise>
 				</c:choose>
 			</c:otherwise>
 </c:choose>
 </div>
+</form>
+<form class="form-inline">
 <c:set var="i" value="0" />
-
+	
 	<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
 			<c:choose>
@@ -665,8 +735,7 @@ $(document).ready(function () {
 
 		<c:choose>		
 			<c:when test="${search.menu eq 'manage' && empty product.proTranCode  || user.role eq 'admin' && empty product.proTranCode  }" >			
-				<div class="row">
-				  <div class="col-sm-6 col-md-4">
+			<div class="form-group">	
 				    <div class="thumbnail">
 				      		<c:choose>
 							    <c:when test="${ ! empty product.fileName}">
@@ -678,15 +747,13 @@ $(document).ready(function () {
 							        이미지 없음
 							    </c:otherwise>
 							</c:choose>
-				      <div class="caption">
+				      <div class="caption" >
 				        <h3>${product.prodName}</h3>
 				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
 				        <p>등록일 : ${product.regDate }</p>
 				        <p><a href="#" class="btn btn-primary" role="button"><span class="ManageProduct">상품수정<span class="hidden">,${ product.prodNo }</span></span></a> 
 				      
-				      
-				      <c:choose>
-					    <c:when test="${search.menu eq 'manage'}">
+
 					        <c:choose>
 					            <c:when test="${product.item > '0'}">
 					                
@@ -704,35 +771,13 @@ $(document).ready(function () {
 					               재고없음
 					            </c:otherwise>
 					        </c:choose>
-					    </c:when>
-					    
-					    <c:otherwise>
-					        <c:choose>
-					            <c:when test="${product.item > '0'}">
-					                판매중
-					                		                  	
-					            </c:when>
-					            <c:otherwise>
-					                재고없음
-					            </c:otherwise>
-					        </c:choose>
-					    </c:otherwise>
-					</c:choose>
    
 				      </div>
 				    </div>
-				  </div>
 				</div>
 			</c:when>
 			<c:when test="${search.menu eq 'search' && empty product.proTranCode }">		
-				<span class="SearchProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
-			</c:when>
-			<c:when test="${search.menu eq 'manage' && ! empty product.proTranCode  || user.role eq 'admin' && ! empty product.proTranCode }" >
-				<span class="ManageGetProduct">${product.prodName}<span class="prodNoNoDisplay">,${ product.prodNo }</span></span>
-			</c:when>
-			<c:otherwise>
-				<div class="row">
-				  <div class="col-sm-6 col-md-4">
+			<div class="form-group">	
 				    <div class="thumbnail">
 				      		<c:choose>
 							    <c:when test="${ ! empty product.fileName}">
@@ -748,6 +793,86 @@ $(document).ready(function () {
 				        <h3>${product.prodName}</h3>
 				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
 				        <p>등록일 : ${product.regDate }</p>
+				        <a href="#" class="btn btn-primary" role="button"><span class="SearchProduct">상품조회<span class="hidden">,${ product.prodNo }</span></span></a>
+
+					        <c:choose>
+					            <c:when test="${product.item > '0'}">
+					            <c:choose>
+					            	<c:when test="${product.cartNo == '0' }">
+					               <a class="btn btn-default" role="button"><span class="PutCart">장바구니에 넣기<span class="hidden">,${ product.prodNo },${user.userId }</span></span></a>		                  	
+					            	</c:when>
+					            	<c:otherwise>
+					            		<a class="btn btn-default" role="button"><span class="GoCart">장바구니 확인하기</span></a>
+					            	</c:otherwise>
+					            </c:choose>
+					            	판매중
+					            </c:when>
+					            <c:otherwise>
+					                재고없음
+					            </c:otherwise>
+					        </c:choose>
+
+				      </div>
+				    </div>
+				</div>
+			</c:when>
+			<c:when test="${search.menu eq 'manage' && ! empty product.proTranCode  || user.role eq 'admin' && ! empty product.proTranCode }" >
+			<div class="form-group">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty product.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption">
+				        <h3>${product.prodName}</h3>
+				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
+				        <p>등록일 : ${product.regDate }</p>
+				        <p><a href="#" class="btn btn-primary" role="button"><span class="ManageGetProduct">상품조회<span class="hidden">,${ product.prodNo }</span></span></a> 
+
+					        <c:choose>
+					            <c:when test="${product.item > '0'}">
+					                
+					                <c:choose>
+					                	<c:when test="${ product.cartNo == '0'}">
+					                		<a class="btn btn-default" role="button"><span class="delete">삭제하기<span class="hidden">,${ product.prodNo }</span></span></a>
+					                	</c:when>
+					                	<c:otherwise>
+					                	
+					                	</c:otherwise>
+					                </c:choose>
+					                판매중               
+					            </c:when>
+					            <c:otherwise>
+					               재고없음
+					            </c:otherwise>
+					        </c:choose>
+				      </div>
+				    </div>
+				</div>
+			</c:when>
+			<c:otherwise>
+			<div class="form-group">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty product.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption" > 
+				        <h3>${product.prodName}</h3>
+				        <p>카테고리 : ${product.category } 가격 : ${product.price } ( 재고 : ${product.item} 개) </p>
+				        <p>등록일 : ${product.regDate }</p>
 				        <p><a href="#" class="btn btn-primary" role="button"><span class="GetProduct">상품조회<span class="hidden">,${ product.prodNo }</span></span></a> 				      
 					        <c:choose>
 					            <c:when test="${product.item > '0'}">
@@ -760,13 +885,12 @@ $(document).ready(function () {
   
 				      </div>
 				    </div>
-				  </div>
 				</div>
 			</c:otherwise>
 		</c:choose>
 	
 	</c:forEach>
-
+</form>
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
 		<td align="center">

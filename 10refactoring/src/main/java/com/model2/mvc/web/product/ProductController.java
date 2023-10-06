@@ -78,7 +78,7 @@ public class ProductController {
 
 		for (MultipartFile files : file) {
 		    if (!files.isEmpty()) {
-		        String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
+		        String temDir = "C:\\Users\\kml41\\git\\10refactoring\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
 		        File uploadDir = new File(temDir);
 
 		        if (!uploadDir.exists()) {
@@ -251,7 +251,7 @@ public class ProductController {
 		    // 파일을 하나씩 처리합니다.
 		    for (MultipartFile file02 : file) {
 		        if (file02 != null && !file02.isEmpty()) {
-		            String temDir = "C:\\Users\\비트캠프\\git\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
+		            String temDir = "C:\\Users\\kml41\\git\\10refactoring\\10refactoring\\10refactoring\\src\\main\\webapp\\images";
 		            File uploadDir = new File(temDir);
 		            if (!uploadDir.exists()) {
 		                uploadDir.mkdirs();

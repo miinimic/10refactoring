@@ -8,11 +8,6 @@
 <title>장바구니</title>
 
 <style>
-
-
-  .prodNoNoDisplay {
-    color: transparent;
-  }
   
   body {
             padding-top : 60px;
@@ -73,8 +68,7 @@ $(function() {
 			 var prodNo = data[1];
 
 			var encodedProdNo = encodeURIComponent(prodNo);
-				$(window.parent.frames["rightFrame"].document.location).attr("href","/product/getProduct?prodNo="+encodedProdNo+"&menu=cart");
-				
+				self.location = "/product/getProduct?prodNo="+encodedProdNo+"&menu=cart"
 		});
 
 	$( ".deleteCart" ).on("click" , function() {
@@ -97,9 +91,8 @@ $(function() {
 
 		var encodedProdNo = encodeURIComponent(prodNo);
 		var encodedUserId = encodeURIComponent(userId);
-		
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/deleteCart?prodNo="+encodedProdNo+"&userId="+encodedUserId+"");
-			
+	
+			self.location = "/product/deleteCart?prodNo="+encodedProdNo+"&userId="+encodedUserId+""
 	});
 	 
 });
@@ -110,76 +103,55 @@ $(function() {
 <jsp:include page="/layout/toolbar.jsp" />
 <div class="container">
 
-<form name="detailForm" action="/listCart" method="post">
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">
-						장바구니
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td colspan="11" >전체  ${ resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지 
-		</td>
-	</tr>
-	<tr>
-		<td class="ct_list_b" width="100">No</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품명</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">카테고리</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">가격</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">등록일</td>	
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">삭제하기</td>	
-		<td class="ct_line02"></td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
+<div class="page-header">
+	       <h3 class=" text-info">장바구니</h3>
+</div>
+	    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    	</p>
+		    </div>
+	    	
+		</div>
 
 	<c:set var="i" value="0" />
 	<c:forEach var="cart" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
-		<tr class="ct_list_pop">
-		<td align="center">${ i }</td>
-		<td></td>
-		<td align="left">				
-		<span class="CartName">${cart.cartProd.prodName}<span class="prodNoNoDisplay">,${ cart.cartProd.prodNo }</span></span>
-		</td>
-		<td></td>
-		<td align="left">${cart.cartProd.category }</td> 
-		<td></td>
-		<td align="left">${cart.cartProd.price} 원 ( 재고 : ${cart.cartProd.item} 개)</td> 
-		<td></td>
-		<td align="left">${cart.cartProd.regDate }</td>
-		<td></td>	
-		<td align="left">
-		<span class="deleteCart">삭제하기<span class="prodNoNoDisplay">,${ cart.cartProd.prodNo },${cart.userId }</span></span>
-		<td></td>		
-	</tr>	
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>	
+		<div class="row">
+				  <div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty cart.cartProd.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(cart.cartProd.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption">
+				        <h3>${cart.cartProd.prodName}</h3>
+				        <p>카테고리 : ${cart.cartProd.category } 가격 : ${cart.cartProd.price} 원 ( 재고 : ${cart.cartProd.item} 개) </p>
+				        <p>등록일 : ${cart.cartProd.regDate }</p>
+				        <a href="#" class="btn btn-primary" role="button"><span class="CartName">상품조회<span class="hidden">,${ cart.cartProd.prodNo }</span></span></a> 
+					    <a href="#" class="btn btn-default" role="button"><span class="deleteCart">삭제하기<span class="hidden">,${ cart.cartProd.prodNo },${cart.userId }</span></span></a>		 
+					        <c:choose>
+					            <c:when test="${cart.cartProd.item > '0'}">
+					            	판매중
+					            </c:when>
+					            <c:otherwise>
+					                재고없음
+					            </c:otherwise>
+					        </c:choose>
 
+				      </div>
+				    </div>
+				  </div>
+				</div>
 	</c:forEach>
-</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -193,9 +165,6 @@ $(function() {
 	</tr>
 </table>
 <!--  페이지 Navigator 끝 -->
-
-</form>
-
 </div>
 </body>
 </html>

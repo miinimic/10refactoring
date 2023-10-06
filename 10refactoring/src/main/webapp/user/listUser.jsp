@@ -43,7 +43,6 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-		<script type="text/javascript">	
 	
 		// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 		function fncGetUserList(currentPage) {
@@ -166,9 +165,7 @@
 });
 		
 	</script>	
-	
-	</script>
-	
+
 </head>
 
 <body>
@@ -183,7 +180,7 @@
 		<div class="page-header text-info">
 	       <h3>회원목록조회</h3>
 	    </div>
-	    
+ 
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    

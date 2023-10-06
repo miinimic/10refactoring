@@ -35,28 +35,28 @@
 
 $(function() {
 	
-		$( ".category:contains('chicken')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=chicken");
+		$( "#chicken" ).on("click" , function() {
+			self.location = "/product/listProduct?category=chicken"
 		});
 		
-		$( ".category:contains('beef')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=beef");
+		$( "#beef" ).on("click" , function() {
+			self.location = "/product/listProduct?category=beef"
 		});
 		
-		$( ".category:contains('pork')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=pork");
+		$( "#pork" ).on("click" , function() {
+			self.location = "/product/listProduct?category=pork"
 		});
 		
-		$( ".category:contains('egg')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=egg");
+		$( "#egg" ).on("click" , function() {
+			self.location = "/product/listProduct?category=egg"
 		});
 		
-		$( ".category:contains('seafood')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=seafood");
+		$( "#seafood" ).on("click" , function() {
+			self.location = "/product/listProduct?category=seafood"
 		});
 		
-		$( ".category:contains('vegan')" ).on("click" , function() {
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?category=vegan");
+		$( "#vegan" ).on("click" , function() {
+			self.location = "/product/listProduct?category=vegan"
 		});
 });	
 
@@ -67,67 +67,20 @@ $(function() {
 <body bgcolor="#ffffff" text="#000000">
 <jsp:include page="/layout/toolbar.jsp" />
 <div class="container">
-<form name="detailForm" >
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">
-						상품 카테고리
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<div class="page-header">
+	       <h3 class=" text-info">상품 카테고리</h3>
+</div>
 
-	<tr>
-		<td class="ct_list_b" width="100">카테고리</td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>		
-	
-			<tr>
-				<td class="category">
-				chicken
-				</td>
-				</tr>
-				<tr>
-				<td colspan="11" bgcolor="808285" height="1"></td>	
-				</tr>
-				<tr><td class="category">beef </td></tr>
-				<tr>
-				<td colspan="11" bgcolor="808285" height="1"></td>	
-				</tr>
-				<tr><td class="category">pork</td></tr>
-				<tr>
-				<td colspan="11" bgcolor="808285" height="1"></td>	
-				</tr>
-				<tr><td class="category">egg </td></tr>
-				<tr>
-				<td colspan="11" bgcolor="808285" height="1"></td>	
-				</tr>
-				<tr><td class="category">seafood </td></tr>
-				<tr>
-				<td colspan="11" bgcolor="808285" height="1"></td>	
-				</tr>
-				<tr><td class="category">vegan</td></tr>
-		</tr>
+<div class="btn-group" role="group" aria-label="...">
+	  <button type="button" class="btn btn-default" id="chicken">chicken</button>
+	  <button type="button" class="btn btn-default" id="beef">beef</button>
+	  <button type="button" class="btn btn-default" id="pork">pork</button>
+	  <button type="button" class="btn btn-default" id="egg">egg</button>
+	  <button type="button" class="btn btn-default" id="seafood">seafood</button>
+	  <button type="button" class="btn btn-default" id="vegan">vegan</button>
+</div>
 
-</table>
-
-<!--  페이지 Navigator 끝 -->
-
-</form>
 
 </div>
 </body>

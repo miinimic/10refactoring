@@ -6,26 +6,45 @@
 <html>
 <head>
 
-<title>Insert title here</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<title>상품 상세 조회</title>
+	<meta charset="EUC-KR">
+	
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+ 		body {
+            padding-top : 60px;
+        }
+     </style>
 <script type="text/javascript">
 	
 $(function() {
 	 
-	$( ".ct_btn01:contains('확인')" ).on("click" , function() {
+	$( "#ok" ).on("click" , function() {
 
-		//$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
-		history.go(-1)
+		self.location = "/product/listProduct?menu=manage"
 	});
 	
-	$( ".ct_btn01:contains('구매')" ).on("click" , function() {
-		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/addPurchaseView?prodNo=${product.prodNo}&userId=${user.userId}");
+	$( "#buy" ).on("click" , function() {
+		self.location = "/purchase/addPurchaseView?prodNo=${product.prodNo}&userId=${user.userId}"
 	});
 	
-	$( ".ct_btn01:contains('이전')" ).on("click" , function() {
+	$( "#back" ).on("click" , function() {
 		history.go(-1)
 	});
 });
@@ -35,105 +54,35 @@ $(function() {
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
-
-<form name="detailForm" method="post">
-
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"	width="15" height="37"></td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">상품상세조회</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif"  width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105">
-				<%-- 	<%= product.getProdNo() %>--%>
-					${ product.prodNo} <br>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-	<%-- 	<%= product.getProdName() %>  --%>
-		${product.prodName }
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			카테고리 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105">
-						${product.category }			
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			개수 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105">
-						${product.item }&nbsp;개
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-		<c:choose>
+<jsp:include page="/layout/toolbar.jsp" />
+<div class="container">
+<div class="page-header">
+	       <h3 class=" text-info">상품상세조회</h3>
+</div>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상 품 번 호 </strong></div>
+			<div class="col-xs-8 col-md-4">${ product.prodNo}</div>
+		</div>
+		<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>상 품 명 </strong></div>
+			<div class="col-xs-8 col-md-4">${product.prodName }</div>
+		</div>
+				<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>카 테 고 리 </strong></div>
+			<div class="col-xs-8 col-md-4">${product.category }</div>
+		</div>
+						<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>개 수</strong></div>
+			<div class="col-xs-8 col-md-4">${product.item }&nbsp;개</div>
+		</div>
+								<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>상품 이미지</strong></div>
+			<div class="col-xs-8 col-md-4">		
+			<c:choose>
 		    <c:when test="${ ! empty product.fileName}">
 		        <c:forEach var="fileName" items="${fn:split(product.fileName, ',')}">
 		            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
@@ -142,167 +91,64 @@ $(function() {
 		    <c:otherwise>
 		        이미지 없음
 		    </c:otherwise>
-		</c:choose>
-	
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-		<%--<%= product.getProdDetail() --%>
-		${ product.prodDetail}
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">제조일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-		<%--<%= product.getManuDate() --%>
-		${product.manuDate }
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">가격</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-		<%--<%= product.getPrice() --%>
-		${product.price } &nbsp;원
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">등록일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-	<%-- 	<%= product.getRegDate() %> --%>
-			${product.regDate}
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
+		</c:choose></div>
+		</div>
+								<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>상품 상세정보</strong></div>
+			<div class="col-xs-8 col-md-4">${ product.prodDetail}</div>
+		</div>
+										<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>제 조 일 자</strong></div>
+			<div class="col-xs-8 col-md-4">${product.manuDate }</div>
+		</div>
+										<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>가 격</strong></div>
+			<div class="col-xs-8 col-md-4">${product.price } &nbsp;원</div>
+		</div>
+												<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>등 록 일 자</strong></div>
+			<div class="col-xs-8 col-md-4">${product.regDate}</div>
+		</div>
+														<hr/>
+		<div class="row">
+			<div class="col-md-12 text-center ">
 			<c:choose>
 				<c:when test="${!empty user.userId}">
 					<c:choose>
 					<c:when test="${ search.menu eq 'purchase' ||  search.menu eq 'manage' || product.item == '0'}">
 						<c:choose>
 							<c:when test="${ search.menu eq 'manage' }">
-							<tr>			
-								<td width="17" height="23">
-									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-								</td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-								확인
-								<td width="14" height="23">
-									<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-								</td>
-								<td width="30"></td>		
+								<button type="button" class="btn btn-default" id="ok">확인</button>
 							</c:when>
 							<c:when test="${ search.menu eq 'cart' }">
-													<tr>			
-								<td width="17" height="23">
-									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-								</td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-								구매
-								<td width="14" height="23">
-									<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-								</td>
-								<td width="30"></td>
-								<td width="17" height="23">
-									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-								</td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-									이전
-								</td>
-								<td width="14" height="23">
-									<img src="/images/ct_btnbg03.gif" width="14" height="23">
-								</td>
-							</tr>
+								<button type="button" class="btn btn-primary" id="buy">구매</button>
+								<button type="button" class="btn btn-default" id="back">이전</button>
 							</c:when>
 							<c:otherwise>
-									<td width="17" height="23">
-									<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-								</td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-										이전
-								</td>
-								<td width="14" height="23">
-									<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-								</td>
-							</c:otherwise>							
+								<button type="button" class="btn btn-default" id="back">이전</button>
+							</c:otherwise>
 						</c:choose>	
-				</c:when>
-				<c:otherwise>
-					<tr>			
-						<td width="17" height="23">
-							<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-						</td>
-						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						구매
-						<td width="14" height="23">
-							<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-						</td>
-						<td width="30"></td>
-						<td width="17" height="23">
-							<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-						</td>
-						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-							이전
-						</td>
-						<td width="14" height="23">
-							<img src="/images/ct_btnbg03.gif" width="14" height="23">
-						</td>
-					</tr>
-				</c:otherwise>
+					</c:when>
+					<c:otherwise>			
+							<button type="button" class="btn btn-primary" id="buy">구매</button>
+							<button type="button" class="btn btn-default" id="back">이전</button>	
+					</c:otherwise>
 					
 					</c:choose>
 						
 				</c:when>
-
 				<c:otherwise>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-							이전
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-				<%--<% } --%>
+							<button type="button" class="btn btn-default" id="back">이전</button>
 				</c:otherwise>
-			</c:choose>
-			</tr>
-		</table>
-
-		</td>
-	</tr>
-</table>
-</form>
-
+				</c:choose>		
+			
+			
+			</div>
+		</div>
+</div>
 </body>
 </html>
