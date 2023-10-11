@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -8,16 +9,16 @@
 <style>
 
 
-  .prodNoNoDisplay {
-    color: transparent;
-  }
+  .thumbnail{
+ 			height : 400px;
+ 			}
   
 	body {
             padding-top : 60px;
         }
 
 </style>
-	<meta charset="EUC-KR">
+		<meta charset="EUC-KR">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,7 +35,6 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 
 <script type="text/javascript">
@@ -83,8 +83,8 @@ $(function() {
 		 var tranNo = data[1];
 
 		var encodedTranNo = encodeURIComponent(tranNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateReviewView?tranNo="+encodedTranNo+"");
-			
+			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateReviewView?tranNo="+encodedTranNo+"");
+			self.location = "/purchase/updateReviewView?tranNo="+encodedTranNo+""
 	});
 
 	$( ".delete" ).on("click" , function() {
@@ -104,8 +104,8 @@ $(function() {
 		 var tranNo = data[1];
 
 		var encodedTranNo = encodeURIComponent(tranNo);
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/deleteReview?tranNo="+encodedTranNo+"");
-			
+			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/deleteReview?tranNo="+encodedTranNo+"");
+			self.location = "/purchase/deleteReview?tranNo="+encodedTranNo+""
 	});
 
 });
@@ -115,87 +115,62 @@ $(function() {
 <body bgcolor="#ffffff" text="#000000">
 <jsp:include page="/layout/toolbar.jsp" />
 	<div class="container">
-
-<form name="detailForm">
-
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">후기 목록 조회</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"	width="12" height="37"></td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-	<tr>
-		<td colspan="11" >전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage } 페이지</td>
-		
-	</tr>
-	<tr>		
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="250">주문 상품</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="350">후기</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">후기 수정하기</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">후기 삭제하기</td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>	
-	<c:set var="i" value="0" />
-	<c:forEach var="purchase" items="${list}">
-		<c:set var="i" value="${ i+1 }" />
-			
-			
-	<tr class="ct_list_pop">
-
-		<td></td>
-		<td align="center">
-			<span class="prodName">${ purchase.purchaseProd.prodName}<span class="prodNoNoDisplay">,${  purchase.purchaseProd.prodNo}</span></span> 
-		</td>
-		<td></td>
-		<td align="center">
-				${purchase.review }
-		</td>
-		<td></td>
-		<td align="center">
 	
-			<c:choose>
-				<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
-					<span class="update">수정하기<span class="prodNoNoDisplay">,${purchase.tranNo }</span></span> 
-				</c:when>
-				<c:otherwise>
-					본인이 작성한 후기만 수정 가능합니다.
-				</c:otherwise>
-			</c:choose>
-			
-		</td>
-		<td></td>
-		<td align="center">
-			<c:choose>
-				<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
-					<span class="delete">삭제하기<span class="prodNoNoDisplay">,${purchase.tranNo }</span></span> 
-				</c:when>
-				<c:otherwise>
-					본인이 작성한 후기만 삭제 가능합니다.
-				</c:otherwise>
-			</c:choose>
-		</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
-	</c:forEach>
-</table>
+	<div class="page-header">
+	       <h3 class=" text-info">후기 목록 조회</h3>
+</div>
+	    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    	</p>
+		    </div>
+	    	
+		</div>
+		
+		<form class="form-inline">
+		<c:set var="i" value="0" />
+		<c:forEach var="purchase" items="${list}">
+		<c:set var="i" value="${ i+1 }" />
+				<div class="form-group">
+				    <div class="thumbnail">
+				      		<c:choose>
+							    <c:when test="${ ! empty purchase.purchaseProd.fileName}">
+							        <c:forEach var="fileName" items="${fn:split(purchase.purchaseProd.fileName, ',')}">
+							            <img src="<c:url value='/images/${fileName}'/>" width="300px" height="300px"/>
+							        </c:forEach>
+							    </c:when>
+							    <c:otherwise>
+							        이미지 없음
+							    </c:otherwise>
+							</c:choose>
+				      <div class="caption">
+				        <h3>${purchase.purchaseProd.prodName}</h3>
+				        <p>${purchase.review } </p>
+				        <p>			<c:choose>
+							<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
+								<a href="#" class="btn btn-primary" role="button"><span class="update">후기수정<span class="hidden">,${purchase.tranNo }</span></span></a> 
+							</c:when>
+							<c:otherwise>
+								
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${purchase.buyer.userId eq user.userId || user.role eq 'admin' }">
+								<a href="#" class="btn btn-default" role="button"><span class="delete">후기삭제<span class="hidden">,${purchase.tranNo }</span></span></a>		 
+							</c:when>
+							<c:otherwise>
+								
+							</c:otherwise>
+						</c:choose>
+						
+						</p>
+				      </div>
+				    </div>
+				  </div>
+		</c:forEach>
+		</form>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -209,8 +184,7 @@ $(function() {
 	</tr>
 </table>
 
-<!--  페이지 Navigator 끝 -->
-</form>
+
 
 </div>
 

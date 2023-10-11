@@ -32,7 +32,7 @@
   		<result property="purNo" 				column="PUR_NO" 		 	jdbcType="NUMERIC"/>
   		<result property="tranNo" 	column="TRAN_NO" 			jdbcType="NUMERIC"/>
   		<result property="prodNo" 	column="PROD_NO" 			jdbcType="NUMERIC"/>
-  		<result property="userId" 		column="USER_ID"			jdbcType="VARCHAR"/>
+  		<result property="userId" 		column="BUYER_ID"			jdbcType="VARCHAR"/>
   	</resultMap>
   	
 	 <insert id="insertPurchase" parameterType="purchase">

@@ -87,13 +87,16 @@ public class PurchaseDaoImpl implements PurchaseDao{
 				map.put("search", search);
 				map.put("userId", buyerId);
 			
-				System.out.println(map);
+				System.out.println("map : "+map);
 				List<Transaction> transaction = sqlSession.selectList("PurchaseMapper.getTransactionList", map); 
+				System.out.println("transaction = "+transaction);
 				
 				for (int i = 0; i < transaction.size(); i++) {
 		
 					transaction.get(i).setProduct((Product)sqlSession.selectOne("ProductMapper.findProduct", transaction.get(i).getProdNo()));
+					System.out.println("transaction.get(i).getUserId() = "+transaction.get(i).getUserId());
 					transaction.get(i).setUser((User)sqlSession.selectOne("UserMapper.getUser", transaction.get(i).getUserId()));
+					
 					transaction.get(i).setPurchase((Purchase)sqlSession.selectOne("PurchaseMapper.findPurchase", transaction.get(i).getTranNo()));		
 					transaction.get(i).getPurchase().setTranCode((transaction.get(i).getPurchase().getTranCode().trim()));
 				}

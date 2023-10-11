@@ -71,7 +71,7 @@ function fncUpdateProduct(){
 }
 
 $(function() {	
-	 $( "#cancle" ).on("click" , function() {
+	 $( "#cancel" ).on("click" , function() {
 		 history.go(-1)
 	});
 });	
@@ -209,7 +209,7 @@ $(function() {
 		  		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary" id="updateProduct" >수 &nbsp;정</button>
-			  <a class="btn btn-default btn" href="#" role="button" id="cancle">취&nbsp;소</a>
+			  <a class="btn btn-default btn" href="#" role="button" id="cancel">취&nbsp;소</a>
 		    </div>
 		  </div>
 

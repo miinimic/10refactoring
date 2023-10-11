@@ -35,6 +35,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 	
 	public Map<String , Object> getTransactionList(Search search, String buyerId) throws Exception{
+		
 		Map<String , Object > list= purchaseDao.getTransactionList(search, buyerId); 		
 		return list;
 		
