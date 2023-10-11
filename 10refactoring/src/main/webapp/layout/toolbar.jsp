@@ -74,8 +74,7 @@
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="/product/listProduct?menu=search">상품검색</a></li>                        
-	                           <li><a href="../product/listCategory.jsp">카테고리별 상품조회</a></li>                         
+	                         <li><a href="/product/listProduct?menu=search">상품검색</a></li>                                               
 	                          <li><a href="/purchase/listCart">장바구니</a></li>
 	                         <li><a href="#">최근본상품</a></li>
 	                                              

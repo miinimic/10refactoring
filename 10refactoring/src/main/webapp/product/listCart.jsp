@@ -12,6 +12,9 @@
   body {
             padding-top : 60px;
         }
+        
+   .thumbnail{
+ 			height : 500px;
 
 
 </style>
@@ -83,16 +86,50 @@ $(function() {
 		    data.push(fields);
 		}
 
-		//  alert(data[1]);
-		//  alert(data[2]);
+		  //alert(data[1]);
+		  //alert(data[2]);
 		    
-		 var prodNo = data[1];
-		 var userId = data[2];
+		 var prodNo1 = data[1];
+		 var userId1 = data[2];
 
-		var encodedProdNo = encodeURIComponent(prodNo);
-		var encodedUserId = encodeURIComponent(userId);
+		var prodNo = encodeURIComponent(prodNo1);
+		var userId = encodeURIComponent(userId1);
 	
-			self.location = "/product/deleteCart?prodNo="+encodedProdNo+"&userId="+encodedUserId+""
+			//self.location = "/product/deleteCart?prodNo="+encodedProdNo+"&userId="+encodedUserId+""
+			//		redirect:/purchase/listCart?currentPage="+search.getCurrentPage();
+					
+		$.ajax( 
+				{
+					url : "/product/json/deleteCart/"+prodNo+"/"+userId+"" ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+
+						//Debug...
+						//alert(status);
+						//Debug...
+						//alert("JSONData : \n"+JSONData);
+						
+						var jsonString = JSON.stringify(JSONData);
+						console.log(jsonString);
+						
+						if(jsonString === "true"){
+							alert("삭제가 완료되었습니다.");
+							//self.location = "/purchase/listCart?currentPage="+1;
+							location.reload();
+
+						}else{
+							alert("삭제 오류");
+							self.location = "/purchase/listCart?currentPage="+1;
+						}
+
+					}
+			});
+			
 	});
 	 
 });
@@ -115,12 +152,11 @@ $(function() {
 		    </div>
 	    	
 		</div>
-
+<form class="form-inline">
 	<c:set var="i" value="0" />
 	<c:forEach var="cart" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
-		<div class="row">
-				  <div class="col-sm-6 col-md-4">
+		<div class="form-group">
 				    <div class="thumbnail">
 				      		<c:choose>
 							    <c:when test="${ ! empty cart.cartProd.fileName}">
@@ -150,9 +186,8 @@ $(function() {
 				      </div>
 				    </div>
 				  </div>
-				</div>
 	</c:forEach>
-
+</form>
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
 		<td align="center">

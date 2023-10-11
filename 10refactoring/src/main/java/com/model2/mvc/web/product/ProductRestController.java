@@ -40,6 +40,32 @@ public class ProductRestController {
 		System.out.println(this.getClass());
 	}
 	
+	/*@RequestMapping(value="json/listProductAsc/{order}", method=RequestMethod.GET)
+	public Map<String , Object> listProductAsc(@PathVariable String order) throws Exception{
+		
+		System.out.println("/json/listProductAsc");
+		
+		Search search = new Search();
+		
+		search.setOrder(order);
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		} 
+
+		search.setPageSize(8);
+		
+		
+		// Business logic 수행
+		Map<String , Object> map=productService.getProductList(search);	
+
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 5, 8);
+		System.out.println(resultPage);
+		
+		return map;
+	}*/
+	
+	
 	@RequestMapping("json/listProduct")
 	public Map<String , Object> listProduct( @RequestBody Search search  , HttpServletRequest request) throws Exception{
 		
@@ -71,13 +97,11 @@ public class ProductRestController {
 		return product;
 	}
 	
-	@RequestMapping("json/deleteProduct")
+	@RequestMapping(value="json/deleteProduct/{prodNo}", method=RequestMethod.GET)
 	//public String deleteProduct(@RequestBody Product product , @RequestBody Search search, HttpSession session) throws Exception{
-	public String deleteProduct(@RequestBody Product product , HttpSession session) throws Exception{
+	public String deleteProduct(@PathVariable int prodNo) throws Exception{
 		System.out.println("/json/deleteProduct");
 		//Business Logic
-		
-		int prodNo = product.getProdNo();
 		
 		/*if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -85,7 +109,7 @@ public class ProductRestController {
 		
 		productService.deleteProduct(prodNo);
 
-		return "삭제 완료";
+		return "true";
 	}
 	
 	@RequestMapping("json/getProduct/{prodNo}")
@@ -97,24 +121,24 @@ public class ProductRestController {
 		return productService.findProduct(prodNo);
 	}
 	
-	@RequestMapping( value="json/addCart", method=RequestMethod.POST )
-	public int addCart(@RequestBody Purchase purchase) throws Exception {
+	@RequestMapping( value="json/addCart/{prodNo}/{userId}", method=RequestMethod.GET )
+	public String addCart(@PathVariable int prodNo, @PathVariable String userId) throws Exception {
 
 		System.out.println("/json/addCart");
 		
-		int prodNo = purchase.getPurchaseProd().getProdNo();
-		String userId = purchase.getBuyer().getUserId();
+		int prodNo2 = prodNo;
+		String userId2 = userId;
 		
-		System.out.println(prodNo+": prodNo");
-		System.out.println(userId+" : userId");
+		System.out.println(prodNo+": prodNo2");
+		System.out.println(userId+" : userId2");
 		
-		productService.addCart(prodNo, userId);
+		productService.addCart(prodNo2, userId2);
 	
-		return productService.getCartNo(prodNo);
+		return "true";
 	}
 	
-	@RequestMapping("json/deleteCart")
-	public String deleteCart( @RequestBody Purchase purchase, HttpSession session) throws Exception{
+	@RequestMapping(value="json/deleteCart/{prodNo}/{userId}", method=RequestMethod.GET)
+	public String deleteCart( @PathVariable int prodNo, @PathVariable String userId) throws Exception{
 	//	public String deleteCart( @PathVariable int prodNo, @RequestBody Search search, Model model , HttpSession session) throws Exception{
 		System.out.println("json/deleteCart");
 		//Business Logic
@@ -122,15 +146,15 @@ public class ProductRestController {
 		/*if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		} */
-		int prodNo = purchase.getPurchaseProd().getProdNo();
-		String userId = purchase.getBuyer().getUserId();
+		int prodNo2 = prodNo;
+		String userId2 = userId;
 		
-		System.out.println("prodNo : "+prodNo);
-		System.out.println("userId : "+userId);
+		System.out.println("prodNo : "+prodNo2);
+		System.out.println("userId : "+userId2);
 		
-		productService.deleteCart(prodNo, userId);
-
-		return "삭제 완료";
+		productService.deleteCart(prodNo2, userId2);
+		
+		return "true";
 	
 	}
 	

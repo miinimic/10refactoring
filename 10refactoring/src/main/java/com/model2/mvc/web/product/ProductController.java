@@ -380,6 +380,8 @@ public class ProductController {
 	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listProduct");
+		System.out.println("searchCondition : "+search.getSearchCondition());
+		System.out.println("searchKeyword : "+search.getSearchKeyword());
 		
 		int category=0;
 		
@@ -439,7 +441,7 @@ public class ProductController {
 		return "redirect:/product/listProduct?currentPage="+search.getCurrentPage()+"&menu="+search.getMenu();
 	}
 	
-	@RequestMapping("/deleteCart")
+	/*@RequestMapping("/deleteCart")
 	public String deleteCart( @RequestParam("prodNo") int prodNo , @RequestParam("userId") String userId, @ModelAttribute("search") Search search, Model model , HttpSession session) throws Exception{
 
 		System.out.println("/deleteCart");
@@ -453,6 +455,6 @@ public class ProductController {
 
 		return "redirect:/purchase/listCart?currentPage="+search.getCurrentPage();
 	
-	}
+	}*/
 	
 }

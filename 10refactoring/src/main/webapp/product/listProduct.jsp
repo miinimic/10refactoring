@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<html>
+<!DOCTYPE html>
 <head>
 <title>상품 목록조회</title>
 
@@ -44,10 +44,10 @@
 
 function fncGetProductList(currentPage) { 
 	
-	var searchCondition=$("input[name='searchCondition']").val();
+	var searchCondition = $("select[name='searchCondition']").val();
 
-	if( searchCondition == '2'){
-		alert("22");
+	if( searchCondition == '2'){ 
+
 		var result = '';
 		$('input[name=searchKeyword]').map(function() {
 
@@ -56,20 +56,19 @@ function fncGetProductList(currentPage) {
 		
 		var keywordArray = result.split(",");
 
-		// 첫 번째 값과 두 번째 값을 추출
-		var firstValue = keywordArray[0];
-		var secondValue = keywordArray[1];
-		
-		alert(firstValue);
-		alert(secondValue);
+		// 첫 번째 값과 두 번째 값을 추출		
+		var firstValue = parseInt(keywordArray[0]);
+		var secondValue = parseInt(keywordArray[1]);
 		
 		if(firstValue > secondValue ) {
-			alert("더 작은 수를 첫번째 칸에 입력해주세요!")
+			alert("더 작은 수를 첫번째 칸에 입력해주세요!");
+			var check = 1;
+
+		} else {
+			// 마지막 값에는 ','를 붙이지 않음
+			$('input[name=searchKeyword]').val(result.slice(0, -1));
 		}
-		
-		// 마지막 값에는 ','를 붙이지 않음
-		$('input[name=searchKeyword]').val(result.slice(0, -1));
-		
+	
 	}
 
 	
@@ -90,9 +89,17 @@ function fncGetProductList(currentPage) {
 		
 	} else if ( ${search.menu eq 'manage'} && ${ empty search.order} && ${empty search.category} ){
 		
-		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage").submit();	
+		if(searchCondition == '2' && check == '1'){
+			location.reload();
+		}else {
 		
+		var encodeSearchKeyword = $("input[name='searchKeyword']").val();
+
+		var searchKeyword = encodeURIComponent(encodeSearchKeyword);
+		
+		$("#currentPage").val(currentPage)
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=manage&searchCondition="+searchCondition+"&searchKeyword="+searchKeyword).submit();	
+		}
 	} else if ( ${! search.menu eq 'manage'} && ${ ! empty search.order} && ${ ! empty search.category} ){
 		
 		$("#currentPage").val(currentPage)
@@ -101,32 +108,55 @@ function fncGetProductList(currentPage) {
 	} else if( ${! search.menu eq 'manage'} && ${ ! empty search.order} && ${ empty search.category} ){
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&order=${search.order  }").submit();
-	} else if(${! search.menu eq 'manage'} && ${ empty search.order} && ${ ! empty search.category}) {
+	} else if(${search.menu eq 'search'} && ${ empty search.order} && ${ ! empty search.category}) {
 		
+
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&category=${search.category }").submit();
+
+
+	} else if( ${search.menu eq 'search'} && ${ empty search.order} && ${ empty search.category} ){
 		
-	} else if( ${! search.menu eq 'manage'} && ${ empty search.order} && ${ empty search.category} ){
+		if(searchCondition == '2' && check == '1'){
+			location.reload();
+		}else {
+		
+		var encodeSearchKeyword = $("input[name='searchKeyword']").val();
+
+		var searchKeyword = encodeURIComponent(encodeSearchKeyword);
 		
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search").submit();
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=search&searchCondition="+searchCondition+"&searchKeyword="+searchKeyword).submit();
+	}
 		
-	} else {
+
+		
+	} else if( ${ search.menu eq 'logout'} ) {
+
+		if(searchCondition == '2' && check == '1'){
+			location.reload();
+		}else {
+		
+		var encodeSearchKeyword = $("input[name='searchKeyword']").val();
+
+		var searchKeyword = encodeURIComponent(encodeSearchKeyword);
 		
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/product/listProduct").submit();	
+		$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=logout&searchCondition="+searchCondition+"&searchKeyword="+searchKeyword).submit();	
 	}
 		
 }
-
+}
 	$(function() {
 	 
 	 $( "#searchButton" ).on("click" , function() {
+		 
 		 fncGetProductList(1);
 	});
 	 
 	 $( "#ManageAsc" ).on("click" , function() {
 		 self.location = "/product/listProduct?order=asc&menu=manage"
+		 
 	});
 	 
 	 $( "#ManageDesc" ).on("click" , function() {
@@ -260,7 +290,41 @@ function fncGetProductList(currentPage) {
 		 var prodNo = data[1];
 
 		var encodedProdNo = encodeURIComponent(prodNo);
-			self.location = "/product/deleteProduct?currentPage=${resultPage.currentPage}&prodNo="+encodedProdNo+"&menu=manage"	
+		//self.location = "/product/deleteProduct?currentPage=${resultPage.currentPage}&prodNo="+encodedProdNo+"&menu=manage"	
+				
+		$.ajax( 
+				{
+					url : "/product/json/deleteProduct/"+prodNo+"" ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+
+						//Debug...
+						//alert(status);
+						//Debug...
+						//alert("JSONData : \n"+JSONData);
+						
+						var jsonString = JSON.stringify(JSONData);
+						console.log(jsonString);
+						
+						if(jsonString === "true"){
+							alert("삭제가 완료되었습니다.");
+							location.reload();
+
+						}else{
+							alert("삭제 오류");
+							location.reload();
+						}
+
+					}
+			});		
+				
+				
+				
 	});
 	
 	$( ".delivery" ).on("click" , function() {
@@ -323,13 +387,46 @@ function fncGetProductList(currentPage) {
 		  // alert(data[1]);
 		  //alert(data[2]);
 		    
-		 var prodNo = data[1];
-		 var userId = data[2];
+		 var prodNo1 = data[1];
+		 var userId1 = data[2];
 
-		var encodedProdNo = encodeURIComponent(prodNo);
-		var encodeduserId = encodeURIComponent(userId);
+		var prodNo = encodeURIComponent(prodNo1);
+		var userId = encodeURIComponent(userId1);
 		
-		self.location = "/product/addCart?prodNo="+encodedProdNo+"&userId="+encodeduserId+""	
+		//self.location = "/product/addCart?prodNo="+encodedProdNo+"&userId="+encodeduserId+""	
+		
+		$.ajax( 
+				{
+					url : "/product/json/addCart/"+prodNo+"/"+userId+"" ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+
+						//Debug...
+						//alert(status);
+						//Debug...
+						//alert("JSONData : \n"+JSONData);
+						
+						var jsonString = JSON.stringify(JSONData);
+						console.log(jsonString);
+						
+						if(jsonString === "true"){
+							alert("장바구니에 담았습니다.");
+							location.reload();
+
+						}else{
+							alert("장바구니 담기 오류");
+							location.reload();
+						}
+
+					}
+			});
+		
+				
 	});
 	
 	$( ".GoCart" ).on("click" , function() {	
@@ -445,58 +542,57 @@ $(document).ready(function () {
 <body bgcolor="#ffffff" text="#000000">
 <jsp:include page="/layout/toolbar.jsp" />
 <div class="container">
-
+<!-- 
 <c:choose>
-	<c:when test="${search.menu eq 'manage'}">
+	<c:when test="${search.menu eq 'manage' }">
 		<c:choose>
-			<c:when test="${ ! empty search.order}">
+			<c:when test="${! empty search.order }">
 				<c:choose>
-					<c:when test="${!empty search.category}">
-						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order}&category=${search.category}" method="post" >
+					<c:when test="${ !empty search.category }">
+						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order }&category=${search.category}" method="post">					
 					</c:when>
 					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order}" method="post">
-					</c:otherwise>
+						<form name="detailForm" action="/product/listProduct?menu=manage&order=${search.order }" method="post">
+					</c:otherwise>			
 				</c:choose>
-				
 			</c:when>
 			<c:otherwise>
 				<c:choose>
-					<c:when test="${!empty search.category }">
-						<form name="detailForm" action="/product/listProduct?menu=manage&category=${search.category }" method="post">
+					<c:when test="${! empty search.category }">
+						<form name="detailForm" action="/product/listProduct?menu=manage&category=${search.category}" method="post">
 					</c:when>
 					<c:otherwise>
 						<form name="detailForm" action="/product/listProduct?menu=manage" method="post">
-					</c:otherwise>			
-				</c:choose>			
-			</c:otherwise>	
-		</c:choose>	
-	</c:when>
-	<c:otherwise>
-		<c:choose>
-			<c:when test="${ ! empty search.order}">
-				<c:choose>
-					<c:when test="${ ! empty search.category}">
-						<form name="detailForm" action="/product/listProduct?menu=search&order=${search.order }&category=${search.category}" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=search&order=${search.order  }" method="post">
 					</c:otherwise>
-				</c:choose>					
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${ ! empty search.category}">
-						<form name="detailForm" action="/product/listProduct?menu=search&category=${search.category }" method="post">
-					</c:when>
-					<c:otherwise>
-						<form name="detailForm" action="/product/listProduct?menu=search" method="post">
-					</c:otherwise>
-				</c:choose>	
+				</c:choose>
 			</c:otherwise>
-		</c:choose>		
-	</c:otherwise>
-</c:choose>
+		</c:choose>
+		</c:when>
+		<c:otherwise>
+			<c:choose>
+				<c:when test="${!empty search.order }">
+					<c:choose>
+						<c:when test="${! empty search.category }">
+							<form name="detailForm" action="/product/listProduct?menu=search&order=${search.order }&category=${search.category}" method="post">
+						</c:when>
+						<c:otherwise>
+							<form name="detailForm" action="/product/listProduct?menu=search&order=${search.order }" method="post">
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${! empty search.category }">
+							<form name="detailForm" action="/product/listProduct?menu=search&category=${search.category}" method="post">
+						</c:when>
+						<c:otherwise>
+							<form name="detailForm" action="/product/listProduct?menu=search" method="post">
+						</c:otherwise>	
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>		 -->	
 
 					<c:choose>
 						<c:when test="${search.menu eq 'manage' }" >
@@ -522,7 +618,7 @@ $(document).ready(function () {
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+			  <form class="form-inline" name="detailForm">
 			    
 				  <div class="form-group">
 					<c:choose>
@@ -593,29 +689,19 @@ $(document).ready(function () {
 <c:choose>
 <c:when test="${search.menu eq 'manage' || user.role eq 'admin' }" >
 			<c:choose>
-					<c:when test="${ !empty search.searchCondition}" >
-						<c:choose>
-							<c:when test="${ empty search.searchCondition }">
-								<input type="text" name="searchKeyword" class="form-control" id="searchBox" style="width:200px; height:34px">
-								<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" name="searchKeyword"  id="searchBox" style="width:200px; height:34px"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
+					<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" name="searchKeyword"  class="form-control" value="${search.searchKeyword}" 
-										class="ct_input_g" id="searchBox" style="width:200px; height:34px">
-							<div id="textInput" style="display: none;">
-							      부터  <input type="text" class="form-control" id="searchBox" name="searchKeyword" style="width:200px; height:34px"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+										id="searchBox" style="width:200px; height:34px">
+							<div id="textInput" style="display: none; ">
+							      부터  <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword" > 까지
+							    	</div>			
+					</c:when>
+					<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
 							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
 										style="width:200px; height:34px" id="searchBox">
 							<div id="textInput">
 							      부터  <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword" value="${search.to}"> 까지
 							    	</div>
-							</c:when>
-						</c:choose>
 					</c:when>
 					<c:otherwise>
 						<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox" >
@@ -628,30 +714,21 @@ $(document).ready(function () {
 </c:when>
 <c:otherwise>
 	<c:choose>
-					<c:when test="${ !empty search.searchCondition }" >
-						<c:choose>
-							<c:when test="${ empty search.searchCondition }">
-							<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox">
-								<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" id="searchBox" style="width:200px; height:34px" name="searchKeyword"> 까지
-							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
+
+					<c:when test="${ !empty search.searchCondition && search.searchCondition ne '2'}">
 							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.searchKeyword}" 
 										style="width:200px; height:34px"  id="searchBox">
-										<div id="textInput" style="display: none;">
-							       부터 <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword"> 까지
+							<div id="textInput" style="display: none; ">
+							      부터  <input type="text" class="form-control" style="width:200px; height:34px" id="searchBox" name="searchKeyword"> 까지
 							    	</div>
-							</c:when>
-							<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
+					</c:when>
+					<c:when test="${ !empty search.searchCondition && search.searchCondition eq '2'}">
 							<input 	type="text" class="form-control" name="searchKeyword"  value="${search.from}" 
 										style="width:200px; height:34px" id="searchBox">
 										<div id="textInput">
 							       부터 <input type="text" style="width:200px; height:34px" class="form-control" id="searchBox" name="searchKeyword" value="${search.to}" > 까지
 							    	</div>
-							</c:when>
-						</c:choose>
-					</c:when>
+					</c:when>		
 					<c:otherwise>
 						<input type="text" class="form-control" name="searchKeyword" style="width:200px; height:34px" id="searchBox" >
 						<div id="textInput" style="display: none; ">
@@ -668,10 +745,12 @@ $(document).ready(function () {
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
-				</form>
+		</form>
 			
 </div>
 </div>
+<c:choose>
+<c:when test="${ ! empty user }">
 <form class="form-inline">
 <div class="form-group">
 <div class="btn-group" role="group" >
@@ -719,6 +798,8 @@ $(document).ready(function () {
 </c:choose>
 </div>
 </form>
+</c:when>
+</c:choose>
 <form class="form-inline">
 <c:set var="i" value="0" />
 	
