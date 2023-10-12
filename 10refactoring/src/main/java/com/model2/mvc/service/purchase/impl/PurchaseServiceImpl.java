@@ -49,7 +49,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 	///Method
 	public void insertPurchase(Purchase purchase) throws Exception {
 		System.out.println("purchaseserviceImpl юс : "+purchase);
-
+		System.out.println("divyDate : "+purchase.getDivyDate());
 		purchaseDao.insertPurchase(purchase); 
 		
 		purchaseDao.updateItem(purchase.getPurchaseProd().getProdNo(), purchase.getPurchaseProd().getItem(), purchase.getItem());

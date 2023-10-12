@@ -40,6 +40,8 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		public void insertPurchase(Purchase purchase) throws Exception{
 			System.out.println("purchasedaoImpl юс : "+purchase);
 			
+			System.out.println("divyDate : "+purchase.getDivyDate());
+			
 			Transaction transaction = new Transaction();
 			
 			transaction.setProdNo(purchase.getPurchaseProd().getProdNo());
@@ -47,6 +49,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 			
 			System.out.println("prodno : "+transaction.getProdNo());
 			System.out.println("userId : "+transaction.getUserId());
+			
 			
 			sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
 			sqlSession.insert("PurchaseMapper.insertTransaction", transaction);

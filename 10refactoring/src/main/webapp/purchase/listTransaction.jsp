@@ -84,14 +84,53 @@ $(document).ready(function() {
 		 //  alert(data[1]);
 		 // alert(data[2]);
 		    
-		 var prodNo = data[1];
-		 var tranNo = data[2];
+		 var prodNo1 = data[1];
+		 var tranNo1 = data[2];
 
-		var encodedProdNo = encodeURIComponent(prodNo);
-		var encodedTranNo = encodeURIComponent(tranNo);
+		var prodNo = encodeURIComponent(prodNo1);
+		var tranNo = encodeURIComponent(tranNo1);
 		
-			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=manage&prodNo="+encodedProdNo+"&tranCode=3&currentPage=${resultPage.currentPage}");
-			self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=manage&prodNo="+encodedProdNo+"&tranCode=3&currentPage=${resultPage.currentPage}";	
+		//self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=manage&prodNo="+encodedProdNo+"&tranCode=3&currentPage=${resultPage.currentPage}";	
+	
+			$.ajax( 
+					{
+						url : "/purchase/json/updateTranCode/"+tranNo+"/3" ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+
+							//Debug...
+							//alert(status);
+							//Debug...
+							//alert("JSONData : \n"+JSONData);
+							
+							var jsonString = JSON.stringify(JSONData);
+							console.log(jsonString);
+							
+							if(jsonString === "true"){
+								location.reload();
+
+							}else{
+								alert("updateTranCode ¿À·ù");
+								location.reload();
+							}
+							
+							/*	if( search.getMenu().equals("manage")) {
+							return "forward:/product/listProduct?page="+search.getCurrentPage();
+						} else {
+							return "forward:/purchase/listPurchase?page="+search.getCurrentPage();
+						}*/
+
+						}
+				});		
+	
+	
+	
+	
 	});
 	
 	$( ".purchaseDetail" ).on("click" , function() {

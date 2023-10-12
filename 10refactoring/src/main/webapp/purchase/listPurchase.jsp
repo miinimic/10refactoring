@@ -44,6 +44,12 @@ function fncGetPurchaseList(currentPage) {
 }
 
 $(function() {
+	 $( "#addReview" ).on("click" , function() {
+		 $("form").attr("method" , "POST").attr("action" , "/purchase/addReview?tranNo=${purchase.purchase.tranNo }").submit();
+	});
+});	
+
+$(function() {
 	
 	$( ".prodName" ).on("click" , function() {
 
@@ -80,11 +86,44 @@ $(function() {
 
 		 //  alert(data[1]);
 		    
-		 var tranNo = data[1];
+		 var tranNo1 = data[1];
 
-		var encodedTranNo = encodeURIComponent(tranNo);
-			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.currentPage}");
-			self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.currentPage}";	
+		var tranNo = encodeURIComponent(tranNo1);
+			//self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=4&currentPage=${resultPage.currentPage}";	
+	
+	
+			$.ajax( 
+					{
+						url : "/purchase/json/updateTranCode/"+tranNo+"/4" ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+
+							//Debug...
+							//alert(status);
+							//Debug...
+							//alert("JSONData : \n"+JSONData);
+							
+							var jsonString = JSON.stringify(JSONData);
+							console.log(jsonString);
+							
+							if(jsonString === "true"){
+								location.reload();
+
+							}else{
+								alert("updateTranCode 오류");
+								location.reload();
+							}
+						
+
+						}
+				});	
+	
+	
 	});
 	
 	$( ".confirm" ).on("click" , function() {
@@ -101,11 +140,43 @@ $(function() {
 
 		 //  alert(data[1]);
 		    
-		 var tranNo = data[1];
+		 var tranNo1 = data[1];
 
-		var encodedTranNo = encodeURIComponent(tranNo);
-			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.currentPage}");
-			self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.currentPage}";	
+		var tranNo = encodeURIComponent(tranNo1);
+			//self.location = "/purchase/updateTranCode?tranNo="+encodedTranNo+"&menu=purchase&tranCode=5&currentPage=${resultPage.currentPage}";	
+	
+			$.ajax( 
+					{
+						url : "/purchase/json/updateTranCode/"+tranNo+"/5" ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+
+							//Debug...
+							//alert(status);
+							//Debug...
+							//alert("JSONData : \n"+JSONData);
+							
+							var jsonString = JSON.stringify(JSONData);
+							console.log(jsonString);
+							
+							if(jsonString === "true"){
+								location.reload();
+
+							}else{
+								alert("updateTranCode 오류");
+								location.reload();
+							}
+						
+
+						}
+				});	
+	
+	
 	});
 	
 	$( ".addReview" ).on("click" , function() {
@@ -166,6 +237,7 @@ $(function() {
 <div class="container">
 
 
+
 							<div class="page-header">
 						       <h3 class=" text-info">주문 내역 조회</h3>
 						    </div>
@@ -217,9 +289,8 @@ $(function() {
 									<a href="#" class="btn btn-primary" role="button"><span class="confirm">구매확정<span class="hidden">,${ transaction.tranNo }</span></span></a>
 									</c:when>
 									<c:when test="${transaction.purchase.tranCode eq '5'}">
-										<a href="#" class="btn btn-primary" role="button"><span class="addReview">후기쓰기<span class="hidden">,${ transaction.tranNo},${  transaction.product.prodNo}</span></span></a>
-										
-									</c:when>
+										<a href="#" class="btn btn-primary" role="button"><span class="addReview">후기쓰기<span class="hidden">,${ transaction.tranNo},${  transaction.product.prodNo}</span></span></a> 
+								</c:when>
 									<c:when test="${ transaction.purchase.tranCode eq '6'}">
 									<span class="Review">후기 작성 완료</span>
 						

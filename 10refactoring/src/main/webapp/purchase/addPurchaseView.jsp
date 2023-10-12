@@ -12,7 +12,7 @@
         }
 
 </style>
-<meta charset="EUC-KR">
+	<meta charset="EUC-KR">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" >
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
@@ -31,8 +32,8 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-    
- <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+   
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 
 function fncAddPurchase(){
@@ -50,6 +51,8 @@ function fncAddPurchase(){
 	var receiverName=$("input[name='receiverName']").val();
 	var receiverPhone=$("input[name='receiverPhone']").val();
 	var receiverAddr=$("input[name='receiverAddr']").val();
+	var divyDate=$("input[name='divyDate']").val();
+	alert(divyDate);
 	
 	
 	
@@ -93,25 +96,6 @@ $(function() {
 		 history.go(-1);
 	});
 });	
-
-$.datepicker.setDefaults({
-    dateFormat: 'yy-mm-dd',
-    prevText: '이전 달',
-    nextText: '다음 달',
-    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-    showMonthAfterYear: true,
-    yearSuffix: '년',
-    minDate: 0
-});
-
-
-$(function() {
-    $("#datepicker1").datepicker();
-});
 
 
 function execDaumPostcode() {
@@ -171,6 +155,23 @@ function execDaumPostcode() {
     }).open();
 }
 
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    minDate: 0   // 오늘날짜 이전은 선택 못함
+});
+
+$(function() {
+    $("#datepicker1").datepicker();
+});
 
 
 </script>
@@ -207,11 +208,11 @@ function execDaumPostcode() {
 		    <div class="col-sm-4">
 		     <c:set var="str" value="${product.manuDate.toString() }" />		
 					<c:set var="arrayOfStrings" value="${fn:split(str, ' ')}" />
-					<input type="text" name="manuDate" id="datepicker1" class="form-control" value="${arrayOfStrings[0] }"  disabled/>						
+					<input type="text" name="manuDate" class="form-control" value="${arrayOfStrings[0] }"  disabled/>						
 		    </div>
 		  </div>
 		  <div class="form-group">
-	  		<label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">상품이미지 </label>
+	  		<label for="image" class="col-sm-offset-1 col-sm-3 control-label">상품이미지 </label>
 			<div class="col-sm-4">	
 			<c:choose>
 		    <c:when test="${ ! empty product.fileName}">
@@ -286,10 +287,10 @@ function execDaumPostcode() {
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label for="divyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자 </label>	    
+		    <label for="divyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자 </label>
 		    <div class="col-sm-4">
-					<input type="text" class="form-control" name="divyDate" id="datepicker1">
-				 </div>
+		      <input type="text" name="divyDate" class="form-control" id="datepicker1">
+		    </div>
 		  </div>
 		  
 		  <div class="form-group">

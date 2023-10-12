@@ -219,11 +219,12 @@ public class PurchaseRestController {
 		return purchase;
 	}
 	
-	@RequestMapping("json/deleteReview/{tranNo}")
-	public String deleteReview( @PathVariable int tranNo , @RequestBody Search search) throws Exception{
+	@RequestMapping(value="json/deleteReview/{tranNo}", method=RequestMethod.GET)
+	public String deleteReview( @PathVariable int tranNo) throws Exception{
 
 		System.out.println("json/deleteReview");
 		//Business Logic
+		Search search = new Search();
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -234,7 +235,7 @@ public class PurchaseRestController {
 		String tranCode = "5";
 		purchaseService.updateTranCode(tranNo, tranCode);
 
-		return "삭제완료";
+		return "true";
 	
 	}
 	@RequestMapping( value="json/addPurchaseView/{prodNo}/{userId}", method=RequestMethod.GET )
@@ -258,7 +259,7 @@ public class PurchaseRestController {
 
 	@RequestMapping("json/updateTranCode/{tranNo}/{tranCode}")
 	//public String updateTranCode( @RequestBody Search search, @PathVariable int tranNo, @PathVariable String tranCode) throws Exception{
-	public String updateTranCode( @PathVariable int tranNo, @PathVariable String tranCode) throws Exception{
+	public String updateTranCode( @PathVariable int tranNo,  @PathVariable String tranCode) throws Exception{
 		System.out.println("json/updateTranCode");
 		//Business Logic
 
@@ -266,7 +267,7 @@ public class PurchaseRestController {
 		System.out.println("tranNo : "+tranNo);
 		
 		Search search = new Search();
-		
+			
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		} 
@@ -278,7 +279,7 @@ public class PurchaseRestController {
 			} else {
 				return "forward:/purchase/listPurchase?page="+search.getCurrentPage();
 			}*/
-		return "update 완료";
+		return "true";
 	}
 
 	}

@@ -101,11 +101,43 @@ $(function() {
 
 		 //  alert(data[1]);
 		    
-		 var tranNo = data[1];
+		 var tranNo1 = data[1];
 
-		var encodedTranNo = encodeURIComponent(tranNo);
-			//$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/deleteReview?tranNo="+encodedTranNo+"");
-			self.location = "/purchase/deleteReview?tranNo="+encodedTranNo+""
+		var tranNo = encodeURIComponent(tranNo1);
+			//self.location = "/purchase/deleteReview?tranNo="+encodedTranNo+""
+		$.ajax( 
+				{
+					url : "/purchase/json/deleteReview/"+tranNo+"" ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+
+						//Debug...
+						//alert(status);
+						//Debug...
+						//alert("JSONData : \n"+JSONData);
+						
+						var jsonString = JSON.stringify(JSONData);
+						console.log(jsonString);
+						
+						if(jsonString === "true"){
+							alert("후기가 삭제되었습니다.")
+							location.reload();
+
+						}else{
+							alert("후기 삭제 오류");
+							location.reload();
+						}
+					
+
+					}
+			});			
+					
+					
 	});
 
 });

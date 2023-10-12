@@ -141,7 +141,7 @@ public class PurchaseController {
 		purchase.setBuyer(user);
 		purchase.setTranCode("2");
 		purchase.setDivyAddr(request.getParameter("receiverAddr"));
-		purchase.setDivyDate(request.getParameter("receiverDate"));
+		purchase.setDivyDate(request.getParameter("divyDate"));
 		purchase.setDivyRequest(request.getParameter("receiverRequest"));		
 		purchase.setPaymentOption(request.getParameter("paymentOption"));
 		purchase.setReceiverName(request.getParameter("receiverName"));
@@ -338,6 +338,7 @@ public class PurchaseController {
 
 		System.out.println("/updatePurchase");
 		//Business Logic
+		
 
 		int tranNo = purchase.getTranNo();
 		
