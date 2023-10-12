@@ -462,7 +462,7 @@ function fncGetProductList(currentPage) {
 		});
 });	
 	
-/*
+
 $(document).ready(function () {	
 	$("#searchBox").autocomplete({
 		source: function (request, response) {
@@ -533,8 +533,7 @@ $(document).ready(function () {
 	    delay: 100,
 	    autoFocus: true
 	});
-});*/
-
+});
 
 </script>
 </head>
