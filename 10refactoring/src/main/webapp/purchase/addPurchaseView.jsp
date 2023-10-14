@@ -34,7 +34,50 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js" ></script>
+    
 <script type="text/javascript">
+
+function requestPay() {
+	
+	var result='';
+	$('input[name=address]').map(function(){
+		result +=$(this).val();
+	});
+	
+	$('input[name=receiverAddr]').val(result);
+	
+	var price=$("input[name='price']").val();
+	var receiverName=$("input[name='receiverName']").val();
+	var receiverPhone=$("input[name='receiverPhone']").val();
+	var prodName=$("input[name='prodName']").val();
+	var receiverAddr=$("input[name='receiverAddr']").val();
+	
+	var IMP = window.IMP;
+	IMP.init("imp16061541");
+	
+    // IMP.request_pay(param, callback) 결제창 호출
+    IMP.request_pay({ // param
+    	 pg : 'html5_inicis',
+    	    pay_method : 'card',
+    	    merchant_uid: "merchant_" + new Date().getTime(), // 상점에서 관리하는 주문 번호를 전달
+    	    name : prodName,
+    	    amount : price,
+    	    buyer_name : receiverName,
+    	    buyer_tel : receiverPhone,  //필수입력
+    	    buyer_addr : receiverAddr
+    	    //buyer_postcode : '123-456',
+    	    //m_redirect_url : '{/purchase/addPurchase.jsp}' // 예: https://www.my-service.com/payments/complete/mobile
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            alert("결제성공");
+            fncAddPurchase();
+          
+        } else {
+        	 alert("결제실패");
+        }
+    });
+  }
 
 function fncAddPurchase(){
 	
@@ -52,7 +95,7 @@ function fncAddPurchase(){
 	var receiverPhone=$("input[name='receiverPhone']").val();
 	var receiverAddr=$("input[name='receiverAddr']").val();
 	var divyDate=$("input[name='divyDate']").val();
-	alert(divyDate);
+	//alert(divyDate);
 	
 	
 	
@@ -269,7 +312,7 @@ $(function() {
 				<option value="2">신용구매</option>
 			</select>
 		    </div>
-		  </div>
+		  </div>		  
 		  <div class="form-group">
 		    <label for="item" class="col-sm-offset-1 col-sm-3 control-label">구매자주소 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/> </label>
 		    <div class="col-sm-4">
@@ -293,13 +336,15 @@ $(function() {
 		    </div>
 		  </div>
 		  
+</form>
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary" id="purchaseAdd" >구 &nbsp;매</button>
+		    	<button type="button" class="btn btn-primary" onclick="requestPay()">결제하기</button> 		  
+		      <!-- <button type="button" class="btn btn-primary" id="purchaseAdd" >구 &nbsp;매</button> -->
 			  <a class="btn btn-default btn" href="#" role="button" id="cancel">취&nbsp;소</a>
 		    </div>
 		  </div>
-</form>
+
 </div>
 </body>
 </html>
