@@ -38,10 +38,10 @@
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="#">개인정보조회</a></li>
+	                         <li><a href="#">개인정보조회 <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
 	                         
 	                         <c:if test="${sessionScope.user.role == 'admin'}">
-	                         	<li><a href="#">회원정보조회</a></li>
+	                         	<li><a href="#">회원정보조회 <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></li>
 	                         </c:if>
 	                         
 	                        
@@ -58,9 +58,9 @@
 		                     </a>
 		                     <ul class="dropdown-menu">
 		                     	<c:if test="${sessionScope.user.role == 'admin'}">
-		                         <li><a href="../product/addProductView.jsp">판매상품등록</a></li>
-		                         <li><a href="/product/listProduct?menu=manage">판매상품관리</a></li>
-		                         <li><a href="#">최근본상품</a></li>
+		                         <li><a href="../product/addProductView.jsp">판매상품등록 <span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a></li>
+		                         <li><a href="/product/listProduct?menu=manage">판매상품관리 <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span></a></li>
+		                         <li><a href="#">최근본상품 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li>
 		                      	</c:if>
 		                         
 		                     </ul>
@@ -74,9 +74,9 @@
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="/product/listProduct?menu=search">상품검색</a></li>                                               
-	                          <li><a href="/purchase/listCart">장바구니</a></li>
-	                         <li><a href="#">최근본상품</a></li>
+	                         <li><a href="/product/listProduct?menu=search">상품검색 <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>                                               
+	                          <li><a href="/purchase/listCart">장바구니 <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+	                         <li><a href="#">최근본상품 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li>
 	                                              
 	                     </ul>
 	                 </li>
@@ -90,11 +90,11 @@
 		                     </a>
 		                     <ul class="dropdown-menu">
 		                     	<c:if test="${sessionScope.user.role == 'admin'}">
-		                         <li><a href="/purchase/listTransaction?menu=manage">거래현황관리</a></li>
+		                         <li><a href="/purchase/listTransaction?menu=manage">거래현황관리 <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span></a></li>
 		                      	</c:if>
 		                      	<c:if test="${sessionScope.user.role != 'admin'}">
-		                         <li><a href="/purchase/listPurchase">주문내역조회</a></li>
-		                         <li><a href="/purchase/listReview">후기목록조회</a></li>
+		                         <li><a href="/purchase/listPurchase">주문내역조회 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span></a></li>
+		                         <li><a href="/purchase/listReview">후기목록조회 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
 		                         </c:if>
 		                     </ul>
 		                </li>
@@ -110,8 +110,8 @@
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="/product/listProduct?menu=logout">상품조회</a></li>                                               
-	                         <li><a href="#">최근본상품</a></li>	                                              
+	                         <li><a href="/product/listProduct?menu=logout">상품조회 <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></li>                                               
+	                         <li><a href="#">최근본상품 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li>	                                              
 	                     </ul>
 	                 </li>
 	                </c:if>

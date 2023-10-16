@@ -155,7 +155,7 @@ $(function() {
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    		전체  <span class="badge">${resultPage.totalCount }</span> 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
 	    	

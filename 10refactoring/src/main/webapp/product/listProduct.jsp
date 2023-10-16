@@ -612,7 +612,7 @@ $(document).ready(function () {
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    		전체  <span class="badge">${resultPage.totalCount }</span> 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
 		    
@@ -766,7 +766,7 @@ $(document).ready(function () {
 
 <c:choose>
 			<c:when test="${ ! empty category }">
-			${search.category } 개수  ${ category } 개
+			${search.category } <span class="badge">  ${ category } </span>개
 			</c:when>	
 </c:choose>
 <c:choose>
