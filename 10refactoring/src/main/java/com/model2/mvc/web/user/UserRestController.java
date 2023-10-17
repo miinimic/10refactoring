@@ -66,6 +66,19 @@ public class UserRestController {
 	    }
 	}
 
+	@RequestMapping( value="json/IdCheck", method=RequestMethod.POST )
+	public User IdCheck( @RequestBody Map<String, String> userIdData ) throws Exception{
+		
+		System.out.println("/user/json/IdCheck : POST");
+		
+		 String userId = userIdData.get("userId");	    
+		 System.out.println("userId : " + userId);
+
+		//Business Logic
+		return userService.getUser(userId);
+	}
+
+	
 	
 	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{

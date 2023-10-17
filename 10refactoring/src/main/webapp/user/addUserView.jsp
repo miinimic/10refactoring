@@ -31,6 +31,49 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	 $(function() {
+		 
+			$('#userId').focusout(function(){
+				var userId=$("input[name='userId']").val();
+				
+				  var userIdData = {
+						  userId: userId
+						  };
+				
+				console.log(userId);
+		
+				$.ajax({
+					url : "/user/json/IdCheck",
+					type : "post",
+					data: JSON.stringify(userIdData), // JSON 데이터로 변환하여 전송
+				    contentType: 'application/json', // JSON 데이터를 전송한다고 명시
+					success : function(response){
+
+						console.log('데이터 전송 성공:', response);
+						
+						if(response.userId == null){
+							$("#checkId").html('사용할 수 있는 아이디입니다.');
+							$("#checkId").attr('color', 'green');
+						
+						} else {
+							$("#checkId").html('사용할 수 없는 아이디입니다.');
+							$("#checkId").attr('color', 'red');
+							
+							var inputElement = document.getElementById("userId");
+							inputElement.value = "";
+
+						}
+					},
+					error : function(){
+						alert("서버 요청 실패");
+					}
+				});
+			});
+
+
+		});	
+	
+
 		//============= "가입"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -50,6 +93,8 @@
 	
 		
 		function fncAddUser() {
+			
+			
 				
 			var result='';
 			$('input[name=address]').map(function(){
@@ -94,11 +139,12 @@
 									+ $("input[name='phone2']").val() + "-" 
 									+ $("input[name='phone3']").val();
 			}
+			
 
 			$("input:hidden[name='phone']").val( value );
 			
 			$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
-		}
+		};
 		
 
 		//==>"이메일" 유효성Check  Event 처리 및 연결
@@ -241,7 +287,7 @@
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		
-		  <div class="form-group">
+		<!--   <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요"  readonly>
@@ -252,6 +298,17 @@
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info">중복확인</button>
 		    </div>
+		  </div> -->
+		  
+		  <div class="form-group">
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요" >
+		      <font id="checkId" size="2"></font>
+		       <span id="helpBlock" class="help-block">
+		      </span>
+		    </div>
+
 		  </div>
 		  
 		  <div class="form-group">

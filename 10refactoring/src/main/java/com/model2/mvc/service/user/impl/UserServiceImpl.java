@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 	public User emailCheck(String email) throws Exception {
 		return userDao.emailCheck(email);
 	}
-
+	
 	public User getUser(String userId) throws Exception {
 		return userDao.getUser(userId);
 	}

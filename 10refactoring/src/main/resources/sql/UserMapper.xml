@@ -23,21 +23,21 @@
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
 		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
-		VALUES	 (	#{userId} , #{userName} , #{password} , 'user' , #{ssn:VARCHAR} , 
+		VALUES	 (	#{userId} , #{userName} , f_Encrypt( #{password} ) , 'user' , #{ssn:VARCHAR} , 
 							#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
+		user_id , user_name , f_Decrypt( password ), role ,  cell_phone ,  addr , email , reg_date 		
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
 	 
 	 <select 	id="emailCheck"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
+		user_id , user_name , f_Decrypt( password ) , role ,  cell_phone ,  addr , email , reg_date 		
 		FROM users 
 		WHERE email = #{value}
 	 </select>
