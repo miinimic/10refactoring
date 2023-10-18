@@ -33,17 +33,50 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
+
 	<style>
 	  body {
             padding-top : 50px;
-        }
+        }  
+ #test_obj {
+        position: absolute;
+        right: 50px;
+        top: 250px;
+        border: 1px solid #dddddd;
+    }
+
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	 $(function() {		 
+
+		 $( "#goTop" ).on("click" , function() {
+			 $('html, body').animate({scrollTop:0}, 300);
+		});
+		 
+		 $( "#goHome" ).on("click" , function() {
+			 self.location = "/index.jsp"
+			});
+		 
+	 });
+	 
+	  $(document).ready(function () {
+	        var tmp = parseInt($("#test_obj").css('top'));
+	 
+	        $(window).scroll(function () {
+	            var scrollTop = $(window).scrollTop();
+	            var obj_position = scrollTop + tmp + "px";
+	 
+	            $("#test_obj").stop().animate({
+	                "top": obj_position
+	            }, 500);
+	 
+	        }).scroll();
+	    });
+	  
 		// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 		function fncGetUserList(currentPage) {
 			$("#currentPage").val(currentPage)
@@ -163,20 +196,22 @@
 		    autoFocus: true
 		});
 });
-		
 	</script>	
 
 </head>
 
 <body>
-	
+<div id="test_obj">
+	<button type="button" class="btn btn-default" id="goTop"><a href="#"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"><br/>top</span></a></button>
+	<button type="button" class="btn btn-default" id="goHome"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"><br/>home</span></a></button>
+</div>
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
-	
+
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
-	
+
 		<div class="page-header text-info">
 	       <h3>회원목록조회</h3>
 	    </div>

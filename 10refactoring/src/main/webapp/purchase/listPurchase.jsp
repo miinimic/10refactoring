@@ -16,7 +16,12 @@
             padding-top : 60px;
         }
 
-
+	#test_obj {
+        position: absolute;
+        right: 50px;
+        top: 250px;
+        border: 1px solid #dddddd;
+    }
 </style>
 	<meta charset="EUC-KR">
 	
@@ -37,7 +42,31 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 <script type="text/javascript">
+$(function() {		 
 
+	 $( "#goTop" ).on("click" , function() {
+		 $('html, body').animate({scrollTop:0}, 300);
+	});
+	 
+	 $( "#goHome" ).on("click" , function() {
+		 self.location = "/index.jsp"
+		});
+	 
+});
+
+ $(document).ready(function () {
+       var tmp = parseInt($("#test_obj").css('top'));
+
+       $(window).scroll(function () {
+           var scrollTop = $(window).scrollTop();
+           var obj_position = scrollTop + tmp + "px";
+
+           $("#test_obj").stop().animate({
+               "top": obj_position
+           }, 500);
+
+       }).scroll();
+   });
 function fncGetPurchaseList(currentPage) {
 	$("#currentPage").val(currentPage)
 	$("form").attr("method" , "POST").attr("action" , "/purchase/listPurchase").submit();
@@ -233,6 +262,10 @@ $(function() {
 </script>
 </head>
 <body bgcolor="#ffffff" text="#000000">
+<div id="test_obj">
+	<button type="button" class="btn btn-default" id="goTop"><a href="#"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"><br/>top</span></a></button>
+	<button type="button" class="btn btn-default" id="goHome"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"><br/>home</span></a></button>
+</div>
 <jsp:include page="/layout/toolbar.jsp" />
 <div class="container">
 
